@@ -4,7 +4,7 @@
 ---
 
 ## CAVEAT
-This is a Proof-of-Concept right now so the entry scripts (narrate.py and narration.ppy) are pure lash-up; a bit of framework to access the 'real' code in the module-scripts - so don;t be paying them that much heed.
+This is a Proof-of-Concept right now so the entry scripts (narrate.py and narration.py) are pure lash-up; a bit of framework to access the 'real' code in the module-scripts - so don't be paying them that much heed.
 
 ---
 
