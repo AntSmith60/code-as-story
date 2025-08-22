@@ -16,27 +16,30 @@ THROUGHLINE:
 We pour a batch of Python source code (.py file) into the Granulator.
 
 Through a series of processing steps, we generate an inventory of 'grains'—each providing:
-    - lineage: where, in the original bulk material, this grain was found
-    - type: whether it is a TEXT description or an object IDENTITY
-    - substance: the found TEXT or IDENTITY itself
+- lineage: where, in the original bulk material, this grain was found
+- type: whether it is a TEXT description or an object IDENTITY
+- substance: the found TEXT or IDENTITY itself
+- location: in the original source material
+- progenitor: is it the first of a new line?
 
 Metaphorically, the Python source code is the bulk_material we work on.
-It is tokenized into a powder of token particles, which are then refined into grains.
+It is tokenized into a powder of token particles, which are then purified and mixed into a precursor for refinement into grains.
 
 Particles are tracked through a batch record, capturing the Pythonic scope in which each particle is found.
 
 Particles are distilled into grains such that a sequence like:
-    NAME.string='self' OP.string='.' NAME.string='powder'
+>NAME.string='self' OP.string='.' NAME.string='powder'
+
 becomes an IDENTITY grain with substance='self.powder'.
 
-NOTE: I discovered that tokens flow around such that DEDENTS arise not after the last line of indentation but before before the frist dedented line...
-Subtle, upshot is in-line comments don;t always turn up in the token stream as one might expect. 
-To counter this I have added the 'suspension/bubble-up' concept during purification so that in-line semantics more reliably associate with the correct lineage.
+NOTE: I discovered that tokens flow around such that DEDENTS arise not after the last line of indentation but immediately before the first dedented line...
+Subtle, upshot is in-line comments don't always turn up in the token stream as one might expect. 
+To counter this I have added the 'suspension/bubble-up' concept during the fine-mix so that in-line semantics more reliably associate with the correct lineage.
 '''
 
 '''
 FIGURATION:
-Takes an unruly, heterogeneous input bulk material and turns it into an intermediate purified powder which is then refined into grains.
+Takes an unruly, heterogeneous input bulk material and turns it into an intermediate purified precursor which is then refined into grains.
 
 Uses the SAMPLE test bed to inspect each particle and applies track&trace (via the registrar) to give just the particles of interest along with their full lineage.
 
@@ -57,10 +60,10 @@ class GRANULATOR:
         # KNOWLEDGE: list of purified particles
         self.purified = None
 
-        # KNOWLEDGE: list of intermediates as (lineage, new_line, particle) tuples
+        # KNOWLEDGE: list of intermediates as Precursor class
         self.intermediate = None
 
-        # KNOWLEDGE: resulting list of refined grains as (lineage, type, substance) tuples
+        # KNOWLEDGE: resulting list of refined grains as Grain class
         self.refined = None
 
     '''
@@ -82,7 +85,7 @@ class GRANULATOR:
             print(particle)
     '''
     MECHANISM:
-    Shows the result of purification
+    Shows the tracked intermediate precursors
     '''
     def dump_bx_record(self):
         self._dump_materials(self.intermediate)
@@ -110,7 +113,7 @@ class GRANULATOR:
 
     '''
     BEHAVIOUR:
-    Assay's the material and performs the granulation
+    Assay's the material and performs the granulation. 
     This is a distinct step from initiating the Granulator in case there are any startup issues
     (Pythonic mantra: __init__ must succeed)
     '''
@@ -144,7 +147,6 @@ class GRANULATOR:
 
         for particle in hopper:
             # PROSE: Interlude in a poet's voice...
-            # =====================================
             # CANTO I: In which The Sludge is Sloughed
             if sludge:
                 sludge = not SAMPLE.has_desludged(particle)
@@ -173,10 +175,9 @@ class GRANULATOR:
     def fine_mix(hopper, bx_record):
         mixed_intermediate = list(range(len(hopper)))
         intermediate = []
+        classifications = {}
 
-        # PROSE:
-        # On the fine mix process...
-        # --------------------------
+        # PROSE: On the fine mix process...
         # Break up suspensions so the DENTs don't come between TEXTs and NAMEs
         for i in range(len(mixed_intermediate) - 1):
             particle = hopper[mixed_intermediate[i]]
@@ -189,6 +190,10 @@ class GRANULATOR:
             particle = hopper[index]
             as_new_line, classification = bx_record.record_history(particle)
             if classification is not None:
+                if not as_new_line:
+                    if classification not in classifications.keys():
+                        classifications[classification] = True
+                        as_new_line = True
                 intermediate.append(Precursor(classification, as_new_line, particle))
 
         # No longer just a powder, the intermediate is ready to be refined into grains
@@ -208,9 +213,7 @@ class GRANULATOR:
         distil = False
         refined = Grain('', None, '', (0,0), False)
         for classification, new_product_line, particle in hopper:
-            # PROSE:
-            # On the distillation process
-            # =================================================
+            # PROSE: On the distillation process
             # If we are not already distilling, see if we should
             if not distil:
                 distil = REFINE.is_distillant(particle)
@@ -317,7 +320,7 @@ class SAMPLE(CODEX):
 
     '''
     MECHANISM:
-    AND ultimately, we DO need to know the actual name of a particle!
+    we DO need to know the actual name of a particle!
     '''
     @staticmethod
     def particle_name(subject):
@@ -344,7 +347,7 @@ class SAMPLE(CODEX):
         # return next_particle and SAMPLE.SUSPENSIONS.is_entity(this_particle) and SAMPLE.BUBBLE_UP.is_entity(next_particle)
 
 
-# KNOWLEDGE: Classified particles ready to be refined
+# KNOWLEDGE: Classified particles ready to be refined (particles + classification)
 @dataclass
 class Precursor:
     classification: str
@@ -373,13 +376,13 @@ class Precursor:
         return self.particle
 
 
-# KNOWLEDGE: The kinds of grains we make
+# KNOWLEDGE: The kinds of grains we make, i.e. the basis for discerning lexical identity and semantic meaning
 class GrainType(Enum):
     TEXT = "TEXT"
     IDENTITY = "IDENTITY"
 
 
-# KNOWLEDGE: just what a grain looks like
+# KNOWLEDGE: just what a grain looks like - i.e. lineage, type, content, canonicalism and original bulk material reference
 @dataclass
 class Grain:
     lineage: str

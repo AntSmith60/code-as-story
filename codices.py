@@ -11,9 +11,10 @@ Tokenization gives us a symbolic view of the source, simplifying parsing.
 It turns complex syntax into a simple (though intermediate) lexicon.
 
 So:
-    def parse(source):
+>def parse(source):
+
 becomes:
-    NAME NAME OP NAME OP OP
+>NAME NAME OP NAME OP OP
 
 Tokens have limited understanding of their role, but great clarity about what they are.
 For example, a token knows that 'def' is a NAME, but not that it's a Python reserved word.
@@ -21,9 +22,10 @@ For example, a token knows that 'def' is a NAME, but not that it's a Python rese
 Meaning emerges through layered symbolism.
 
 So:
-    NAME NAME OP NAME OP OP
+>NAME NAME OP NAME OP OP
+
 might, if parsing for execution, become:
-    keyword identity lbrace identity rbrace colon
+>keyword identity lbrace identity rbrace colon
 
 But we are not parsing to execute — we are parsing to extract a limited set of precise entities:
 prescriptive texts and the things they prescribe, within their Pythonic scope.
@@ -34,15 +36,10 @@ The base CODEX provides the layered symbolism we do care about.
 For example, it tells us whether a NAME token is an ENCAPSULATOR —
 a symbol that opens a new scope (like `def` or `class`).
 
-In the CODEX metaphor, a CODEX_OBJECT equates to `token.type`.
-It maps tokenize type names (e.g. 'NAME') to symbolic object names.
-
-We could have lived without CODEX_OBJECT, but I didn’t like seeing `token.type` constructs scattered throughout the code.
-
 Note: this module fully wraps the TOKEN structure, which is never directly referenced elsewhere.
 '''
 
-# KNOWLEDGE: Objects define the nature of subjects. E.g. 'def' is a NAME object
+# KNOWLEDGE: Objects define the nature of subjects. E.g. the subject 'def' is a NAME object, in raw token parlance.
 CODEX_OBJECTS = {name: code for code, name in token.tok_name.items()}
 
 

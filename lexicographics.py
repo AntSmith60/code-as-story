@@ -1,21 +1,20 @@
-# CONTINUUM: allows us to create named structures for attestations, etymologies, and lexemes
+# CONTINUUM: allows us to create named structures for attestations, and lexemes
 from dataclasses import dataclass
 from dataclasses import field
 from typing import List, Tuple
 from enum import Enum
 
+# CONTINUUM: allows us to format and export our linguistic set as JSON
 import json
 import re
 
 from granulator import GrainType as LexicalCategory
 from granulator import Grain as Entry
 
-# KNOWLEDGE: If we want to use prose blocks, we need to ensure not to include literal hash in any strings inside the prose block!
-HASH_SIGIL = chr(0x23)  # '#' character
-
 # KNOWLEDGE: The types of semantic meaning we can use to adorn our code-base.
 class ExpoTags(Enum):
-    # PROSE: CONTINUUM - alien facets that we use, typically within their own metaphor
+    # PROSE:
+    # CONTINUUM - alien facets that we use, typically within their own metaphor
     CONTINUUM = 'CONTINUUM'
     # THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large
     THROUGHLINE = 'THROUGHLINE'
@@ -48,20 +47,20 @@ class ExpoTags(Enum):
 THROUGHLINE:
 Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains
 
-The IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used). Each occurence is accumulated into an Etymology, and each Etymmology is accumulated into the overall list of all_attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.
+The IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used), but we only care about existence to help bind semantics to lexicals. The occurences are accumulated into an overall list of attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.
 
 The TEXT grains are a muddled collection of discovered strings and comments, so the LEXICOGRAPHER sifts through these looking for those that have semantic meaning, i.e. begin with expositional tags (ExpoTags). When a meaning is disccovered it is (typically) associated with the next attestation of a lexical - i.e semantic meaning becomes attached to the canonical attestation of a lexical. These entities (lexemes) are then accumulated into the all_expositions list so that the semantics of a lexical are known at any point the lexical is found (and in fact, also, where exactly its canonical form can be found).
 
-Mostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define. Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing). There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-à-vis:
-    - THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module
-    - CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound
-    - PROSE, is bound to the container (method, class or module) in which it is found, rather than the next specific object, method or class name
+Mostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define[^1]. There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-à-vis:
+- THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module
+- CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound
+- PROSE, is bound to the most recent semantic entity; i.e. PROSE extends the current semantic with a list of detailed steps
+
+[^1]:Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing).
 
 Most of the expositions are wholly provisioned by the substance of their text grain - either because they were very simple (found in an in-line comment); or, they were encapsulated within a multiline string within the code.
 
 PROSE expositions are somewhat different. By design the PROSE is woven in and amongst the code using in-line commentary; so that, when we have significant code-blocks, we can annotate it with its story. A '# PROSE:' comment causes all in-line comments to be accumulated, until such time another exposition is encountered. This is convenient, but a little blunt since any normal code comments will also get swept up into the expositionary prose. It's easy to imagine many better methods, but this will do for now!
-
-Oh! Also, any strings that contain '#' will collect garbage into the prose block also! So it really is weak at the moment!!!
 '''
 
 '''
@@ -71,26 +70,27 @@ Sifts through a given set of 'entries' to generate:
     - the linguistical set of those things that have meaning
 '''
 class LEXICOGRAPHER:
-
     '''
     BEHAVIOUR:
     Creates a json file containing the full linguistic set and a text file listing the canonicals
     '''
-    def save_to_file(lexemes, path):
+    def save_to_file(lexemes, dictout, indexout):
         serializable = {
             str(key): {
                 'category': value.category.name,
                 'canonical': str(value.canonical),
-                'content': re.sub(r'\r\n', '\n', value.content)
+                'content': re.sub(r'\r\n', '\n', value.content),
+                'reference': str(value.reference)
             }
             for key, value in lexemes.items()
         }
-        with open(path+'.json', 'w', encoding='utf-8') as f:
+        with open(dictout, 'w', encoding='utf-8') as f:
             json.dump(serializable, f, indent=2)
 
-        with open(path+'.txt', 'w', encoding='utf-8') as f:
-            for key, value in lexemes.items():
-                f.write(f"{str(key)}:{value.category.name}\n")
+        if indexout:
+            with open(indexout, 'w', encoding='utf-8') as f:
+                for key, value in lexemes.items():
+                    f.write(f"{str(key)}:{value.category.name}\n")
 
     '''
     BEHAVIOUR:
@@ -122,7 +122,7 @@ class LEXICOGRAPHER:
 
     '''
     BEHAVIOUR:
-    formats and prints a single lexeme, indenting as per the etymological depth.
+    formats and prints a single lexeme, indenting as per the depth of its attestation.
     '''
     @staticmethod
     def print_expo(expo):
@@ -139,6 +139,28 @@ class LEXICOGRAPHER:
         print(semantic.rstrip())
 
 
+    @staticmethod
+    def print_identities(entries):
+        identities = {}
+        for entry in entries:
+            this_entry = entry.semantics()
+            if this_entry['category'] == LexicalCategory.IDENTITY.name:
+                key = f"{this_entry['attestation']}.{this_entry['semantic']}"
+                if key not in identities.keys() or this_entry['is_canonical']:
+                    identities[key] = this_entry['reference']
+
+        for identity, ref in identities.items():
+            print(f"[{ref}]:{identity}")
+
+
+    @staticmethod
+    def print_attestations(entries):
+        for entry in entries:
+            this_entry = entry.semantics()
+            if this_entry['category'] == LexicalCategory.IDENTITY.name:
+                marker = '!' if this_entry['is_canonical'] else ''
+                print(f"{marker}[{this_entry['reference']}]:{this_entry['attestation']}.{this_entry['semantic']}")
+
     '''
     MECHANISM:
     performs an identation of a semantic unit
@@ -154,21 +176,16 @@ class LEXICOGRAPHER:
 
     '''
     BEHAVIOUR:
-    Sifts through IDENTITY and TEXT entries to generate the required outputs
-    Tracks the etymology of lexicals and extracts/combines the semantics from TEXTs
-    Generates the lexemes by binding semantics to lexicals
+    Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
     '''
     @staticmethod
     def extract(entries):
-        attestations = {}
         texts = []
 
         if not entries:
             return {}, {}
 
-        # PROSE:
-        # On the extraction of meaning...
-        # -------------------------------
+        # PROSE: On the extraction of meaning...
         for i, entry in enumerate(entries):
             # Every entry has some kind of meaning, for meaning is a layered construct
             this_entry = entry.semantics()
@@ -178,16 +195,8 @@ class LEXICOGRAPHER:
             if i < len(entries) - 1:
                 next_entry = entries[i + 1].semantics()
 
-            # When the meaning we found is a lexical's name, create or extend the etymology with this attestation
-            if this_entry['category'] == LexicalCategory.IDENTITY.name:
-                attestation = LexicalOccurence(this_entry['attestation'], this_entry['semantic'])
-                if attestation in attestations:
-                    attestations[attestation].add_to_etymology(this_entry['reference'], this_entry['is_canonical'])
-                else:
-                    attestations[attestation] = Etymology(attestation, [this_entry['reference']])
-
-            # Otherwise unpack this meaning to extract any semantics it contains relevant to our lexemes
-            elif this_entry['category'] == LexicalCategory.TEXT.name:
+            # At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value
+            if this_entry['category'] == LexicalCategory.TEXT.name:
                 unpacked_text_entry = LEXICOGRAPHER._unpack_text_entry(this_entry, next_entry)
                 if unpacked_text_entry is not None:
                     texts.append(unpacked_text_entry)
@@ -195,7 +204,7 @@ class LEXICOGRAPHER:
         # clean-up the extracted semantics...
         lexemes = LEXICOGRAPHER.package_prose(texts)
 
-        return attestations, lexemes
+        return lexemes
 
 
     '''
@@ -212,10 +221,15 @@ class LEXICOGRAPHER:
             lexical = next_entry['semantic']
 
         lexical = LexicalOccurence(this_entry['attestation'], lexical)
+
+        inline_expo = this_entry['semantic'].startswith('#')
         semantic = LEXICOGRAPHER._nonjudgemental_clean(this_entry['semantic'])
+        if not inline_expo and semantic.startswith('#'):
+            # having stripped the quotes, don't let the residual text fool us into thinking it was an inline comment!
+            return None
 
         if LEXICOGRAPHER._is_expo(semantic) or semantic.startswith('#'):
-            return ([lexical, semantic])
+            return ([lexical, semantic, this_entry['reference']])
 
         return None
 
@@ -228,14 +242,12 @@ class LEXICOGRAPHER:
     def _nonjudgemental_clean(text):
         unclean = text
 
-        # PROSE:
-        # On cleaning the TEXTs...
-        # ------------------------
+        # PROSE: On cleaning the TEXTs...
         # Firstly we deal with COMMENT type texts
         # If they are in-line semantics (except PROSE) we return them without the comment marker
-        # otherwise in-line comments are returned unadulterated, so the prose block handler has themm available later.
+        # otherwise in-line comments are returned unadulterated, so the prose block handler has them available later.
         if text.startswith('#'):
-            semantic = text.lstrip(HASH_SIGIL).lstrip()
+            semantic = text.lstrip('#').lstrip()
             if LEXICOGRAPHER._is_expo(semantic):
                 if not semantic.upper().startswith('PROSE'):
                     return semantic
@@ -279,58 +291,87 @@ class LEXICOGRAPHER:
     '''
     @staticmethod
     def package_prose(texts):
-        # PROSE:
-        # Some prose on packaging prose...
-        # ---------------------------------
+        # PROSE: Some prose on packaging prose...
         # At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?
-        # Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose...
-        # ...so BEWARE we might have rogue strings that happened to start with the in-line comment marker!
-        # At least we now know that any TEXT that doesn't start with HASH, IS a true semantic exposition, so we can focus on the HASH lines here
-        #
+        # Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose
+        # At least we now know that any TEXT that doesn't start with HASH[^2], IS a true semantic exposition, so we can focus on the HASH lines here
         # We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors
+        # [^2]: This handling of TEXTs that start with # works because ExpoTags themselves never start with # and at this point we know that ALL off our TEXTs start with either # (because they were a COMMENT) or start with an ExpoTag (because we already filtered STRINGs that are not ExpoTags)
         survivors = {}
+        latest_survivor = None
 
-        # and and empty package into which we build-up the texts to be merged.
+        # and an empty package into which we build-up the texts to be merged.
         package_semantic = []
         package_lexical = None
+        package_reference = None
 
-        #
         # Now looking at each text, we initially have no impetus to merge them together...
         merging = False
-        for lexical, semantic in texts:
-            # We will start merging if this is an in-line comment that introduces PROSE
-            # (and note how I avoid creating a string that LOOKS like an expositional tag, awkward I admit)
+        for lexical, semantic, reference in texts:
+            # We will start merging if this is an in-line comment that introduces PROSE[^s]
+            # [^3]: Note in the code that I test against ("PROSE" + ":") because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this ppossibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...
             if not merging:
-                if semantic.startswith(HASH_SIGIL):
-                    merging = semantic.upper().lstrip(HASH_SIGIL).lstrip().startswith("PROSE" + ':')
+                if semantic.startswith('#'):
+                    merging = semantic.upper().lstrip('#').lstrip().startswith("PROSE" + ':')
             else:
                 # And we stop merging when we hit another exposition (that is, a line that doesn't start with HASH)
-                merging = semantic.startswith(HASH_SIGIL)
+                merging = semantic.startswith('#')
 
-            #
             # While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.
             if merging:
-                if not package_semantic:
-                    package_lexical = lexical
-                package_semantic.append(semantic.lstrip(HASH_SIGIL).lstrip())
+                content = semantic.lstrip('#').lstrip()
+                if package_semantic:
+                    content_tail = content
+                    package_reference = reference
+                else:
+                    package_lexical = latest_survivor
+                    _, _, content_tail = content.partition(':')
+                package_semantic.append(content_tail)
 
             else:
-                #
-                # If we are not merging, we add any previous merged package to the survivor's list...
+                # If we are not merging, we extend the latest survivor's content with the current merged package; as a markdown list
                 if package_semantic:
-                    survivors[package_lexical] = Lexeme.from_parts(package_lexical, "\n".join(package_semantic))
+                    latest_survivor = LEXICOGRAPHER._extend_content(survivors, latest_survivor, package_lexical, package_semantic, package_reference)
                     package_semantic = []
 
                 # ...and we add this text to the survivors list, unless its just some itinerant programmer's comment (outside of a prose block)
                 if not semantic.startswith('#'):
-                    survivors[lexical] = Lexeme.from_parts(lexical, semantic)
+                    latest_survivor = lexical
+                    survivors[lexical] = Lexeme.from_parts(lexical, semantic, reference)
 
         # AND... a final flush if prose block reaches EOF
         if package_semantic:
-            survivors[package_lexical] = Lexeme.from_parts(package_lexical, "\n".join(package_semantic))
+            LEXICOGRAPHER._extend_content(survivors, latest_survivor, package_lexical, package_semantic, package_reference)
 
         return survivors
 
+    '''
+    SKILL:
+    Extends the latest semantic with additional (prose) commentary.
+    BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic
+    This is so we at least get to see the (mis-placed) element somewhere in the outputs, so we can fix it.
+
+    Note, in this case it truly IS mis-placed, because (by defintion) prose annotates a previous semantic.
+    Mis-placed prose in module B could even turn up annotating the last semantic of module A!
+    The only defence I offer is that you at least get to see the prose SOMEWHERE...
+    
+    ...unless you don't. A mis-placed prose block will not be added at all IF it would overwrite an existing semantic.
+    This ought to be an impossible scenario, thus the silent use of 'pass' in this code.
+    FWIW: I'm sorry, sooooo sorry, if that ever trips you up ;^D
+    '''
+    @staticmethod
+    def _extend_content(survivors, survivor_lexical, extension_lexical, extension_content, reference):
+        if extension_content:
+            if not survivor_lexical:
+                if extension_lexical not in survivors.keys():
+                    survivors[extension_lexical] = Lexeme.from_parts(extension_lexical, "\n".join(extension_content), reference)
+                    survivor_lexical = extension_lexical
+                else:
+                    pass
+            else:
+                survivors[survivor_lexical].content += '\n\n' + extension_content[0] + '\n\n- '
+                survivors[survivor_lexical].content += '\n- '.join(extension_content[1:])
+        return survivor_lexical
 
 # KNOWLEDGE: holds an attestation contextualised lexical entity
 @dataclass(frozen=True)
@@ -376,17 +417,18 @@ class Lexeme:
     category: ExpoTags
     canonical: LexicalOccurence
     content: str
+    reference: str
 
     '''
     MECHANISM:
     Creates a lexeme by extracting category from a semantic text
     '''
     @classmethod
-    def from_parts(cls, lexical: LexicalOccurence, semantic: str) -> 'Lexeme':
+    def from_parts(cls, lexical: LexicalOccurence, semantic: str, reference: str) -> 'Lexeme':
         head, _, tail = semantic.partition(':')
         category = ExpoTags.from_string(head.strip())
         content = cls._dedent(tail.strip())
-        return cls(category, lexical, content)
+        return cls(category, lexical, content, reference)
 
 
     '''
@@ -395,7 +437,7 @@ class Lexeme:
     '''
     @property
     def summary(self):
-        return f"{self.category.name}: {str(self.canonical)}"
+        return f"[{self.reference}]{self.category.name}: {str(self.canonical)}"
 
     '''
     MECHANISM:
@@ -426,69 +468,16 @@ class Lexeme:
         yield self.category
         yield self.canonical
         yield self.content
+        yield self.reference
 
     def __len__(self):
-        return 3
+        return 4
 
     def __getitem__(self, index):
         return list(iter(self))[index]
 
     def __repr__(self):
-        return f"<Lexeme {self.cataegory.name}: {str(self.canonical)}; '{self.content}'>"
+        return f"<Lexeme [{self.reference}]{self.cataegory.name}: {str(self.canonical)}; '{self.content}'>"
 
     def __str__(self):
-        return f"{self.cataegory.name}: {str(self.canonical)}; '{self.content}'"
-
-# KNOWLEDGE: holds a list of all occurances of a certain lexical (i.e. with an attestation), noting also where the canonical reference can be found
-@dataclass
-class Etymology:
-    occurance: LexicalOccurence
-    references: List[Tuple[int, int]]
-    canonical: int = field(default=0)  # either the first occurance, or else indexes references for the canonical
-
-    def add_to_etymology(self, reference, as_canonical):
-        self.references.append(reference)
-        if as_canonical:
-            self.canonical = len(self.references) - 1
-
-    def to_dict(self, frame_num):
-        return {
-            'occurance': self.occurance.to_dict(),
-            'references': self.references,
-            'canonical': self.canonical
-        }
-
-    def __iter__(self):
-        yield self.occurance
-        yield self.references
-        yield self.canonical
-
-    def __len__(self):
-        return 3
-
-    def __getitem__(self, index):
-        return list(iter(self))[index]
-
-    @staticmethod
-    def _stringify_references(references, canonical):
-        here_text = ''
-        for i, here in enumerate(references):
-            here_text += f"{here}"
-            if i == canonical:
-                here_text += '*'
-            if i < len(references) - 1:
-                here_text += ','
-        return here_text
-
-    @staticmethod
-    def _stringify_occurance(occurance):
-        attested = occurance.attestation
-        if occurance.diachronic[-1] != occurance.lexical:
-            attested += '.' + occurance.lexical
-        return attested
-
-    def __repr__(self):
-        return f"<Etymologies of: '{self._stringify_occurance(self.occurance)}' at {self._stringify_references(self.references, self.canonical)}>"
-
-    def __str__(self):
-        return f"{self._stringify_occurance(self.occurance)}': {self._stringify_references(self.references, self.canonical)}>"
+        return f"[{self.reference}]{self.cataegory.name}: {str(self.canonical)}; '{self.content}'"

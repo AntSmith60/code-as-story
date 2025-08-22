@@ -1,4 +1,6 @@
+import sys
 import os
+from pathlib import Path
 from pprint import pprint
 
 # from _dynamic_narrative import TypeOracle
@@ -8,10 +10,9 @@ from lexicographics import LEXICOGRAPHER, ExpoTags
 
 all_expositions = {}
 
-def scan_files(scan_count=-1, root="."):
-    all_identities = {}
-
+def scan_files(root, dictout, indexout):
     # with TypeOracle() as oracle:
+    footer = '=' * 80
     for dirpath, dirnames, filenames in os.walk(root):
         dirnames[:] = [d for d in dirnames if not d.startswith('_')]
 
@@ -32,38 +33,52 @@ def scan_files(scan_count=-1, root="."):
 
                 print(header)
 
-                identities, expositions = LEXICOGRAPHER.extract(granulated)
-                all_identities.update(identities)
+                expositions = LEXICOGRAPHER.extract(granulated)
                 all_expositions.update(expositions)
 
-                # print("POWDER:")
-                # granulator.dump_powder()
+                # print(f"=== FOUND REFFERENCES:")
+                # LEXICOGRAPHER.print_attestations(granulated)
+                # print(footer)
 
-                if scan_count < 0:
-                    continue # i.e. scan all
-                scan_count -= 1
-                if scan_count <= 0:
-                    break
-
-        footer = '=' * 80
-        # print(f"=== ALL FOUND IDENTITIES:")
-        # for identity in all_identities.values():
-            # pprint(identity)
-        # print(footer)
+                # print(f"=== FOUND IDENTITIES:")
+                # LEXICOGRAPHER.print_identities(granulated)
+                # print(footer)
 
         print(f"=== ALL FOUND EXPOSITIONS:")
         LEXICOGRAPHER.list_expositions(all_expositions)
         print(footer)
 
-        print(f"=== FOUND THROUGHLINES:")
-        LEXICOGRAPHER.print_expositions(all_expositions, ExpoTags.THROUGHLINE)
-        print(footer)
 
-        LEXICOGRAPHER.save_to_file(all_expositions, 'expo')
+        LEXICOGRAPHER.save_to_file(all_expositions, dictout, indexout)
+
+def confirm_overwrite(path):
+    response = input(f"File '{path}' already exists. Overwrite? [y/N]: ").strip().lower()
+    return response == 'y'
 
 if __name__ == '__main__':
-    files_to_scan = -1
-    print(f"SCAN {files_to_scan}")
-    scan_files(files_to_scan, root='.')
-    # with TypeOracle() as oracle:
-        # scan_files(files_to_scan, root='.')
+    if len(sys.argv) != 3:
+        print("Usage: python narrate.py <scan_dir> <base_filename>")
+        sys.exit(1)
+
+    scan_dir = Path(sys.argv[1])
+    basefile = sys.argv[2]
+
+    if not scan_dir.is_dir():
+        print(f"Scan directory '{scan_dir}' does not exist.")
+        sys.exit(1)
+
+    json_path = os.path.join(scan_dir, f"{basefile}.json")
+    txt_path  = os.path.join(scan_dir, f"{basefile}.txt")
+
+    if Path(json_path).exists() and not confirm_overwrite(json_path):
+        print("Aborting to preserve existing JSON files.")
+        sys.exit(1)
+
+    if Path(txt_path).exists() and not confirm_overwrite(txt_path):
+        txt_path = ''
+        print("Will regenerate JSON only")
+
+    print(f"Scan directory: {scan_dir}")
+    print(f"Output base filename: {basefile}")
+
+    scan_files(root=scan_dir, dictout=json_path, indexout=txt_path)

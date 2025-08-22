@@ -51,20 +51,15 @@ class REGISTRAR:
     def record_history(self, subject):
         new_family_line = False
 
-        # PROSE: 
-        # on how the code-tree grows and withers as we meet
-        # progenitors, identities and closures
-        # =================================================
+        # PROSE: on how the code-tree grows and withers
 
         # First, keep an eye on the resilience of the current family line
-        # ------------------------------------------------------------
         if LINEAGE.growth(subject):
             self._resilience += 1
             return False, None
 
         # Now is the time to add any found heir to the lineage
         # So that GOING FORWARD the title is recognised
-        # ----------------------------------------------------
         if self._heir:
             self._fill_in_record(self._heir)
             self._heir = ''
@@ -72,22 +67,19 @@ class REGISTRAR:
         # Once we find a new heir, keep it safe for now
         # So the title is awarded on the next cycle
         # Otherwise we lose sight of this heir's own lineage
-        # ------------------------------------------------------
         if self._heir_apparent:
             if LINEAGE.is_true_identity(subject):
                 self._heir = LINEAGE.subject_name(subject)
                 self._heir_apparent = False
-                self.new_family_line = True
+                new_family_line = True
 
         # Have a look-see if we have met a new heir-apparent
-        # --------------------------------------------------
         if LINEAGE.is_progenitor(subject):
             self._new_record()
             self._heir_apparent = True
 
         # Ultimately branches of a tree die out, and we have to
         # prune back to continue the ancestral lines
-        # -----------------------------------------------------
         if LINEAGE.decline(subject):
             self._resilience -= 1
             if not self._register_empty():
@@ -97,8 +89,9 @@ class REGISTRAR:
 
         # Finally all are remembered in the trace of lineage they leave behind 
         # BUT it is only the true that get entitled
-        # --------------------------------------------------------------------
-        if LINEAGE.is_true_identity(subject) or LINEAGE.is_true_subject(subject):
+        if LINEAGE.is_true_identity(subject) or \
+            LINEAGE.is_descender(subject) or \
+            LINEAGE.is_true_subject(subject):
             return new_family_line, self._entitle()
 
         return False, None
@@ -157,7 +150,10 @@ class LINEAGE(CODEX):
 
     # KNOWLEDGE: The subjects that may be true identities
     IDENTITIES = ENTITY('NAME')
-    
+
+    # KNOWLEDGE: The subjects that give rise to descendents
+    DESCENDERS = ENTITY('OP', 'ACCESSOR')
+
     # KNOWLEDGE: Represents a waxing in the current family-line's resilience
     GROWTH = ENTITY('INDENT')
 
@@ -170,7 +166,7 @@ class LINEAGE(CODEX):
 
     '''
     SKILL:
-    Matches progenitor type subjects only
+    Matches with the subjects we want to record
     '''
     @staticmethod
     def is_true_subject(subject):
@@ -183,6 +179,14 @@ class LINEAGE(CODEX):
     @staticmethod
     def is_progenitor(subject):
         return LINEAGE.PROGENITORS.is_entity(subject)
+
+    '''
+    SKILL:
+    Matches descender type subjects only
+    '''
+    @staticmethod
+    def is_descender(subject):
+        return LINEAGE.DESCENDERS.is_entity(subject)
 
     '''
     SKILL:
@@ -212,7 +216,7 @@ class LINEAGE(CODEX):
 
     '''
     MECHANISM:
-    AND ultimately, we DO need to know the actual name of a subject!
+    we DO need to know the actual name of a subject!
     '''
     @staticmethod
     def subject_name(subject):

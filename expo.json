@@ -2,476 +2,613 @@
   "codices.token": {
     "category": "CONTINUUM",
     "canonical": "codices.token",
-    "content": "Lets us know the structure of a token, specifically, type and value (.string)"
+    "content": "Lets us know the structure of a token, specifically, type and value (.string)",
+    "reference": "(1, 0)"
   },
   "codices.tokenize": {
     "category": "CONTINUUM",
     "canonical": "codices.tokenize",
-    "content": "Tokenizes a text stream in-line with Python  syntax"
+    "content": "Tokenizes a text stream in-line with Python  syntax",
+    "reference": "(3, 0)"
   },
   "codices": {
     "category": "THROUGHLINE",
     "canonical": "codices",
-    "content": "Behind all the metaphor, we are parsing Python script files - using the standard `tokenize` library to extract symbolic structure from source code.\n\nTokenization gives us a symbolic view of the source, simplifying parsing.\nIt turns complex syntax into a simple (though intermediate) lexicon.\n\nSo:\n    def parse(source):\nbecomes:\n    NAME NAME OP NAME OP OP\n\nTokens have limited understanding of their role, but great clarity about what they are.\nFor example, a token knows that 'def' is a NAME, but not that it's a Python reserved word.\n\nMeaning emerges through layered symbolism.\n\nSo:\n    NAME NAME OP NAME OP OP\nmight, if parsing for execution, become:\n    keyword identity lbrace identity rbrace colon\n\nBut we are not parsing to execute \u2014 we are parsing to extract a limited set of precise entities:\nprescriptive texts and the things they prescribe, within their Pythonic scope.\n\nWe do not care about things like braces and colons.\n\nThe base CODEX provides the layered symbolism we do care about.\nFor example, it tells us whether a NAME token is an ENCAPSULATOR \u2014\na symbol that opens a new scope (like `def` or `class`).\n\nIn the CODEX metaphor, a CODEX_OBJECT equates to `token.type`.\nIt maps tokenize type names (e.g. 'NAME') to symbolic object names.\n\nWe could have lived without CODEX_OBJECT, but I didn\u2019t like seeing `token.type` constructs scattered throughout the code.\n\nNote: this module fully wraps the TOKEN structure, which is never directly referenced elsewhere."
+    "content": "Behind all the metaphor, we are parsing Python script files - using the standard `tokenize` library to extract symbolic structure from source code.\n\nTokenization gives us a symbolic view of the source, simplifying parsing.\nIt turns complex syntax into a simple (though intermediate) lexicon.\n\nSo:\n>def parse(source):\n\nbecomes:\n>NAME NAME OP NAME OP OP\n\nTokens have limited understanding of their role, but great clarity about what they are.\nFor example, a token knows that 'def' is a NAME, but not that it's a Python reserved word.\n\nMeaning emerges through layered symbolism.\n\nSo:\n>NAME NAME OP NAME OP OP\n\nmight, if parsing for execution, become:\n>keyword identity lbrace identity rbrace colon\n\nBut we are not parsing to execute \u2014 we are parsing to extract a limited set of precise entities:\nprescriptive texts and the things they prescribe, within their Pythonic scope.\n\nWe do not care about things like braces and colons.\n\nThe base CODEX provides the layered symbolism we do care about.\nFor example, it tells us whether a NAME token is an ENCAPSULATOR \u2014\na symbol that opens a new scope (like `def` or `class`).\n\nNote: this module fully wraps the TOKEN structure, which is never directly referenced elsewhere.",
+    "reference": "(6, 0)"
   },
   "codices.CODEX_OBJECTS": {
     "category": "KNOWLEDGE",
     "canonical": "codices.CODEX_OBJECTS",
-    "content": "Objects define the nature of subjects. E.g. 'def' is a NAME object"
+    "content": "Objects define the nature of subjects. E.g. the subject 'def' is a NAME object, in raw token parlance.",
+    "reference": "(42, 0)"
   },
   "codices.CODEX": {
     "category": "AFFORDANCE",
     "canonical": "codices.CODEX",
-    "content": "Though literally a tree trunk (from the Latin *codex*), the term has come to signify a book of law \u2014 or more precisely, of lore.\n\nNot 'law' in the contemporary sense, but rather 'ritual' or 'rite': the correct sequence of symbols that achieves a result.\n\nAnd herein, our codices do just that \u2014 they prescribe the correct sequence of things in terms of their symbolism (ruinic nature).\n\nIn the base CODEX, very little is known beyond the symbolic meaning of what occurs in the provided sequence.\n\nThus, the base CODEX offers:\n- a symbolic lexicon (as a dict),\n- a means to generate the sequence (objectify the source),\n- and a way to discern the true name (or value) of encountered symbols."
+    "content": "Though literally a tree trunk (from the Latin *codex*), the term has come to signify a book of law \u2014 or more precisely, of lore.\n\nNot 'law' in the contemporary sense, but rather 'ritual' or 'rite': the correct sequence of symbols that achieves a result.\n\nAnd herein, our codices do just that \u2014 they prescribe the correct sequence of things in terms of their symbolism (ruinic nature).\n\nIn the base CODEX, very little is known beyond the symbolic meaning of what occurs in the provided sequence.\n\nThus, the base CODEX offers:\n- a symbolic lexicon (as a dict),\n- a means to generate the sequence (objectify the source),\n- and a way to discern the true name (or value) of encountered symbols.",
+    "reference": "(46, 0)"
   },
   "codices.CODEX.LEXICON": {
     "category": "KNOWLEDGE",
     "canonical": "codices.CODEX.LEXICON",
-    "content": "Symbolises specific python token subjects that direct our layered parsing"
+    "content": "Symbolises specific python token subjects that direct our layered parsing",
+    "reference": "(62, 4)"
   },
   "codices.CODEX.objectify": {
     "category": "MECHANISM",
     "canonical": "codices.CODEX.objectify",
-    "content": "Encapsulates the tokenisation process"
+    "content": "Encapsulates the tokenisation process",
+    "reference": "(87, 4)"
   },
   "codices.CODEX.token_val": {
     "category": "MECHANISM",
     "canonical": "codices.CODEX.token_val",
-    "content": "We want to contain ALL token structure knowledge to the base CODEX\nso here's how we get to what a token actually IS."
+    "content": "We want to contain ALL token structure knowledge to the base CODEX\nso here's how we get to what a token actually IS.",
+    "reference": "(95, 4)"
   },
   "codices.CODEX.token_start": {
     "category": "MECHANISM",
     "canonical": "codices.CODEX.token_start",
-    "content": "We want to contain ALL token structure knowledge to the base CODEX\nso here's how we get where the token occurred"
+    "content": "We want to contain ALL token structure knowledge to the base CODEX\nso here's how we get where the token occurred",
+    "reference": "(103, 4)"
   },
   "codices.ENTITY": {
     "category": "AFFORDANCE",
     "canonical": "codices.ENTITY",
-    "content": "Derived codices apply the base CODEX LEXICON through sets of ENTITIES \u2014 statements of what we care about, expressed as layered symbolism, in the derived metaphor.\n\nFor example, when building a lineage, we want to ignore Python RESERVED words.\nWe're interested only in NAME tokens that represent actual Pythonic objects (variables, classes, etc).\n\nReserved words like `def` and `yield` serve as HONOURIFICS\u2014titles that address true identities.\n\nSo we might define:\n    HONOURIFICS = ENTITY('NAME', 'RESERVED')\nE.g. an HONOURIFIC as any NAME in the set of RESERVED values\n\nEntities are compound matching structures \u2014 ritual instruments that determine whether a given 'thing' satisfies the lore of the codex.\n\nEach codex offers a distinct lens on shared material, and begins by defining the entities of interest.\nThis class serves as their oracle, revealing when those entities have been fulfilled \u2014 or left wanting.\n\nThe 'things' we encounter consist of both type and value.\nEntities allow us to match by type alone, or by both type and value."
+    "content": "Derived codices apply the base CODEX LEXICON through sets of ENTITIES \u2014 statements of what we care about, expressed as layered symbolism, in the derived metaphor.\n\nFor example, when building a lineage, we want to ignore Python RESERVED words.\nWe're interested only in NAME tokens that represent actual Pythonic objects (variables, classes, etc).\n\nReserved words like `def` and `yield` serve as HONOURIFICS\u2014titles that address true identities.\n\nSo we might define:\n    HONOURIFICS = ENTITY('NAME', 'RESERVED')\nE.g. an HONOURIFIC as any NAME in the set of RESERVED values\n\nEntities are compound matching structures \u2014 ritual instruments that determine whether a given 'thing' satisfies the lore of the codex.\n\nEach codex offers a distinct lens on shared material, and begins by defining the entities of interest.\nThis class serves as their oracle, revealing when those entities have been fulfilled \u2014 or left wanting.\n\nThe 'things' we encounter consist of both type and value.\nEntities allow us to match by type alone, or by both type and value.",
+    "reference": "(112, 0)"
   },
   "codices.ENTITY.add": {
     "category": "MECHANISM",
     "canonical": "codices.ENTITY.add",
-    "content": "Extends the ENTITY's potence by adding more types and values it recognises."
+    "content": "Extends the ENTITY's potence by adding more types and values it recognises.",
+    "reference": "(139, 4)"
   },
   "codices.ENTITY.is_entity": {
     "category": "SKILL",
     "canonical": "codices.ENTITY.is_entity",
-    "content": "Does this ENTITY recognise a given token?\nNO if the ENTITY doesn't recognise tokens of this token's type, OTHERWISE\nYES if the ENTITY recognises ALL tokens of this token's type, OR ELSE\nYES if the ENTITY also recognises this token's value"
+    "content": "Does this ENTITY recognise a given token?\nNO if the ENTITY doesn't recognise tokens of this token's type, OTHERWISE\nYES if the ENTITY recognises ALL tokens of this token's type, OR ELSE\nYES if the ENTITY also recognises this token's value",
+    "reference": "(150, 4)"
   },
   "granulator.os": {
     "category": "CONTINUUM",
     "canonical": "granulator.os",
-    "content": "allows conversion of an underlying filepath to a batch identity"
+    "content": "allows conversion of an underlying filepath to a batch identity",
+    "reference": "(1, 0)"
   },
   "granulator.dataclasses": {
     "category": "CONTINUUM",
     "canonical": "granulator.dataclasses",
-    "content": "allows us to create a named structure for the final substance list we produce"
+    "content": "allows us to create a named structure for the final substance list we produce",
+    "reference": "(4, 0)"
   },
   "granulator": {
     "category": "THROUGHLINE",
     "canonical": "granulator",
-    "content": "We pour a batch of Python source code (.py file) into the Granulator.\n\nThrough a series of processing steps, we generate an inventory of 'grains'\u2014each providing:\n    - lineage: where, in the original bulk material, this grain was found\n    - type: whether it is a TEXT description or an object IDENTITY\n    - substance: the found TEXT or IDENTITY itself\n\nMetaphorically, the Python source code is the bulk_material we work on.\nIt is tokenized into a powder of token particles, which are then refined into grains.\n\nParticles are tracked through a batch record, capturing the Pythonic scope in which each particle is found.\n\nParticles are distilled into grains such that a sequence like:\n    NAME.string='self' OP.string='.' NAME.string='powder'\nbecomes an IDENTITY grain with substance='self.powder'.\n\nNOTE: I discovered that tokens flow around such that DEDENTS arise not after the last line of indentation but before before the frist dedented line...\nSubtle, upshot is in-line comments don;t always turn up in the token stream as one might expect. \nTo counter this I have added the 'suspension/bubble-up' concept during purification so that in-line semantics more reliably associate with the correct lineage."
+    "content": "We pour a batch of Python source code (.py file) into the Granulator.\n\nThrough a series of processing steps, we generate an inventory of 'grains'\u2014each providing:\n- lineage: where, in the original bulk material, this grain was found\n- type: whether it is a TEXT description or an object IDENTITY\n- substance: the found TEXT or IDENTITY itself\n- location: in the original source material\n- progenitor: is it the first of a new line?\n\nMetaphorically, the Python source code is the bulk_material we work on.\nIt is tokenized into a powder of token particles, which are then purified and mixed into a precursor for refinement into grains.\n\nParticles are tracked through a batch record, capturing the Pythonic scope in which each particle is found.\n\nParticles are distilled into grains such that a sequence like:\n>NAME.string='self' OP.string='.' NAME.string='powder'\n\nbecomes an IDENTITY grain with substance='self.powder'.\n\nNOTE: I discovered that tokens flow around such that DEDENTS arise not after the last line of indentation but immediately before the first dedented line...\nSubtle, upshot is in-line comments don't always turn up in the token stream as one might expect. \nTo counter this I have added the 'suspension/bubble-up' concept during the fine-mix so that in-line semantics more reliably associate with the correct lineage.",
+    "reference": "(14, 0)"
   },
   "granulator.GRANULATOR": {
     "category": "FIGURATION",
     "canonical": "granulator.GRANULATOR",
-    "content": "Takes an unruly, heterogeneous input bulk material and turns it into an intermediate purified powder which is then refined into grains.\n\nUses the SAMPLE test bed to inspect each particle and applies track&trace (via the registrar) to give just the particles of interest along with their full lineage.\n\nThen refines particles into grains"
+    "content": "Takes an unruly, heterogeneous input bulk material and turns it into an intermediate purified precursor which is then refined into grains.\n\nUses the SAMPLE test bed to inspect each particle and applies track&trace (via the registrar) to give just the particles of interest along with their full lineage.\n\nThen refines particles into grains",
+    "reference": "(40, 0)"
   },
   "granulator.GRANULATOR.__init__.bx_id": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.GRANULATOR.__init__.bx_id",
-    "content": "identity of the overall package of materials"
+    "content": "identity of the overall package of materials",
+    "reference": "(50, 8)"
   },
-  "granulator.GRANULATOR.__init__.self": {
+  "granulator.GRANULATOR.__init__.self.powder": {
     "category": "KNOWLEDGE",
-    "canonical": "granulator.GRANULATOR.__init__.self",
-    "content": "resulting list of refined grains as (lineage, type, substance) tuples"
+    "canonical": "granulator.GRANULATOR.__init__.self.powder",
+    "content": "Full catalogue of the original material, as particles",
+    "reference": "(57, 8)"
+  },
+  "granulator.GRANULATOR.__init__.self.purified": {
+    "category": "KNOWLEDGE",
+    "canonical": "granulator.GRANULATOR.__init__.self.purified",
+    "content": "list of purified particles",
+    "reference": "(60, 8)"
+  },
+  "granulator.GRANULATOR.__init__.self.intermediate": {
+    "category": "KNOWLEDGE",
+    "canonical": "granulator.GRANULATOR.__init__.self.intermediate",
+    "content": "list of intermediates as Precursor class",
+    "reference": "(63, 8)"
+  },
+  "granulator.GRANULATOR.__init__.self.refined": {
+    "category": "KNOWLEDGE",
+    "canonical": "granulator.GRANULATOR.__init__.self.refined",
+    "content": "resulting list of refined grains as Grain class",
+    "reference": "(66, 8)"
   },
   "granulator.GRANULATOR.dump_powder": {
     "category": "MECHANISM",
     "canonical": "granulator.GRANULATOR.dump_powder",
-    "content": "Shows the powderised bulk raw material"
+    "content": "Shows the powderised bulk raw material",
+    "reference": "(69, 4)"
   },
   "granulator.GRANULATOR.dump_purified": {
     "category": "MECHANISM",
     "canonical": "granulator.GRANULATOR.dump_purified",
-    "content": "Shows the purified bulk raw material powder"
+    "content": "Shows the purified bulk raw material powder",
+    "reference": "(76, 4)"
   },
   "granulator.GRANULATOR.dump_bx_record": {
     "category": "MECHANISM",
     "canonical": "granulator.GRANULATOR.dump_bx_record",
-    "content": "Shows the result of purification"
+    "content": "Shows the tracked intermediate precursors",
+    "reference": "(86, 4)"
   },
   "granulator.GRANULATOR.dump_inventory": {
     "category": "MECHANISM",
     "canonical": "granulator.GRANULATOR.dump_inventory",
-    "content": "Shows the final set of grains"
+    "content": "Shows the final set of grains",
+    "reference": "(93, 4)"
   },
   "granulator.GRANULATOR.granulate": {
     "category": "BEHAVIOUR",
     "canonical": "granulator.GRANULATOR.granulate",
-    "content": "Assay's the material and performs the granulation\nThis is a distinct step from initiating the Granulator in case there are any startup issues\n(Pythonic mantra: __init__ must succeed)"
+    "content": "Assay's the material and performs the granulation. \nThis is a distinct step from initiating the Granulator in case there are any startup issues\n(Pythonic mantra: __init__ must succeed)",
+    "reference": "(114, 4)"
   },
   "granulator.GRANULATOR.purify": {
-    "category": "PROSE",
+    "category": "BEHAVIOUR",
     "canonical": "granulator.GRANULATOR.purify",
-    "content": "Interlude in a poet's voice...\n=====================================\nCANTO I: In which The Sludge is Sloughed\nCANTO II: In which The Sludge is Sought\nCANTO III: In which The Pure is Preserved"
+    "content": "Purifies the powder by sieving for particles of interest\nALSO passes the sieved powder through a fine-scale filter\nAND detects/discards any clumpy sludge found in the powder\n\nEach purified particle is classified from the on-going batch records\n\n Interlude in a poet's voice...\n\n- CANTO I: In which The Sludge is Sloughed\n- CANTO II: In which The Sludge is Sought\n- CANTO III: In which The Pure is Preserved",
+    "reference": "(135, 4)"
   },
   "granulator.GRANULATOR.fine_mix": {
-    "category": "PROSE",
+    "category": "BEHAVIOUR",
     "canonical": "granulator.GRANULATOR.fine_mix",
-    "content": "On the fine mix process...\n--------------------------\nBreak up suspensions so the DENTs don't come between TEXTs and NAMEs\nEvapourate the DENTs so the remainder can be classified\nNo longer just a powder, the intermediate is ready to be refined into grains"
+    "content": "Sometimes particles form a suspension (COMMENTS + DENTS) that needs breaking up so that the particles will bond correctly when we refine them into grains.\nMixing allows the DENTs to bubble up so they evapourate as we inspect and classify the remainder\n\n On the fine mix process...\n\n- Break up suspensions so the DENTs don't come between TEXTs and NAMEs\n- Evapourate the DENTs so the remainder can be classified\n- No longer just a powder, the intermediate is ready to be refined into grains",
+    "reference": "(169, 4)"
   },
   "granulator.GRANULATOR.refine": {
-    "category": "PROSE",
+    "category": "BEHAVIOUR",
     "canonical": "granulator.GRANULATOR.refine",
-    "content": "On the distillation process\n=================================================\nIf we are not already distilling, see if we should\nIf we are distilling, condense into previous grain\nOtherwise create a new grain"
+    "content": "From purification we now have muddled comments and strings which will become the TEXTS\n  and split Identities with sequences of NAME(.NAME...)s\n  Refines NAMEs through distillation\n\n On the distillation process\n\n- If we are not already distilling, see if we should\n- If we are distilling, condense into previous grain\n- Otherwise create a new grain",
+    "reference": "(202, 4)"
   },
   "granulator.SAMPLE": {
     "category": "AFFORDANCE",
     "canonical": "granulator.SAMPLE",
-    "content": "A test bench, or lab, that inspects samples of powder\n\nCasts the symbolic LEXICON of the base CODEX into particle parlance, allowing us to identify how we purify the particles"
+    "content": "A test bench, or lab, that inspects samples of powder\n\nCasts the symbolic LEXICON of the base CODEX into particle parlance, allowing us to identify how we purify the particles",
+    "reference": "(244, 0)"
   },
   "granulator.SAMPLE.SIEVE": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.SAMPLE.SIEVE",
-    "content": "Allows impurities to be sieved from the powder - all particles of these objective types are collected by the sieve"
+    "content": "Allows impurities to be sieved from the powder - all particles of these objective types are collected by the sieve",
+    "reference": "(251, 4)"
   },
   "granulator.SAMPLE.SLUDGE": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.SAMPLE.SLUDGE",
-    "content": "when to start de-sludging the powder"
+    "content": "when to start de-sludging the powder",
+    "reference": "(259, 4)"
   },
   "granulator.SAMPLE.DESLUDGE": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.SAMPLE.DESLUDGE",
-    "content": "when we know the powder has been de-sludged"
+    "content": "when we know the powder has been de-sludged",
+    "reference": "(262, 4)"
   },
   "granulator.SAMPLE.FILTERED": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.SAMPLE.FILTERED",
-    "content": "The particle types that have finescale filters"
+    "content": "The particle types that have finescale filters",
+    "reference": "(265, 4)"
   },
   "granulator.SAMPLE.FILTER": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.SAMPLE.FILTER",
-    "content": "And The finescale filters they have"
+    "content": "And The finescale filters they have",
+    "reference": "(268, 4)"
   },
   "granulator.SAMPLE.SUSPENSIONS": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.SAMPLE.SUSPENSIONS",
-    "content": "Particles in suspension flow outside of the norm, we need to bubble some others up when we meet a suspension"
+    "content": "Particles in suspension flow outside of the norm, we need to bubble some others up when we meet a suspension",
+    "reference": "(271, 4)"
   },
   "granulator.SAMPLE.assay": {
     "category": "MECHANISM",
     "canonical": "granulator.SAMPLE.assay",
-    "content": "creates the powder from the bulk material"
+    "content": "creates the powder from the bulk material",
+    "reference": "(276, 4)"
   },
   "granulator.SAMPLE.sieved": {
     "category": "SKILL",
     "canonical": "granulator.SAMPLE.sieved",
-    "content": "Blocks powder particles that don't fall through the sieve for collection"
+    "content": "Blocks powder particles that don't fall through the sieve for collection",
+    "reference": "(284, 4)"
   },
   "granulator.SAMPLE.has_sludged": {
     "category": "DISPOSITION",
     "canonical": "granulator.SAMPLE.has_sludged",
-    "content": "Detects the emergence of a clump of sludge"
+    "content": "Detects the emergence of a clump of sludge",
+    "reference": "(292, 4)"
   },
   "granulator.SAMPLE.has_desludged": {
     "category": "DISPOSITION",
     "canonical": "granulator.SAMPLE.has_desludged",
-    "content": "Detects the sludge has been cleared"
+    "content": "Detects the sludge has been cleared",
+    "reference": "(300, 4)"
   },
   "granulator.SAMPLE.is_filtrate": {
     "category": "SKILL",
     "canonical": "granulator.SAMPLE.is_filtrate",
-    "content": "Applies a finescale filter to otherwise clean sieved powder"
+    "content": "Applies a finescale filter to otherwise clean sieved powder",
+    "reference": "(308, 4)"
   },
   "granulator.SAMPLE.particle_name": {
     "category": "MECHANISM",
     "canonical": "granulator.SAMPLE.particle_name",
-    "content": "AND ultimately, we DO need to know the actual name of a particle!"
+    "content": "we DO need to know the actual name of a particle!",
+    "reference": "(321, 4)"
   },
   "granulator.SAMPLE.particle_location": {
     "category": "MECHANISM",
     "canonical": "granulator.SAMPLE.particle_location",
-    "content": "AND ultimately, we DO need to know the actual name of a particle!"
+    "content": "A precise reference that ties this particle concept back to the originating source code",
+    "reference": "(329, 4)"
   },
   "granulator.SAMPLE._is_suspension": {
     "category": "MECHANISM",
     "canonical": "granulator.SAMPLE._is_suspension",
-    "content": "Tests to see if this particle sits in suspension, and if we ought to bubble the next particle up"
+    "content": "Tests to see if this particle sits in suspension, and if we ought to bubble the next particle up",
+    "reference": "(338, 4)"
   },
   "granulator.Precursor": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.Precursor",
-    "content": "Classified particles ready to be refined"
+    "content": "Classified particles ready to be refined (particles + classification)",
+    "reference": "(350, 0)"
   },
   "granulator.GrainType": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.GrainType",
-    "content": "The kinds of grains we make"
+    "content": "The kinds of grains we make, i.e. the basis for discerning lexical identity and semantic meaning",
+    "reference": "(379, 0)"
   },
   "granulator.Grain": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.Grain",
-    "content": "just what a grain looks like"
+    "content": "just what a grain looks like - i.e. lineage, type, content, canonicalism and original bulk material reference",
+    "reference": "(385, 0)"
   },
   "granulator.Grain.semantics": {
     "category": "MECHANISM",
     "canonical": "granulator.Grain.semantics",
-    "content": "Allows a grain to be viewed as a semantic entity"
+    "content": "Allows a grain to be viewed as a semantic entity",
+    "reference": "(394, 4)"
   },
   "granulator.REFINE": {
     "category": "AFFORDANCE",
     "canonical": "granulator.REFINE",
-    "content": "Casts the symbolic LEXICON of the base CODEX into grain parlance, allowing us to identify how we refine the particles"
+    "content": "Casts the symbolic LEXICON of the base CODEX into grain parlance, allowing us to identify how we refine the particles",
+    "reference": "(431, 0)"
   },
   "granulator.REFINE.DISTILLANT": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.REFINE.DISTILLANT",
-    "content": "What kind of particles causes distillation"
+    "content": "What kind of particles causes distillation",
+    "reference": "(436, 4)"
   },
   "granulator.REFINE.IDENTITY_GRAINS": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.REFINE.IDENTITY_GRAINS",
-    "content": "What kind of particles create IDENTITY grains"
+    "content": "What kind of particles create IDENTITY grains",
+    "reference": "(439, 4)"
   },
   "granulator.REFINE.TEXT_GRAINS": {
     "category": "KNOWLEDGE",
     "canonical": "granulator.REFINE.TEXT_GRAINS",
-    "content": "What kind of particles create TEXT grains"
+    "content": "What kind of particles create TEXT grains",
+    "reference": "(442, 4)"
   },
   "granulator.REFINE.is_distillant": {
     "category": "DISPOSITION",
     "canonical": "granulator.REFINE.is_distillant",
-    "content": "Detects when we should distil"
+    "content": "Detects when we should distil",
+    "reference": "(446, 4)"
   },
   "granulator.REFINE.get_grain_type": {
     "category": "SKILL",
     "canonical": "granulator.REFINE.get_grain_type",
-    "content": "Categorizes particles"
+    "content": "Categorizes particles",
+    "reference": "(454, 4)"
   },
   "lexicographics.dataclasses": {
     "category": "CONTINUUM",
     "canonical": "lexicographics.dataclasses",
-    "content": "allows us to create named structures for attestations, etymologies, and lexemes"
+    "content": "allows us to create named structures for attestations, and lexemes",
+    "reference": "(1, 0)"
   },
-  "lexicographics.HASH_SIGIL": {
-    "category": "KNOWLEDGE",
-    "canonical": "lexicographics.HASH_SIGIL",
-    "content": "If we want to use prose blocks, we need to ensure not to include literal hash in any strings inside the prose block!"
+  "lexicographics.json": {
+    "category": "CONTINUUM",
+    "canonical": "lexicographics.json",
+    "content": "allows us to format and export our linguistic set as JSON",
+    "reference": "(7, 0)"
   },
   "lexicographics.ExpoTags": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.ExpoTags",
-    "content": "The types of semantic meaning we can use to adorn our code-base."
-  },
-  "lexicographics.ExpoTags.CONTINUUM": {
-    "category": "PROSE",
-    "canonical": "lexicographics.ExpoTags.CONTINUUM",
-    "content": "CONTINUUM - alien facets that we use, typically within their own metaphor\nTHROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large\nFIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat unclear on their precise differentiation...\nKNOWLEDGE - Typically important datum or data classes\nBEHAVIOUR - a small package of sequenced actions\nMECHANISM - an action, e.g. getters/setters\nSKILL - an ability, e.g. inspect entity, filter list\nDISPOSITION - an indication (or detetcion), of state (or transition)\nPROSE - story woven around code sections\nFLAW - An exception or sentinel"
+    "content": "The types of semantic meaning we can use to adorn our code-base.\n\n\n\n- CONTINUUM - alien facets that we use, typically within their own metaphor\n- THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large\n- FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat unclear on their precise differentiation...\n- KNOWLEDGE - Typically important datum or data classes\n- BEHAVIOUR - a small package of sequenced actions\n- MECHANISM - an action, e.g. getters/setters\n- SKILL - an ability, e.g. inspect entity, filter list\n- DISPOSITION - an indication (or detetcion), of state (or transition)\n- PROSE - story woven around code sections\n- FLAW - An exception or sentinel",
+    "reference": "(14, 0)"
   },
   "lexicographics": {
     "category": "THROUGHLINE",
     "canonical": "lexicographics",
-    "content": "Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains\n\nThe IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used). Each occurence is accumulated into an Etymology, and each Etymmology is accumulated into the overall list of all_attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.\n\nThe TEXT grains are a muddled collection of discovered strings and comments, so the LEXICOGRAPHER sifts through these looking for those that have semantic meaning, i.e. begin with expositional tags (ExpoTags). When a meaning is disccovered it is (typically) associated with the next attestation of a lexical - i.e semantic meaning becomes attached to the canonical attestation of a lexical. These entities (lexemes) are then accumulated into the all_expositions list so that the semantics of a lexical are known at any point the lexical is found (and in fact, also, where exactly its canonical form can be found).\n\nMostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define. Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing). There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-\u00e0-vis:\n    - THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module\n    - CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound\n    - PROSE, is bound to the container (method, class or module) in which it is found, rather than the next specific object, method or class name\n\nMost of the expositions are wholly provisioned by the substance of their text grain - either because they were very simple (found in an in-line comment); or, they were encapsulated within a multiline string within the code.\n\nPROSE expositions are somewhat different. By design the PROSE is woven in and amongst the code using in-line commentary; so that, when we have significant code-blocks, we can annotate it with its story. A '# PROSE:' comment causes all in-line comments to be accumulated, until such time another exposition is encountered. This is convenient, but a little blunt since any normal code comments will also get swept up into the expositionary prose. It's easy to imagine many better methods, but this will do for now!\n\nOh! Also, any strings that contain '#' will collect garbage into the prose block also! So it really is weak at the moment!!!"
+    "content": "Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains\n\nThe IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used), but we only care about existence to help bind semantics to lexicals. The occurences are accumulated into an overall list of attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.\n\nThe TEXT grains are a muddled collection of discovered strings and comments, so the LEXICOGRAPHER sifts through these looking for those that have semantic meaning, i.e. begin with expositional tags (ExpoTags). When a meaning is disccovered it is (typically) associated with the next attestation of a lexical - i.e semantic meaning becomes attached to the canonical attestation of a lexical. These entities (lexemes) are then accumulated into the all_expositions list so that the semantics of a lexical are known at any point the lexical is found (and in fact, also, where exactly its canonical form can be found).\n\nMostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define[^1]. There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-\u00e0-vis:\n- THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module\n- CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound\n- PROSE, is bound to the most recent semantic entity; i.e. PROSE extends the current semantic with a list of detailed steps\n\n[^1]:Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing).\n\nMost of the expositions are wholly provisioned by the substance of their text grain - either because they were very simple (found in an in-line comment); or, they were encapsulated within a multiline string within the code.\n\nPROSE expositions are somewhat different. By design the PROSE is woven in and amongst the code using in-line commentary; so that, when we have significant code-blocks, we can annotate it with its story. A '# PROSE:' comment causes all in-line comments to be accumulated, until such time another exposition is encountered. This is convenient, but a little blunt since any normal code comments will also get swept up into the expositionary prose. It's easy to imagine many better methods, but this will do for now!",
+    "reference": "(46, 0)"
   },
   "lexicographics.LEXICOGRAPHER": {
     "category": "FIGURATION",
     "canonical": "lexicographics.LEXICOGRAPHER",
-    "content": "Sifts through a given set of 'entries' to generate:\n- a lexicon of known lexicals(!), erm, I mean a list of things that can be known about\n- the linguistical set of those things that have meaning"
+    "content": "Sifts through a given set of 'entries' to generate:\n- a lexicon of known lexicals(!), erm, I mean a list of things that can be known about\n- the linguistical set of those things that have meaning",
+    "reference": "(66, 0)"
   },
   "lexicographics.LEXICOGRAPHER.save_to_file": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER.save_to_file",
-    "content": "Creates a json file containing the full linguistic set and a text file listing the canonicals"
+    "content": "Creates a json file containing the full linguistic set and a text file listing the canonicals",
+    "reference": "(73, 4)"
   },
   "lexicographics.LEXICOGRAPHER.list_expositions": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER.list_expositions",
-    "content": "returns a list of lexeme summaries from a linguistical set"
+    "content": "returns a list of lexeme summaries from a linguistical set",
+    "reference": "(95, 4)"
   },
   "lexicographics.LEXICOGRAPHER.print_expositions": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER.print_expositions",
-    "content": "prints a linguistical set"
+    "content": "prints a linguistical set",
+    "reference": "(112, 4)"
   },
   "lexicographics.LEXICOGRAPHER.print_expo": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER.print_expo",
-    "content": "formats and prints a single lexeme, indenting as per the etymological depth."
+    "content": "formats and prints a single lexeme, indenting as per the depth of its attestation.",
+    "reference": "(123, 4)"
   },
   "lexicographics.LEXICOGRAPHER._indent": {
     "category": "MECHANISM",
     "canonical": "lexicographics.LEXICOGRAPHER._indent",
-    "content": "performs an identation of a semantic unit"
+    "content": "performs an identation of a semantic unit",
+    "reference": "(164, 4)"
   },
   "lexicographics.LEXICOGRAPHER.extract": {
-    "category": "PROSE",
+    "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER.extract",
-    "content": "On the extraction of meaning...\n-------------------------------\nEvery entry has some kind of meaning, for meaning is a layered construct\nwhen the meaning relates to one of our lexemes, we're gonna need to find the following lexical (probably)\nWhen the meaning we found is a lexical's name, create or extend the etymology with this attestation\nOtherwise unpack this meaning to extract any semantics it contains relevant to our lexemes\nclean-up the extracted semantics..."
+    "content": "Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes\n\n On the extraction of meaning...\n\n- Every entry has some kind of meaning, for meaning is a layered construct\n- when the meaning relates to one of our lexemes, we're gonna need to find the following lexical (probably)\n- At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value\n- clean-up the extracted semantics...",
+    "reference": "(177, 4)"
   },
   "lexicographics.LEXICOGRAPHER._unpack_text_entry": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER._unpack_text_entry",
-    "content": "Finds the lexical to associate with a semenatic TEXT, dropping TEXTs that are deifnitely NOT semantic.\nKeeps all COMMENT type texts as they are handled later when we package up any PROSE"
+    "content": "Finds the lexical to associate with a semenatic TEXT, dropping TEXTs that are deifnitely NOT semantic.\nKeeps all COMMENT type texts as they are handled later when we package up any PROSE",
+    "reference": "(210, 4)"
   },
   "lexicographics.LEXICOGRAPHER._nonjudgemental_clean": {
-    "category": "PROSE",
+    "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER._nonjudgemental_clean",
-    "content": "On cleaning the TEXTs...\n------------------------\nFirstly we deal with COMMENT type texts\nIf they are in-line semantics (except PROSE) we return them without the comment marker\notherwise in-line comments are returned unadulterated, so the prose block handler has themm available later.\n\nThen we remove any text delimiters around the semantic content.\nBeing careful only to consider delimiters, not any old quote-mark that might be within the semantic text\nsomehow we got a string that isn't delimited, weird but okay\nsomehow the triple quoted string hasn't been terminated, so don't clip the right side\nsomehow the single quoted string hasn't been terminated, so don't clip the right side\nBecause the work is a little complex, we have a catch-all return of the unadulterated text - just in case someone decides to add a bug in the code laters..."
+    "content": "Essentially strips delimiting quotes from a text, but doesn't get all judgy if the text is somehow poorly delimited.\nAlso removes commentary markers from in-line semantics (except PROSE which is cleaned up later)\n\n On cleaning the TEXTs...\n\n- Firstly we deal with COMMENT type texts\n- If they are in-line semantics (except PROSE) we return them without the comment marker\n- otherwise in-line comments are returned unadulterated, so the prose block handler has them available later.\n- Then we remove any text delimiters around the semantic content.\n- Being careful only to consider delimiters, not any old quote-mark that might be within the semantic text\n- somehow we got a string that isn't delimited, weird but okay\n- somehow the triple quoted string hasn't been terminated, so don't clip the right side\n- somehow the single quoted string hasn't been terminated, so don't clip the right side\n- Because the work is a little complex, we have a catch-all return of the unadulterated text - just in case someone decides to add a bug in the code laters...",
+    "reference": "(236, 4)"
   },
   "lexicographics.LEXICOGRAPHER._is_expo": {
     "category": "SKILL",
     "canonical": "lexicographics.LEXICOGRAPHER._is_expo",
-    "content": "Determines if a text IS semantic"
+    "content": "Determines if a text IS semantic",
+    "reference": "(278, 4)"
   },
   "lexicographics.LEXICOGRAPHER.package_prose": {
-    "category": "PROSE",
+    "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHER.package_prose",
-    "content": "Some prose on packaging prose...\n---------------------------------\nAt this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?\nAlthough we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose...\n...so BEWARE we might have rogue strings that happened to start with the in-line comment marker!\nAt least we now know that any TEXT that doesn't start with HASH, IS a true semantic exposition, so we can focus on the HASH lines here\n\nWe will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors\nand and empty package into which we build-up the texts to be merged.\n\nNow looking at each text, we initially have no impetus to merge them together...\nWe will start merging if this is an in-line comment that introduces PROSE\n(and note how I avoid creating a string that LOOKS like an expositional tag, awkward I admit)\nAnd we stop merging when we hit another exposition (that is, a line that doesn't start with HASH)\n\nWhile we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.\n\nIf we are not merging, we add any previous merged package to the survivor's list...\n...and we add this text to the survivors list, unless its just some itinerant programmer's comment (outside of a prose block)\n\nAND... a final flush if prose block reaches EOF"
+    "content": "Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.\nThis is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.\n\n Some prose on packaging prose...\n\n- At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?\n- Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose\n- At least we now know that any TEXT that doesn't start with HASH[^2], IS a true semantic exposition, so we can focus on the HASH lines here\n- We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors\n- [^2]: This handling of TEXTs that start with # works because ExpoTags themselves never start with # and at this point we know that ALL off our TEXTs start with either # (because they were a COMMENT) or start with an ExpoTag (because we already filtered STRINGs that are not ExpoTags)\n- and an empty package into which we build-up the texts to be merged.\n- Now looking at each text, we initially have no impetus to merge them together...\n- We will start merging if this is an in-line comment that introduces PROSE[^s]\n- [^3]: Note in the code that I test against (\"PROSE\" + \":\") because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this ppossibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...\n- And we stop merging when we hit another exposition (that is, a line that doesn't start with HASH)\n- While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.\n- If we are not merging, we extend the latest survivor's content with the current merged package; as a markdown list\n- ...and we add this text to the survivors list, unless its just some itinerant programmer's comment (outside of a prose block)\n- AND... a final flush if prose block reaches EOF",
+    "reference": "(287, 4)"
+  },
+  "lexicographics.LEXICOGRAPHER._extend_content": {
+    "category": "SKILL",
+    "canonical": "lexicographics.LEXICOGRAPHER._extend_content",
+    "content": "Extends the latest semantic with additional (prose) commentary.\n  BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic\n  This is so we at least get to see the (mis-placed) element somewhere in the outputs, so we can fix it.\n  Note, in this case it truly IS mis-placed, because (by defintion) prose annotates a previous semantic.\n  Mis-placed prose in module B could even turn up annotating the last semantic of module A!\n  The only defence I offer is that you at least get to see the prose SOMEWHERE...\n  \n  ...unless you don't. A mis-placed prose block will not be added at all IF it would overwrite an existing semantic.\n  This ought to be an impossible scenario, thus the silent use of 'pass' in this code.\n  FWIW: I'm sorry, sooooo sorry, if that ever trips you up ;^D",
+    "reference": "(348, 4)"
   },
   "lexicographics.LexicalOccurence": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.LexicalOccurence",
-    "content": "holds an attestation contextualised lexical entity"
+    "content": "holds an attestation contextualised lexical entity",
+    "reference": "(376, 0)"
   },
   "lexicographics.Lexeme": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.Lexeme",
-    "content": "holds a lexeme - the canonical occurence, category and semantic content of a lexical"
+    "content": "holds a lexeme - the canonical occurence, category and semantic content of a lexical",
+    "reference": "(414, 0)"
   },
   "lexicographics.Lexeme.from_parts": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme.from_parts",
-    "content": "Creates a lexeme by extracting category from a semantic text"
+    "content": "Creates a lexeme by extracting category from a semantic text",
+    "reference": "(422, 4)"
   },
   "lexicographics.Lexeme.summary": {
     "category": "SKILL",
     "canonical": "lexicographics.Lexeme.summary",
-    "content": "Summarises a lexeme to category and canonical reference"
+    "content": "Summarises a lexeme to category and canonical reference",
+    "reference": "(434, 4)"
   },
   "lexicographics.Lexeme._dedent": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme._dedent",
-    "content": "The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.\nHere we remove the common margin (minimum indent) found within the semantic content."
-  },
-  "lexicographics.Etymology": {
-    "category": "KNOWLEDGE",
-    "canonical": "lexicographics.Etymology",
-    "content": "holds a list of all occurances of a certain lexical (i.e. with an attestation), noting also where the canonical reference can be found"
+    "content": "The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.\nHere we remove the common margin (minimum indent) found within the semantic content.",
+    "reference": "(442, 4)"
   },
   "registrar": {
     "category": "THROUGHLINE",
     "canonical": "registrar",
-    "content": "Every token of interest from the parse (i.e. those that survived the granulator's purification stage) visits the Registrar \u2014 which may seem draconian, but such is the nature of symbolic governance.\n\nThe Registrar\u2019s records are private. The only sanctioned access is through `record_history`, which returns the current known lineage for each notable recorded subject.\n\nMost subjects are notable and have their lineage recorded.\nThough draconian, the process remains relatively democratic.\n\nUnnotables are the DENTS.\nThe Registrar must still track them, as a DEDENT may signal the end of a lineage \u2014 depending on the INDENTS that preceded it.\n\nLineage only extends when a true identity is married to a progenitor (`class` or `def` + name).\nThe resilience of this family line then waxes and wanes, governed by INDENTS and DEDENTS.\n\nWhen resilience falls back to the level of the originating progenitor, the family line dies out, and the current lineage contracts.\n\nLineage is NOT returned for growth/decline subjects (DENTS), as they are not actual 'things' \u2014 just indicators of resilience.\n\nSimilarly, lineage is NOT returned for honourifics, since they merely address things, but are not things themselves."
+    "content": "Every token of interest from the parse (i.e. those that survived the granulator's purification stage) visits the Registrar \u2014 which may seem draconian, but such is the nature of symbolic governance.\n\nThe Registrar\u2019s records are private. The only sanctioned access is through `record_history`, which returns the current known lineage for each notable recorded subject.\n\nMost subjects are notable and have their lineage recorded.\nThough draconian, the process remains relatively democratic.\n\nUnnotables are the DENTS.\nThe Registrar must still track them, as a DEDENT may signal the end of a lineage \u2014 depending on the INDENTS that preceded it.\n\nLineage only extends when a true identity is married to a progenitor (`class` or `def` + name).\nThe resilience of this family line then waxes and wanes, governed by INDENTS and DEDENTS.\n\nWhen resilience falls back to the level of the originating progenitor, the family line dies out, and the current lineage contracts.\n\nLineage is NOT returned for growth/decline subjects (DENTS), as they are not actual 'things' \u2014 just indicators of resilience.\n\nSimilarly, lineage is NOT returned for honourifics, since they merely address things, but are not things themselves.",
+    "reference": "(2, 0)"
   },
   "registrar.REGISTRAR": {
     "category": "FIGURATION",
     "canonical": "registrar.REGISTRAR",
-    "content": "The Registrar recognises and declares subject titles according to the evolving lineage of recorded subjects.\n\nSome subjects (DENTS and PROGENITORS) do not receive titles, but they influence the shape and continuity of the lineage.\n\nOther subjects (HONOURIFICS) are not recorded at all \u2014 they serve only to address true subjects, and are thus excluded from lineage."
+    "content": "The Registrar recognises and declares subject titles according to the evolving lineage of recorded subjects.\n\nSome subjects (DENTS and PROGENITORS) do not receive titles, but they influence the shape and continuity of the lineage.\n\nOther subjects (HONOURIFICS) are not recorded at all \u2014 they serve only to address true subjects, and are thus excluded from lineage.",
+    "reference": "(24, 0)"
   },
-  "registrar.REGISTRAR.__init__.self": {
+  "registrar.REGISTRAR.__init__.self._resilience": {
     "category": "KNOWLEDGE",
-    "canonical": "registrar.REGISTRAR.__init__.self",
-    "content": "the true identity of an heir apparent"
+    "canonical": "registrar.REGISTRAR.__init__.self._resilience",
+    "content": "tracks how the heritage line waxes and wanes",
+    "reference": "(34, 8)"
+  },
+  "registrar.REGISTRAR.__init__.self._register": {
+    "category": "KNOWLEDGE",
+    "canonical": "registrar.REGISTRAR.__init__.self._register",
+    "content": "A new register is created for each registrant (grand forebear)",
+    "reference": "(37, 8)"
+  },
+  "registrar.REGISTRAR.__init__.self._heir_apparent": {
+    "category": "DISPOSITION",
+    "canonical": "registrar.REGISTRAR.__init__.self._heir_apparent",
+    "content": "are we currently looking for the true identity of an heir apparent, or else just recording subject titles",
+    "reference": "(42, 8)"
+  },
+  "registrar.REGISTRAR.__init__.self._heir": {
+    "category": "KNOWLEDGE",
+    "canonical": "registrar.REGISTRAR.__init__.self._heir",
+    "content": "the true identity of an heir apparent",
+    "reference": "(44, 8)"
   },
   "registrar.REGISTRAR.record_history": {
-    "category": "PROSE",
+    "category": "BEHAVIOUR",
     "canonical": "registrar.REGISTRAR.record_history",
-    "content": "on how the code-tree grows and withers as we meet\nprogenitors, identities and closures\n=================================================\nFirst, keep an eye on the resilience of the current family line\n------------------------------------------------------------\nNow is the time to add any found heir to the lineage\nSo that GOING FORWARD the title is recognised\n----------------------------------------------------\nOnce we find a new heir, keep it safe for now\nSo the title is awarded on the next cycle\nOtherwise we lose sight of this heir's own lineage\n------------------------------------------------------\nHave a look-see if we have met a new heir-apparent\n--------------------------------------------------\nUltimately branches of a tree die out, and we have to\nprune back to continue the ancestral lines\n-----------------------------------------------------\nFinally all are remembered in the trace of lineage they leave behind \nBUT it is only the true that get entitled\n--------------------------------------------------------------------"
+    "content": "Provides the current lineage relevant to a subject, IF this is a notable subject.\n\n on how the code-tree grows and withers\n\n- First, keep an eye on the resilience of the current family line\n- Now is the time to add any found heir to the lineage\n- So that GOING FORWARD the title is recognised\n- Once we find a new heir, keep it safe for now\n- So the title is awarded on the next cycle\n- Otherwise we lose sight of this heir's own lineage\n- Have a look-see if we have met a new heir-apparent\n- Ultimately branches of a tree die out, and we have to\n- prune back to continue the ancestral lines\n- Finally all are remembered in the trace of lineage they leave behind \n- BUT it is only the true that get entitled",
+    "reference": "(47, 4)"
   },
   "registrar.REGISTRAR._entitle": {
     "category": "SKILL",
     "canonical": "registrar.REGISTRAR._entitle",
-    "content": "Joins up all the identities in our current lineage to form a single, recordable, title"
+    "content": "Joins up all the identities in our current lineage to form a single, recordable, title",
+    "reference": "(100, 4)"
   },
   "registrar.REGISTRAR._new_record": {
     "category": "SKILL",
     "canonical": "registrar.REGISTRAR._new_record",
-    "content": "Prepares a progenitor's new lineage, in case there is then a marriage"
+    "content": "Prepares a progenitor's new lineage, in case there is then a marriage",
+    "reference": "(108, 4)"
   },
   "registrar.REGISTRAR._fill_in_record": {
     "category": "SKILL",
     "canonical": "registrar.REGISTRAR._fill_in_record",
-    "content": "Fills in the new lineage, and sets the baseline of this family line's resilience,\nwhich builds upon that of previous generations"
+    "content": "Fills in the new lineage, and sets the baseline of this family line's resilience,\nwhich builds upon that of previous generations",
+    "reference": "(115, 4)"
   },
   "registrar.REGISTRAR._sign_off_record": {
     "category": "SKILL",
     "canonical": "registrar.REGISTRAR._sign_off_record",
-    "content": "Marks the end of a family line by removing its lineage"
+    "content": "Marks the end of a family line by removing its lineage",
+    "reference": "(125, 4)"
   },
   "registrar.REGISTRAR._register_empty": {
     "category": "FLAW",
     "canonical": "registrar.REGISTRAR._register_empty",
-    "content": "Allows us to check if the register is empty before we try to remove a family line"
+    "content": "Allows us to check if the register is empty before we try to remove a family line",
+    "reference": "(132, 4)"
   },
   "registrar.LINEAGE": {
     "category": "AFFORDANCE",
     "canonical": "registrar.LINEAGE",
-    "content": "Casts the symbolic LEXICON of the base CODEX into lineage parlance, allowing us to identify lineage related ENTITIES"
+    "content": "Casts the symbolic LEXICON of the base CODEX into lineage parlance, allowing us to identify lineage related ENTITIES",
+    "reference": "(140, 0)"
   },
   "registrar.LINEAGE.PROGENITORS": {
     "category": "KNOWLEDGE",
     "canonical": "registrar.LINEAGE.PROGENITORS",
-    "content": "The subjects that (potentially) start a new generation in the lineage"
+    "content": "The subjects that (potentially) start a new generation in the lineage",
+    "reference": "(145, 4)"
   },
   "registrar.LINEAGE.HONOURIFICS": {
     "category": "KNOWLEDGE",
     "canonical": "registrar.LINEAGE.HONOURIFICS",
-    "content": "The ways in which subjects may be addressed, not actual subject identities"
+    "content": "The ways in which subjects may be addressed, not actual subject identities",
+    "reference": "(148, 4)"
   },
   "registrar.LINEAGE.IDENTITIES": {
     "category": "KNOWLEDGE",
     "canonical": "registrar.LINEAGE.IDENTITIES",
-    "content": "The subjects that may be true identities"
+    "content": "The subjects that may be true identities",
+    "reference": "(151, 4)"
+  },
+  "registrar.LINEAGE.DESCENDERS": {
+    "category": "KNOWLEDGE",
+    "canonical": "registrar.LINEAGE.DESCENDERS",
+    "content": "The subjects that give rise to descendents",
+    "reference": "(154, 4)"
   },
   "registrar.LINEAGE.GROWTH": {
     "category": "KNOWLEDGE",
     "canonical": "registrar.LINEAGE.GROWTH",
-    "content": "Represents a waxing in the current family-line's resilience"
+    "content": "Represents a waxing in the current family-line's resilience",
+    "reference": "(157, 4)"
   },
   "registrar.LINEAGE.DECLINE": {
     "category": "KNOWLEDGE",
     "canonical": "registrar.LINEAGE.DECLINE",
-    "content": "Represents a waning in the current family-line's resilience"
+    "content": "Represents a waning in the current family-line's resilience",
+    "reference": "(160, 4)"
   },
   "registrar.LINEAGE.TRUE_SUBJECTS": {
     "category": "KNOWLEDGE",
     "canonical": "registrar.LINEAGE.TRUE_SUBJECTS",
-    "content": "True subjects - the things we want to record"
+    "content": "True subjects - the things we want to record",
+    "reference": "(163, 4)"
   },
   "registrar.LINEAGE.is_true_subject": {
     "category": "SKILL",
     "canonical": "registrar.LINEAGE.is_true_subject",
-    "content": "Matches progenitor type subjects only"
+    "content": "Matches with the subjects we want to record",
+    "reference": "(167, 4)"
   },
   "registrar.LINEAGE.is_progenitor": {
     "category": "SKILL",
     "canonical": "registrar.LINEAGE.is_progenitor",
-    "content": "Matches progenitor type subjects only"
+    "content": "Matches progenitor type subjects only",
+    "reference": "(175, 4)"
+  },
+  "registrar.LINEAGE.is_descender": {
+    "category": "SKILL",
+    "canonical": "registrar.LINEAGE.is_descender",
+    "content": "Matches descender type subjects only",
+    "reference": "(183, 4)"
   },
   "registrar.LINEAGE.is_true_identity": {
     "category": "SKILL",
     "canonical": "registrar.LINEAGE.is_true_identity",
-    "content": "Matches subjects that are true identities (not honourifics)"
+    "content": "Matches subjects that are true identities (not honourifics)",
+    "reference": "(191, 4)"
   },
   "registrar.LINEAGE.growth": {
     "category": "SKILL",
     "canonical": "registrar.LINEAGE.growth",
-    "content": "Detects when the current family line grows"
+    "content": "Detects when the current family line grows",
+    "reference": "(201, 4)"
   },
   "registrar.LINEAGE.decline": {
     "category": "SKILL",
     "canonical": "registrar.LINEAGE.decline",
-    "content": "Detects when a current family line has declined"
+    "content": "Detects when a current family line has declined",
+    "reference": "(209, 4)"
   },
   "registrar.LINEAGE.subject_name": {
     "category": "MECHANISM",
     "canonical": "registrar.LINEAGE.subject_name",
-    "content": "AND ultimately, we DO need to know the actual name of a subject!"
+    "content": "we DO need to know the actual name of a subject!",
+    "reference": "(217, 4)"
   }
 }
