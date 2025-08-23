@@ -148,18 +148,22 @@ class GRANULATOR:
         for particle in hopper:
             # PROSE: Interlude in a poet's voice...
             # CANTO I: In which The Sludge is Sloughed
+            # if is sludge and has not desludged
             if sludge:
                 sludge = not SAMPLE.has_desludged(particle)
             if sludge:
                 continue
 
             # CANTO II: In which The Sludge is Sought
+            # if not is sludge and now has sludged
             if not sludge:
                 sludge = SAMPLE.has_sludged(particle)
             if sludge:
                 continue
 
             # CANTO III: In which The Pure is Preserved
+            # if you can sieve and be filtrate then 
+            # - you'll be Purified, my son!
             if SAMPLE.sieved(particle):
                 if SAMPLE.is_filtrate(particle):
                     purified_powder.append(particle)
@@ -173,20 +177,40 @@ class GRANULATOR:
     '''
     @staticmethod
     def fine_mix(hopper, bx_record):
-        mixed_intermediate = list(range(len(hopper)))
-        intermediate = []
-        classifications = {}
-
         # PROSE: On the fine mix process...
         # Break up suspensions so the DENTs don't come between TEXTs and NAMEs
-        for i in range(len(mixed_intermediate) - 1):
-            particle = hopper[mixed_intermediate[i]]
-            next_particle = hopper[mixed_intermediate[i+1]]
-            if SAMPLE._is_suspension(particle, next_particle):
-                mixed_intermediate[i], mixed_intermediate[i+1] = mixed_intermediate[i+1], mixed_intermediate[i]
+        powder_mix = GRANULATOR._mix(hopper)
 
         # Evapourate the DENTs so the remainder can be classified
-        for index in mixed_intermediate:
+        intermediate = GRANULATOR._evapourate(powder_mix, hopper, bx_record)
+
+        # No longer just a powder, the intermediate is ready to be refined into grains
+        return intermediate
+
+    '''
+    MECHANISM:
+    Mixes the purified powder, breaking up suspensions that effect how particles adhere into grains during refinement
+    '''
+    @staticmethod
+    def _mix(hopper):
+        powder_mix = list(range(len(hopper)))
+        for i in range(len(powder_mix) - 1):
+            particle = hopper[powder_mix[i]]
+            next_particle = hopper[powder_mix[i+1]]
+            if SAMPLE._is_suspension(particle, next_particle):
+                powder_mix[i], powder_mix[i+1] = powder_mix[i+1], powder_mix[i]
+
+        return powder_mix
+
+    '''
+    MECHANISM:
+    Applies track&trace while condensing the intermediate to just the components that will make up the refined IDENTITY and TEXT grains.
+    '''
+    @staticmethod
+    def _evapourate(powder_mix, hopper, bx_record):
+        classifications = {}
+        intermediate = []
+        for index in powder_mix:
             particle = hopper[index]
             as_new_line, classification = bx_record.record_history(particle)
             if classification is not None:
@@ -196,7 +220,6 @@ class GRANULATOR:
                         as_new_line = True
                 intermediate.append(Precursor(classification, as_new_line, particle))
 
-        # No longer just a powder, the intermediate is ready to be refined into grains
         return intermediate
 
     '''
