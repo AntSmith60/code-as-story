@@ -149,10 +149,7 @@ class ENTITY:
 
     '''
     SKILL:
-    Does this ENTITY recognise a given token?
-    NO if the ENTITY doesn't recognise tokens of this token's type, OTHERWISE
-    YES if the ENTITY recognises ALL tokens of this token's type, OR ELSE
-    YES if the ENTITY also recognises this token's value
+    Determines if this ENTITY recognise a given token.
     '''
     def is_entity(self, token):
         if token.type in self.members:
