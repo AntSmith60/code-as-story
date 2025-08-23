@@ -16,7 +16,7 @@ def rehydrate_and_render(path, output_path):
     with open(output_path, 'w', encoding='utf-8') as out:
         for line in editorial_lines:
             if not line.strip():
-                out.write('\n')  # Preserve blank lines
+                out.write('\n\n')  # Preserve blank lines
                 continue
 
             if not ':' in line:
