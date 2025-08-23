@@ -95,6 +95,8 @@ granulator.SAMPLE._is_suspension:MECHANISM
 ### Key behaviours
 granulator.GRANULATOR.purify:BEHAVIOUR
 granulator.GRANULATOR.fine_mix:BEHAVIOUR
+granulator.GRANULATOR._mix
+granulator.GRANULATOR._evapourate
 ---
 ---
 ## *** GRANULATION: REFINE ***
@@ -144,8 +146,10 @@ registrar.LINEAGE.decline:SKILL
 registrar.REGISTRAR.record_history:BEHAVIOUR
 ##  supporting mechanisms
 registrar.REGISTRAR._entitle:SKILL
-registrar.REGISTRAR._new_record:SKILL
-registrar.REGISTRAR._fill_in_record:SKILL
+registrar.REGISTRAR._lineage_fluxed
+registrar.REGISTRAR._seek_heir_apparent:DISPOSITION
+registrar.REGISTRAR._prepare_for_heir:DISPOSITION
+registrar.REGISTRAR._record_heir:SKILL
 registrar.REGISTRAR._sign_off_record:SKILL
 registrar.REGISTRAR._register_empty:FLAW
 ---
@@ -163,6 +167,9 @@ lexicographics.ExpoTags:KNOWLEDGE
 ## KEY BEHAVIOURS
 lexicographics.LEXICOGRAPHER.extract:BEHAVIOUR
 lexicographics.LEXICOGRAPHER.package_prose:BEHAVIOUR
+lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
+lexicographics.LEXICOGRAPHER._update_semantic_package:MECHANISM
+
 ## Supporting behaviours
 lexicographics.LEXICOGRAPHER._unpack_text_entry:BEHAVIOUR
 lexicographics.LEXICOGRAPHER._nonjudgemental_clean:BEHAVIOUR

@@ -3,21 +3,27 @@
 The purpose here is just to exercise the concept of marrying narrative (story) to source code.
 
 
+
 The underlying concept is that narrative is a foundational aspect of human cognition - it is through story that we get to experience the abstract; for understanding arises not just from knowing, but from experiencing (feeling) that which is known.
+
 
 
 We believe coding is a creative process, but to be so the code must ignite cognition.
 
 
+
 This is the fundamental tenet of the Narratival-Exposition Paradigm, which we explore with this code base.
+
 
 
 So, this code base reads this code base to produce this code base's documentation...
 
 
+
 ## Pre-requisites
 
 These scripts require a code base that has been written in the (evolving) Narratival-Exposition's grammar - e.g. this code base!
+
 
 
 ## World View
@@ -31,7 +37,9 @@ Generating the narrative happens in 3 phases (well, 3 phases after actually writ
 - Narration: pouring the story points into the editorialsation to generate the narrative arc
 
 
+
 Herein, we see the narration of the phase 1 code base: the extraction process. This produces the files needed for the (manual) editorialisation phase, which then allows the narration script to produce the doccumentation.
+
 
 
 During extraction the core concepts we will meet are:
@@ -45,6 +53,7 @@ During extraction the core concepts we will meet are:
 - LEXICOGRAPHICS: the mechanisms that sift and convert the lineage-tracked symbolic grains to generate lexemes: the discovered lexical tokens in the source code along with their canonical reference and semantic meaning.
 
 
+
 # *** CHAPTER - CODICES ***
 
 First we talk about codices... how they provide a symbolic view of Python source code through a variety of lenses
@@ -55,34 +64,65 @@ _(6, 0)throughline_:codices
 
 Behind all the metaphor, we are parsing Python script files - using the standard `tokenize` library to extract symbolic structure from source code.
 
+
+
 Tokenization gives us a symbolic view of the source, simplifying parsing.
+
 It turns complex syntax into a simple (though intermediate) lexicon.
 
+
+
 So:
+
 >def parse(source):
 
+
+
 becomes:
+
 >NAME NAME OP NAME OP OP
 
+
+
 Tokens have limited understanding of their role, but great clarity about what they are.
+
 For example, a token knows that 'def' is a NAME, but not that it's a Python reserved word.
+
+
 
 Meaning emerges through layered symbolism.
 
+
+
 So:
+
 >NAME NAME OP NAME OP OP
 
+
+
 might, if parsing for execution, become:
+
 >keyword identity lbrace identity rbrace colon
 
+
+
 But we are not parsing to execute — we are parsing to extract a limited set of precise entities:
+
 prescriptive texts and the things they prescribe, within their Pythonic scope.
+
+
 
 We do not care about things like braces and colons.
 
+
+
 The base CODEX provides the layered symbolism we do care about.
+
 For example, it tells us whether a NAME token is an ENCAPSULATOR —
+
 a symbol that opens a new scope (like `def` or `class`).
+
+
 
 Note: this module fully wraps the TOKEN structure, which is never directly referenced elsewhere.
 
@@ -100,15 +140,26 @@ _(46, 0)affordance_:codices.CODEX
 
 Though literally a tree trunk (from the Latin *codex*), the term has come to signify a book of law — or more precisely, of lore.
 
+
+
 Not 'law' in the contemporary sense, but rather 'ritual' or 'rite': the correct sequence of symbols that achieves a result.
+
+
 
 And herein, our codices do just that — they prescribe the correct sequence of things in terms of their symbolism (ruinic nature).
 
+
+
 In the base CODEX, very little is known beyond the symbolic meaning of what occurs in the provided sequence.
 
+
+
 Thus, the base CODEX offers:
+
 - a symbolic lexicon (as a dict),
+
 - a means to generate the sequence (objectify the source),
+
 - and a way to discern the true name (or value) of encountered symbols.
 
 _(62, 4)knowledge_:codices.CODEX.LEXICON: Symbolises specific python token subjects that direct our layered parsing
@@ -116,9 +167,11 @@ _(62, 4)knowledge_:codices.CODEX.LEXICON: Symbolises specific python token subje
 _(87, 4)mechanism_:codices.CODEX.objectify: Encapsulates the tokenisation process
 
 _(95, 4)mechanism_:codices.CODEX.token_val: We want to contain ALL token structure knowledge to the base CODEX
+
 so here's how we get to what a token actually IS.
 
 _(103, 4)mechanism_:codices.CODEX.token_start: We want to contain ALL token structure knowledge to the base CODEX
+
 so here's how we get where the token occurred
 
 ## ENTITIES and VIEWS
@@ -129,45 +182,61 @@ _(112, 0)affordance_:codices.ENTITY
 
 Derived codices apply the base CODEX LEXICON through sets of ENTITIES — statements of what we care about, expressed as layered symbolism, in the derived metaphor.
 
+
+
 For example, when building a lineage, we want to ignore Python RESERVED words.
+
 We're interested only in NAME tokens that represent actual Pythonic objects (variables, classes, etc).
+
+
 
 Reserved words like `def` and `yield` serve as HONOURIFICS—titles that address true identities.
 
+
+
 So we might define:
+
     HONOURIFICS = ENTITY('NAME', 'RESERVED')
+
 E.g. an HONOURIFIC as any NAME in the set of RESERVED values
+
+
 
 Entities are compound matching structures — ritual instruments that determine whether a given 'thing' satisfies the lore of the codex.
 
+
+
 Each codex offers a distinct lens on shared material, and begins by defining the entities of interest.
+
 This class serves as their oracle, revealing when those entities have been fulfilled — or left wanting.
 
+
+
 The 'things' we encounter consist of both type and value.
+
 Entities allow us to match by type alone, or by both type and value.
 
 _(139, 4)mechanism_:codices.ENTITY.add: Extends the ENTITY's potence by adding more types and values it recognises.
 
-_(150, 4)skill_:codices.ENTITY.is_entity: Does this ENTITY recognise a given token?
-NO if the ENTITY doesn't recognise tokens of this token's type, OTHERWISE
-YES if the ENTITY recognises ALL tokens of this token's type, OR ELSE
-YES if the ENTITY also recognises this token's value
+_(150, 4)skill_:codices.ENTITY.is_entity: Determines if this ENTITY recognise a given token.
 
 ---
 
 **Which gifts us these varying views:**
 
-_(244, 0)affordance_:granulator.SAMPLE
+_(267, 0)affordance_:granulator.SAMPLE
 
 A test bench, or lab, that inspects samples of powder
 
+
+
 Casts the symbolic LEXICON of the base CODEX into particle parlance, allowing us to identify how we purify the particles
 
-_(431, 0)affordance_:granulator.REFINE
+_(454, 0)affordance_:granulator.REFINE
 
 Casts the symbolic LEXICON of the base CODEX into grain parlance, allowing us to identify how we refine the particles
 
-_(140, 0)affordance_:registrar.LINEAGE
+_(166, 0)affordance_:registrar.LINEAGE
 
 Casts the symbolic LEXICON of the base CODEX into lineage parlance, allowing us to identify lineage related ENTITIES
 
@@ -183,25 +252,46 @@ _(14, 0)throughline_:granulator
 
 We pour a batch of Python source code (.py file) into the Granulator.
 
+
+
 Through a series of processing steps, we generate an inventory of 'grains'—each providing:
+
 - lineage: where, in the original bulk material, this grain was found
+
 - type: whether it is a TEXT description or an object IDENTITY
+
 - substance: the found TEXT or IDENTITY itself
+
 - location: in the original source material
+
 - progenitor: is it the first of a new line?
 
+
+
 Metaphorically, the Python source code is the bulk_material we work on.
+
 It is tokenized into a powder of token particles, which are then purified and mixed into a precursor for refinement into grains.
+
+
 
 Particles are tracked through a batch record, capturing the Pythonic scope in which each particle is found.
 
+
+
 Particles are distilled into grains such that a sequence like:
+
 >NAME.string='self' OP.string='.' NAME.string='powder'
+
+
 
 becomes an IDENTITY grain with substance='self.powder'.
 
+
+
 NOTE: I discovered that tokens flow around such that DEDENTS arise not after the last line of indentation but immediately before the first dedented line...
+
 Subtle, upshot is in-line comments don't always turn up in the token stream as one might expect. 
+
 To counter this I have added the 'suspension/bubble-up' concept during the fine-mix so that in-line semantics more reliably associate with the correct lineage.
 
 ## DESCRIPTION, contexts and knowledge:
@@ -210,7 +300,11 @@ _(40, 0)figuration_:granulator.GRANULATOR
 
 Takes an unruly, heterogeneous input bulk material and turns it into an intermediate purified precursor which is then refined into grains.
 
+
+
 Uses the SAMPLE test bed to inspect each particle and applies track&trace (via the registrar) to give just the particles of interest along with their full lineage.
+
+
 
 Then refines particles into grains
 
@@ -231,7 +325,9 @@ _(66, 8)knowledge_:granulator.GRANULATOR.__init__.self.refined: resulting list o
 ## Key BEHAVIOURS and supporting mechanisms
 
 _(114, 4)behaviour_:granulator.GRANULATOR.granulate: Assay's the material and performs the granulation. 
+
 This is a distinct step from initiating the Granulator in case there are any startup issues
+
 (Pythonic mantra: __init__ must succeed)
 
 _(69, 4)mechanism_:granulator.GRANULATOR.dump_powder: Shows the powderised bulk raw material
@@ -250,57 +346,66 @@ _(93, 4)mechanism_:granulator.GRANULATOR.dump_inventory: Shows the final set of 
 
 Transforms the powderised particles into:
 
-_(350, 0)knowledge_:granulator.Precursor: Classified particles ready to be refined (particles + classification)
+_(373, 0)knowledge_:granulator.Precursor: Classified particles ready to be refined (particles + classification)
 
 ### SAMPLE CODEX
 
 **This stage of Granulation uses the SAMPLE derived codex, which provides:**
 
-_(276, 4)mechanism_:granulator.SAMPLE.assay: creates the powder from the bulk material
+_(299, 4)mechanism_:granulator.SAMPLE.assay: creates the powder from the bulk material
 
-_(321, 4)mechanism_:granulator.SAMPLE.particle_name: we DO need to know the actual name of a particle!
+_(344, 4)mechanism_:granulator.SAMPLE.particle_name: we DO need to know the actual name of a particle!
 
-_(329, 4)mechanism_:granulator.SAMPLE.particle_location: A precise reference that ties this particle concept back to the originating source code
+_(352, 4)mechanism_:granulator.SAMPLE.particle_location: A precise reference that ties this particle concept back to the originating source code
 
 **Along with these pairings of knowledge and skills:**
 
-_(251, 4)knowledge_:granulator.SAMPLE.SIEVE: Allows impurities to be sieved from the powder - all particles of these objective types are collected by the sieve
+_(274, 4)knowledge_:granulator.SAMPLE.SIEVE: Allows impurities to be sieved from the powder - all particles of these objective types are collected by the sieve
 
-_(284, 4)skill_:granulator.SAMPLE.sieved: Blocks powder particles that don't fall through the sieve for collection
+_(307, 4)skill_:granulator.SAMPLE.sieved: Blocks powder particles that don't fall through the sieve for collection
 
-_(259, 4)knowledge_:granulator.SAMPLE.SLUDGE: when to start de-sludging the powder
+_(282, 4)knowledge_:granulator.SAMPLE.SLUDGE: when to start de-sludging the powder
 
-_(292, 4)disposition_:granulator.SAMPLE.has_sludged: Detects the emergence of a clump of sludge
+_(315, 4)disposition_:granulator.SAMPLE.has_sludged: Detects the emergence of a clump of sludge
 
-_(262, 4)knowledge_:granulator.SAMPLE.DESLUDGE: when we know the powder has been de-sludged
+_(285, 4)knowledge_:granulator.SAMPLE.DESLUDGE: when we know the powder has been de-sludged
 
-_(300, 4)disposition_:granulator.SAMPLE.has_desludged: Detects the sludge has been cleared
+_(323, 4)disposition_:granulator.SAMPLE.has_desludged: Detects the sludge has been cleared
 
-_(265, 4)knowledge_:granulator.SAMPLE.FILTERED: The particle types that have finescale filters
+_(288, 4)knowledge_:granulator.SAMPLE.FILTERED: The particle types that have finescale filters
 
-_(268, 4)knowledge_:granulator.SAMPLE.FILTER: And The finescale filters they have
+_(291, 4)knowledge_:granulator.SAMPLE.FILTER: And The finescale filters they have
 
-_(308, 4)skill_:granulator.SAMPLE.is_filtrate: Applies a finescale filter to otherwise clean sieved powder
+_(331, 4)skill_:granulator.SAMPLE.is_filtrate: Applies a finescale filter to otherwise clean sieved powder
 
-_(271, 4)knowledge_:granulator.SAMPLE.SUSPENSIONS: Particles in suspension flow outside of the norm, we need to bubble some others up when we meet a suspension
+_(294, 4)knowledge_:granulator.SAMPLE.SUSPENSIONS: Particles in suspension flow outside of the norm, we need to bubble some others up when we meet a suspension
 
-_(338, 4)mechanism_:granulator.SAMPLE._is_suspension: Tests to see if this particle sits in suspension, and if we ought to bubble the next particle up
+_(361, 4)mechanism_:granulator.SAMPLE._is_suspension: Tests to see if this particle sits in suspension, and if we ought to bubble the next particle up
 
 ### Key behaviours
 
 _(135, 4)behaviour_:granulator.GRANULATOR.purify: Purifies the powder by sieving for particles of interest
+
 ALSO passes the sieved powder through a fine-scale filter
+
 AND detects/discards any clumpy sludge found in the powder
+
+
 
 Each purified particle is classified from the on-going batch records
 
  Interlude in a poet's voice...
 
 - CANTO I: In which The Sludge is Sloughed
+- if is sludge and has not desludged
 - CANTO II: In which The Sludge is Sought
+- if not is sludge and now has sludged
 - CANTO III: In which The Pure is Preserved
+- if you can sieve and be filtrate then 
+- - you'll be Purified, my son!
 
-_(169, 4)behaviour_:granulator.GRANULATOR.fine_mix: Sometimes particles form a suspension (COMMENTS + DENTS) that needs breaking up so that the particles will bond correctly when we refine them into grains.
+_(173, 4)behaviour_:granulator.GRANULATOR.fine_mix: Sometimes particles form a suspension (COMMENTS + DENTS) that needs breaking up so that the particles will bond correctly when we refine them into grains.
+
 Mixing allows the DENTs to bubble up so they evapourate as we inspect and classify the remainder
 
  On the fine mix process...
@@ -308,6 +413,10 @@ Mixing allows the DENTs to bubble up so they evapourate as we inspect and classi
 - Break up suspensions so the DENTs don't come between TEXTs and NAMEs
 - Evapourate the DENTs so the remainder can be classified
 - No longer just a powder, the intermediate is ready to be refined into grains
+
+granulator.GRANULATOR._mix
+
+granulator.GRANULATOR._evapourate
 
 ---
 
@@ -317,32 +426,34 @@ Mixing allows the DENTs to bubble up so they evapourate as we inspect and classi
 
 **Transforms the precursor into:**
 
-_(385, 0)knowledge_:granulator.Grain: just what a grain looks like - i.e. lineage, type, content, canonicalism and original bulk material reference
+_(408, 0)knowledge_:granulator.Grain: just what a grain looks like - i.e. lineage, type, content, canonicalism and original bulk material reference
 
 **Additional material details:**
 
-_(379, 0)knowledge_:granulator.GrainType: The kinds of grains we make, i.e. the basis for discerning lexical identity and semantic meaning
+_(402, 0)knowledge_:granulator.GrainType: The kinds of grains we make, i.e. the basis for discerning lexical identity and semantic meaning
 
-_(394, 4)mechanism_:granulator.Grain.semantics: Allows a grain to be viewed as a semantic entity
+_(417, 4)mechanism_:granulator.Grain.semantics: Allows a grain to be viewed as a semantic entity
 
 ### REFINE CODEX
 
 **This stage of Granulation uses the REFINE derived codex, which provides these pairings of knowledge and skills**
 
-_(436, 4)knowledge_:granulator.REFINE.DISTILLANT: What kind of particles causes distillation
+_(459, 4)knowledge_:granulator.REFINE.DISTILLANT: What kind of particles causes distillation
 
-_(446, 4)disposition_:granulator.REFINE.is_distillant: Detects when we should distil
+_(469, 4)disposition_:granulator.REFINE.is_distillant: Detects when we should distil
 
-_(439, 4)knowledge_:granulator.REFINE.IDENTITY_GRAINS: What kind of particles create IDENTITY grains
+_(462, 4)knowledge_:granulator.REFINE.IDENTITY_GRAINS: What kind of particles create IDENTITY grains
 
-_(442, 4)knowledge_:granulator.REFINE.TEXT_GRAINS: What kind of particles create TEXT grains
+_(465, 4)knowledge_:granulator.REFINE.TEXT_GRAINS: What kind of particles create TEXT grains
 
-_(454, 4)skill_:granulator.REFINE.get_grain_type: Categorizes particles
+_(477, 4)skill_:granulator.REFINE.get_grain_type: Categorizes particles
 
 ### Key behaviours
 
-_(202, 4)behaviour_:granulator.GRANULATOR.refine: From purification we now have muddled comments and strings which will become the TEXTS
+_(225, 4)behaviour_:granulator.GRANULATOR.refine: From purification we now have muddled comments and strings which will become the TEXTS
+
   and split Identities with sequences of NAME(.NAME...)s
+
   Refines NAMEs through distillation
 
  On the distillation process
@@ -363,20 +474,37 @@ _(2, 0)throughline_:registrar
 
 Every token of interest from the parse (i.e. those that survived the granulator's purification stage) visits the Registrar — which may seem draconian, but such is the nature of symbolic governance.
 
+
+
 The Registrar’s records are private. The only sanctioned access is through `record_history`, which returns the current known lineage for each notable recorded subject.
 
+
+
 Most subjects are notable and have their lineage recorded.
+
 Though draconian, the process remains relatively democratic.
 
+
+
 Unnotables are the DENTS.
+
 The Registrar must still track them, as a DEDENT may signal the end of a lineage — depending on the INDENTS that preceded it.
 
+
+
 Lineage only extends when a true identity is married to a progenitor (`class` or `def` + name).
+
 The resilience of this family line then waxes and wanes, governed by INDENTS and DEDENTS.
+
+
 
 When resilience falls back to the level of the originating progenitor, the family line dies out, and the current lineage contracts.
 
+
+
 Lineage is NOT returned for growth/decline subjects (DENTS), as they are not actual 'things' — just indicators of resilience.
+
+
 
 Similarly, lineage is NOT returned for honourifics, since they merely address things, but are not things themselves.
 
@@ -386,7 +514,11 @@ _(24, 0)figuration_:registrar.REGISTRAR
 
 The Registrar recognises and declares subject titles according to the evolving lineage of recorded subjects.
 
+
+
 Some subjects (DENTS and PROGENITORS) do not receive titles, but they influence the shape and continuity of the lineage.
+
+
 
 Other subjects (HONOURIFICS) are not recorded at all — they serve only to address true subjects, and are thus excluded from lineage.
 
@@ -394,74 +526,97 @@ _(34, 8)knowledge_:registrar.REGISTRAR.__init__.self._resilience: tracks how the
 
 _(37, 8)knowledge_:registrar.REGISTRAR.__init__.self._register: A new register is created for each registrant (grand forebear)
 
-_(42, 8)disposition_:registrar.REGISTRAR.__init__.self._heir_apparent: are we currently looking for the true identity of an heir apparent, or else just recording subject titles
+_(41, 8)disposition_:registrar.REGISTRAR.__init__.self._heir_apparent: are we currently looking for the true identity of an heir apparent, or else just recording subject titles
 
-_(44, 8)knowledge_:registrar.REGISTRAR.__init__.self._heir: the true identity of an heir apparent
+_(43, 8)knowledge_:registrar.REGISTRAR.__init__.self._heir: the true identity of an heir apparent
 
 ## LINEAGE CODEX
 
 **This stage of Granulation uses the LINEAGE derived codex, which provides these pairings of knowledge and skills**
 
-_(145, 4)knowledge_:registrar.LINEAGE.PROGENITORS: The subjects that (potentially) start a new generation in the lineage
+_(171, 4)knowledge_:registrar.LINEAGE.PROGENITORS: The subjects that (potentially) start a new generation in the lineage
 
-_(175, 4)skill_:registrar.LINEAGE.is_progenitor: Matches progenitor type subjects only
+_(201, 4)skill_:registrar.LINEAGE.is_progenitor: Matches progenitor type subjects only
 
-_(148, 4)knowledge_:registrar.LINEAGE.HONOURIFICS: The ways in which subjects may be addressed, not actual subject identities
+_(174, 4)knowledge_:registrar.LINEAGE.HONOURIFICS: The ways in which subjects may be addressed, not actual subject identities
 
-_(151, 4)knowledge_:registrar.LINEAGE.IDENTITIES: The subjects that may be true identities
+_(177, 4)knowledge_:registrar.LINEAGE.IDENTITIES: The subjects that may be true identities
 
-_(154, 4)knowledge_:registrar.LINEAGE.DESCENDERS: The subjects that give rise to descendents
+_(180, 4)knowledge_:registrar.LINEAGE.DESCENDERS: The subjects that give rise to descendents
 
-_(183, 4)skill_:registrar.LINEAGE.is_descender: Matches descender type subjects only
+_(209, 4)skill_:registrar.LINEAGE.is_descender: Matches descender type subjects only
 
-_(163, 4)knowledge_:registrar.LINEAGE.TRUE_SUBJECTS: True subjects - the things we want to record
+_(189, 4)knowledge_:registrar.LINEAGE.TRUE_SUBJECTS: True subjects - the things we want to record
 
-_(191, 4)skill_:registrar.LINEAGE.is_true_identity: Matches subjects that are true identities (not honourifics)
+_(217, 4)skill_:registrar.LINEAGE.is_true_identity: Matches subjects that are true identities (not honourifics)
 
-_(167, 4)skill_:registrar.LINEAGE.is_true_subject: Matches with the subjects we want to record
+_(193, 4)skill_:registrar.LINEAGE.is_true_subject: Matches with the subjects we want to record
 
-_(217, 4)mechanism_:registrar.LINEAGE.subject_name: we DO need to know the actual name of a subject!
+_(243, 4)mechanism_:registrar.LINEAGE.subject_name: we DO need to know the actual name of a subject!
 
-_(157, 4)knowledge_:registrar.LINEAGE.GROWTH: Represents a waxing in the current family-line's resilience
+_(183, 4)knowledge_:registrar.LINEAGE.GROWTH: Represents a waxing in the current family-line's resilience
 
-_(201, 4)skill_:registrar.LINEAGE.growth: Detects when the current family line grows
+_(227, 4)skill_:registrar.LINEAGE.growth: Detects when the current family line grows
 
-_(160, 4)knowledge_:registrar.LINEAGE.DECLINE: Represents a waning in the current family-line's resilience
+_(186, 4)knowledge_:registrar.LINEAGE.DECLINE: Represents a waning in the current family-line's resilience
 
-_(209, 4)skill_:registrar.LINEAGE.decline: Detects when a current family line has declined
+_(235, 4)skill_:registrar.LINEAGE.decline: Detects when a current family line has declined
 
 ---
 
 ## Key behaviours
 
-_(47, 4)behaviour_:registrar.REGISTRAR.record_history: Provides the current lineage relevant to a subject, IF this is a notable subject.
+_(46, 4)behaviour_:registrar.REGISTRAR.record_history: Provides the current lineage relevant to a subject, IF this is a notable subject.
+
+  But NOTE - what a topsy-turvey world we live in!
+
+  Because we have to look forwards we find new progenitors before we find their identity!
+
+  So instead of simply saying: 
+
+  > Prepare for heir, seek heir, record heir...
+
+  we have to say:
+
+  > record (the current) heir, seek (another) heir, prepare for (next) heir
+
+  
+
+  Kind of backwards really, I guess it stems from 'invasion culture' wherein conquered peoples are dehumanised by being reduced to 'station' afore 'identity', m'lord!
 
  on how the code-tree grows and withers
 
 - First, keep an eye on the resilience of the current family line
-- Now is the time to add any found heir to the lineage
+- Add any found heir to the lineage
 - So that GOING FORWARD the title is recognised
 - Once we find a new heir, keep it safe for now
 - So the title is awarded on the next cycle
 - Otherwise we lose sight of this heir's own lineage
 - Have a look-see if we have met a new heir-apparent
-- Ultimately branches of a tree die out, and we have to
-- prune back to continue the ancestral lines
 - Finally all are remembered in the trace of lineage they leave behind 
 - BUT it is only the true that get entitled
 
 ##  supporting mechanisms
 
-_(100, 4)skill_:registrar.REGISTRAR._entitle: Joins up all the identities in our current lineage to form a single, recordable, title
+_(121, 4)skill_:registrar.REGISTRAR._entitle: Joins up all the identities in our current lineage to form a single, recordable, title
 
-_(108, 4)skill_:registrar.REGISTRAR._new_record: Prepares a progenitor's new lineage, in case there is then a marriage
+registrar.REGISTRAR._lineage_fluxed
 
-_(115, 4)skill_:registrar.REGISTRAR._fill_in_record: Fills in the new lineage, and sets the baseline of this family line's resilience,
+_(108, 4)disposition_:registrar.REGISTRAR._seek_heir_apparent: Switches our disposition from seeking an identity to seeking a progenitor
+
+whilst setting the ccurrent found heir apparent
+
+_(129, 4)disposition_:registrar.REGISTRAR._prepare_for_heir: Prepares a progenitor's new lineage, in case there is then a marriage
+
+Switches our disposition from seeking a progenitor to seeking an identity
+
+_(139, 4)skill_:registrar.REGISTRAR._record_heir: Fills in the new lineage, and sets the baseline of this family line's resilience,
+
 which builds upon that of previous generations
 
-_(125, 4)skill_:registrar.REGISTRAR._sign_off_record: Marks the end of a family line by removing its lineage
+_(151, 4)skill_:registrar.REGISTRAR._sign_off_record: Marks the end of a family line by removing its lineage
 
-_(132, 4)flaw_:registrar.REGISTRAR._register_empty: Allows us to check if the register is empty before we try to remove a family line
+_(158, 4)flaw_:registrar.REGISTRAR._register_empty: Allows us to check if the register is empty before we try to remove a family line
 
 ---
 
@@ -475,18 +630,33 @@ _(46, 0)throughline_:lexicographics
 
 Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains
 
+
+
 The IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used), but we only care about existence to help bind semantics to lexicals. The occurences are accumulated into an overall list of attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.
+
+
 
 The TEXT grains are a muddled collection of discovered strings and comments, so the LEXICOGRAPHER sifts through these looking for those that have semantic meaning, i.e. begin with expositional tags (ExpoTags). When a meaning is disccovered it is (typically) associated with the next attestation of a lexical - i.e semantic meaning becomes attached to the canonical attestation of a lexical. These entities (lexemes) are then accumulated into the all_expositions list so that the semantics of a lexical are known at any point the lexical is found (and in fact, also, where exactly its canonical form can be found).
 
+
+
 Mostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define[^1]. There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-à-vis:
+
 - THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module
+
 - CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound
+
 - PROSE, is bound to the most recent semantic entity; i.e. PROSE extends the current semantic with a list of detailed steps
+
+
 
 [^1]:Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing).
 
+
+
 Most of the expositions are wholly provisioned by the substance of their text grain - either because they were very simple (found in an in-line comment); or, they were encapsulated within a multiline string within the code.
+
+
 
 PROSE expositions are somewhat different. By design the PROSE is woven in and amongst the code using in-line commentary; so that, when we have significant code-blocks, we can annotate it with its story. A '# PROSE:' comment causes all in-line comments to be accumulated, until such time another exposition is encountered. This is convenient, but a little blunt since any normal code comments will also get swept up into the expositionary prose. It's easy to imagine many better methods, but this will do for now!
 
@@ -495,16 +665,18 @@ PROSE expositions are somewhat different. By design the PROSE is woven in and am
 _(66, 0)figuration_:lexicographics.LEXICOGRAPHER
 
 Sifts through a given set of 'entries' to generate:
+
 - a lexicon of known lexicals(!), erm, I mean a list of things that can be known about
+
 - the linguistical set of those things that have meaning
 
 ## CONTEXTS and KNOWLEDGE
 
 _(1, 0)continuum_:lexicographics.dataclasses: allows us to create named structures for attestations, and lexemes
 
-_(376, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
+_(439, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
 
-_(414, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
+_(477, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
 
 _(14, 0)knowledge_:lexicographics.ExpoTags: The types of semantic meaning we can use to adorn our code-base.
 
@@ -512,7 +684,7 @@ _(14, 0)knowledge_:lexicographics.ExpoTags: The types of semantic meaning we can
 
 - CONTINUUM - alien facets that we use, typically within their own metaphor
 - THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large
-- FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat unclear on their precise differentiation...
+- FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat undecided on their precise differentiation...
 - KNOWLEDGE - Typically important datum or data classes
 - BEHAVIOUR - a small package of sequenced actions
 - MECHANISM - an action, e.g. getters/setters
@@ -533,6 +705,7 @@ _(177, 4)behaviour_:lexicographics.LEXICOGRAPHER.extract: Sifts through the entr
 - clean-up the extracted semantics...
 
 _(287, 4)behaviour_:lexicographics.LEXICOGRAPHER.package_prose: Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
+
 This is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.
 
  Some prose on packaging prose...
@@ -544,20 +717,29 @@ This is where we collate comment texts within a prose section to form a single s
 - [^2]: This handling of TEXTs that start with # works because ExpoTags themselves never start with # and at this point we know that ALL off our TEXTs start with either # (because they were a COMMENT) or start with an ExpoTag (because we already filtered STRINGs that are not ExpoTags)
 - and an empty package into which we build-up the texts to be merged.
 - Now looking at each text, we initially have no impetus to merge them together...
-- We will start merging if this is an in-line comment that introduces PROSE[^s]
-- [^3]: Note in the code that I test against ("PROSE" + ":") because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this ppossibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...
-- And we stop merging when we hit another exposition (that is, a line that doesn't start with HASH)
+- We will start merging if this is an in-line comment that introduces PROSE[^3]
+- [^3]: Note in the code that I test against ("PROSE" + ":") and noot simply ("PROSE:"). This is because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this possibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...
 - While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.
-- If we are not merging, we extend the latest survivor's content with the current merged package; as a markdown list
-- ...and we add this text to the survivors list, unless its just some itinerant programmer's comment (outside of a prose block)
 - AND... a final flush if prose block reaches EOF
+
+_(344, 4)mechanism_:lexicographics.LEXICOGRAPHER._update_survivors: Adds any package of semantics we have been collating to the latest survivor before adding this survivor also
+
+unless this survivor is just  some itinerant programmer's comment (outside of a prose block)
+
+_(370, 4)mechanism_:lexicographics.LEXICOGRAPHER._update_semantic_package: Adds the relevant parts of the current semantic to the packaged semantic.
+
+I.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts
+
+
 
 ## Supporting behaviours
 
 _(210, 4)behaviour_:lexicographics.LEXICOGRAPHER._unpack_text_entry: Finds the lexical to associate with a semenatic TEXT, dropping TEXTs that are deifnitely NOT semantic.
+
 Keeps all COMMENT type texts as they are handled later when we package up any PROSE
 
 _(236, 4)behaviour_:lexicographics.LEXICOGRAPHER._nonjudgemental_clean: Essentially strips delimiting quotes from a text, but doesn't get all judgy if the text is somehow poorly delimited.
+
 Also removes commentary markers from in-line semantics (except PROSE which is cleaned up later)
 
  On cleaning the TEXTs...
@@ -574,11 +756,12 @@ Also removes commentary markers from in-line semantics (except PROSE which is cl
 
 ## Supporting skills and mechanisms
 
-_(422, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
+_(485, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
 
-_(434, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
+_(497, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
 
-_(442, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
+_(505, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
+
 Here we remove the common margin (minimum indent) found within the semantic content.
 
 _(278, 4)skill_:lexicographics.LEXICOGRAPHER._is_expo: Determines if a text IS semantic
@@ -597,7 +780,7 @@ _(112, 4)behaviour_:lexicographics.LEXICOGRAPHER.print_expositions: prints a lin
 
 _(123, 4)behaviour_:lexicographics.LEXICOGRAPHER.print_expo: formats and prints a single lexeme, indenting as per the depth of its attestation.
 
-_(164, 4)mechanism_:lexicographics.LEXICOGRAPHER._indent: performs an identation of a semantic unit
+_(164, 4)mechanism_:lexicographics.LEXICOGRAPHER._indent: performs an identation of a semantic unit as decoration for direct printed output
 
 ---
 
