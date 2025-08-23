@@ -18,7 +18,7 @@ class ExpoTags(Enum):
     CONTINUUM = 'CONTINUUM'
     # THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large
     THROUGHLINE = 'THROUGHLINE'
-    # FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat unclear on their precise differentiation...
+    # FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat undecided on their precise differentiation...
     FIGURATION = 'FIGURATION'
     AFFORDANCE = 'AFFORDANCE'
     # KNOWLEDGE - Typically important datum or data classes
@@ -79,7 +79,7 @@ class LEXICOGRAPHER:
             str(key): {
                 'category': value.category.name,
                 'canonical': str(value.canonical),
-                'content': re.sub(r'\r\n', '\n', value.content),
+                'content': re.sub(r'\r\n', '\n\n', value.content),
                 'reference': str(value.reference)
             }
             for key, value in lexemes.items()
@@ -163,7 +163,7 @@ class LEXICOGRAPHER:
 
     '''
     MECHANISM:
-    performs an identation of a semantic unit
+    performs an identation of a semantic unit as decoration for direct printed output
     '''
     @staticmethod
     def _indent(semantic, indent_level):
@@ -308,42 +308,105 @@ class LEXICOGRAPHER:
         # Now looking at each text, we initially have no impetus to merge them together...
         merging = False
         for lexical, semantic, reference in texts:
-            # We will start merging if this is an in-line comment that introduces PROSE[^s]
-            # [^3]: Note in the code that I test against ("PROSE" + ":") because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this ppossibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...
-            if not merging:
-                if semantic.startswith('#'):
-                    merging = semantic.upper().lstrip('#').lstrip().startswith("PROSE" + ':')
-            else:
-                # And we stop merging when we hit another exposition (that is, a line that doesn't start with HASH)
-                merging = semantic.startswith('#')
+            # We will start merging if this is an in-line comment that introduces PROSE[^3]
+            # [^3]: Note in the code that I test against ("PROSE" + ":") and noot simply ("PROSE:"). This is because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this possibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...
+            merging = LEXICOGRAPHER._is_prose_transition(merging, semantic)
 
             # While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.
             if merging:
-                content = semantic.lstrip('#').lstrip()
-                if package_semantic:
-                    content_tail = content
-                    package_reference = reference
-                else:
-                    package_lexical = latest_survivor
-                    _, _, content_tail = content.partition(':')
-                package_semantic.append(content_tail)
+                package_lexical, package_semantic, package_reference = LEXICOGRAPHER._update_semantic_package(
+                    lexical,
+                    semantic, 
+                    reference,
+                    package_lexical, 
+                    package_semantic,
+                    package_reference
+                )
 
             else:
-                # If we are not merging, we extend the latest survivor's content with the current merged package; as a markdown list
-                if package_semantic:
-                    latest_survivor = LEXICOGRAPHER._extend_content(survivors, latest_survivor, package_lexical, package_semantic, package_reference)
-                    package_semantic = []
-
-                # ...and we add this text to the survivors list, unless its just some itinerant programmer's comment (outside of a prose block)
-                if not semantic.startswith('#'):
-                    latest_survivor = lexical
-                    survivors[lexical] = Lexeme.from_parts(lexical, semantic, reference)
+                survivors, latest_survivor, package_semantic = LEXICOGRAPHER._update_survivors(
+                    survivors, 
+                    latest_survivor,
+                    lexical,
+                    semantic, 
+                    reference,
+                    package_lexical, 
+                    package_semantic,
+                    package_reference
+                )
 
         # AND... a final flush if prose block reaches EOF
         if package_semantic:
             LEXICOGRAPHER._extend_content(survivors, latest_survivor, package_lexical, package_semantic, package_reference)
 
         return survivors
+
+    '''
+    MECHANISM:
+    Adds any package of semantics we have been collating to the latest survivor before adding this survivor also
+    unless this survivor is just  some itinerant programmer's comment (outside of a prose block)
+    '''
+    @staticmethod
+    def _update_survivors(
+        survivors, 
+        latest_survivor,
+        lexical,
+        semantic, 
+        reference,
+        package_lexical, 
+        package_semantic,
+        package_reference):
+
+        if package_semantic:
+            latest_survivor = LEXICOGRAPHER._extend_content(survivors, latest_survivor, package_lexical, package_semantic, package_reference)
+            package_semantic = []
+
+        if not semantic.startswith('#'):
+            latest_survivor = lexical
+            survivors[lexical] = Lexeme.from_parts(lexical, semantic, reference)
+
+        return survivors, latest_survivor, package_semantic
+
+    '''
+    MECHANISM:
+    Adds the relevant parts of the current semantic to the packaged semantic.
+    I.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts
+    '''
+    @staticmethod
+    def _update_semantic_package(
+        lexical,
+        semantic, 
+        reference,
+        package_lexical, 
+        package_semantic,
+        package_reference):
+
+        content = semantic.lstrip('#').lstrip()
+        if package_semantic:
+            content_tail = content
+        else:
+            _, _, content_tail = content.partition(':')
+            package_lexical = lexical
+            package_reference = reference
+        package_semantic.append(content_tail)
+
+        return package_lexical, package_semantic, package_reference
+
+    '''
+    DISPOSITION:
+    Detects transitions into or out of prose blocks
+    '''
+    def _is_prose_transition(in_prose, semantic):
+        if in_prose:
+            # any non-comment signals end of prose block
+            return semantic.startswith('#')
+        else:
+            # any comment starting with the PROSE tag signals start of prose block
+            if semantic.startswith('#'):
+                return semantic.upper().lstrip('#').lstrip().startswith("PROSE" + ':')
+
+        # and any other semantic (i.e non-comment) signals nto in a pprose block
+        return False
 
     '''
     SKILL:
