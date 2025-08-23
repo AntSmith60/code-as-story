@@ -11,6 +11,8 @@ from granulator import GrainType as LexicalCategory
 # KNOWLEDGE: The types of semantic meaning we can use to adorn our code-base.
 class ExpoTags(Enum):
     # PROSE:
+    # WORLD - overarching description, main goal
+    WORLD = 'WORLD'
     # CONTINUUM - alien facets that we use, typically within their own metaphor
     CONTINUUM = 'CONTINUUM'
     # THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large

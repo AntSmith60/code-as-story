@@ -108,7 +108,7 @@ class REGISTRAR:
     '''
     DISPOSITION:
     Switches our disposition from seeking an identity to seeking a progenitor
-    whilst setting the ccurrent found heir apparent
+    whilst setting the current found heir apparent
     '''
     def _seek_heir_apparent(self, subject):
         if self._heir_apparent:

@@ -1,6 +1,6 @@
 # *** INTRODUCTION ***
 
-The purpose here is just to exercise the concept of marrying narrative (story) to source code.
+_(1, 0)world_:narrate: The purpose here is just to exercise the concept of marrying narrative (story) to source code.
 
 
 
@@ -30,7 +30,7 @@ These scripts require a code base that has been written in the (evolving) Narrat
 
 Generating the narrative happens in 3 phases (well, 3 phases after actually writing the code):
 
-- Extracting points of story; textual commentary attached to Pythonic objects.
+- Extracting points of story; textual commentary attached to Pythonic objects. 
 
 - Editorialisation of their order (i.e. so that the narrative is orthogonal to the code architecture)
 
@@ -53,6 +53,10 @@ During extraction the core concepts we will meet are:
 - LEXICOGRAPHICS: the mechanisms that sift and convert the lineage-tracked symbolic grains to generate lexemes: the discovered lexical tokens in the source code along with their canonical reference and semantic meaning.
 
 
+
+---
+
+Note, this script hasn't really been authored... more lashed together so I can run my Proof-of-Concept. A production version would ofer a mucch improved interface, and more especially address my main irk: currently I have to be careful not to overwrite editorialisation added to the .txt output file; which is slightly complex but really we need workflow support in the tooling... a whole other dimension which will utterly obviate this entry script. So it is what it is (and that is, is pretty damn ugly).
 
 # *** CHAPTER - CODICES ***
 
@@ -604,7 +608,7 @@ registrar.REGISTRAR._lineage_fluxed
 
 _(108, 4)disposition_:registrar.REGISTRAR._seek_heir_apparent: Switches our disposition from seeking an identity to seeking a progenitor
 
-whilst setting the ccurrent found heir apparent
+whilst setting the current found heir apparent
 
 _(129, 4)disposition_:registrar.REGISTRAR._prepare_for_heir: Prepares a progenitor's new lineage, in case there is then a marriage
 
@@ -662,7 +666,7 @@ PROSE expositions are somewhat different. By design the PROSE is woven in and am
 
 ## DESCRIPTION
 
-_(43, 0)affordance_:lexicographics.LEXICOGRAPHICS
+_(45, 0)affordance_:lexicographics.LEXICOGRAPHICS
 
 The core of a lexicographer's abilities
 
@@ -676,14 +680,15 @@ Sifts through a given set of 'entries' to generate:
 
 ## KNOWLEDGE and CONTEXTS
 
-_(170, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
+_(172, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
 
-_(208, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
+_(210, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
 
 _(11, 0)knowledge_:lexicographics.ExpoTags: The types of semantic meaning we can use to adorn our code-base.
 
 
 
+- WORLD - overarching description, main goal
 - CONTINUUM - alien facets that we use, typically within their own metaphor
 - THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large
 - FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat undecided on their precise differentiation...
@@ -732,9 +737,9 @@ lexicographics.LEXICOGRAPHER._update_semantic_package:MECHANISM
 
 lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
 
-_(125, 4)disposition_:lexicographics.LEXICOGRAPHICS.is_prose_transition: Detects transitions into or out of prose blocks
+_(127, 4)disposition_:lexicographics.LEXICOGRAPHICS.is_prose_transition: Detects transitions into or out of prose blocks
 
-_(142, 4)skill_:lexicographics.LEXICOGRAPHICS.extend_content: Extends the latest semantic with additional (prose) commentary.
+_(144, 4)skill_:lexicographics.LEXICOGRAPHICS.extend_content: Extends the latest semantic with additional (prose) commentary.
 
   BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic
 
@@ -762,11 +767,11 @@ lexicographics.LEXICOGRAPHER._nonjudgemental_clean:BEHAVIOUR
 
 ## Supporting skills and mechanisms
 
-_(216, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
+_(218, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
 
-_(228, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
+_(230, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
 
-_(236, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
+_(238, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
 
 Here we remove the common margin (minimum indent) found within the semantic content.
 

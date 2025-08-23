@@ -422,74 +422,86 @@
   "lexicographics.ExpoTags": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.ExpoTags",
-    "content": "The types of semantic meaning we can use to adorn our code-base.\n\n\n\n- CONTINUUM - alien facets that we use, typically within their own metaphor\n- THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large\n- FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat undecided on their precise differentiation...\n- KNOWLEDGE - Typically important datum or data classes\n- BEHAVIOUR - a small package of sequenced actions\n- MECHANISM - an action, e.g. getters/setters\n- SKILL - an ability, e.g. inspect entity, filter list\n- DISPOSITION - an indication (or detetcion), of state (or transition)\n- PROSE - story woven around code sections\n- FLAW - An exception or sentinel",
+    "content": "The types of semantic meaning we can use to adorn our code-base.\n\n\n\n- WORLD - overarching description, main goal\n- CONTINUUM - alien facets that we use, typically within their own metaphor\n- THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large\n- FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat undecided on their precise differentiation...\n- KNOWLEDGE - Typically important datum or data classes\n- BEHAVIOUR - a small package of sequenced actions\n- MECHANISM - an action, e.g. getters/setters\n- SKILL - an ability, e.g. inspect entity, filter list\n- DISPOSITION - an indication (or detetcion), of state (or transition)\n- PROSE - story woven around code sections\n- FLAW - An exception or sentinel",
     "reference": "(11, 0)"
   },
   "lexicographics.LEXICOGRAPHICS": {
     "category": "AFFORDANCE",
     "canonical": "lexicographics.LEXICOGRAPHICS",
     "content": "The core of a lexicographer's abilities",
-    "reference": "(43, 0)"
+    "reference": "(45, 0)"
   },
   "lexicographics.LEXICOGRAPHICS.unpack_text_entry": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHICS.unpack_text_entry",
     "content": "Finds the lexical to associate with a semenatic TEXT, dropping TEXTs that are deifnitely NOT semantic.\n\nKeeps all COMMENT type texts as they are handled later when we package up any PROSE",
-    "reference": "(48, 4)"
+    "reference": "(50, 4)"
   },
   "lexicographics.LEXICOGRAPHICS._nonjudgemental_clean": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographics.LEXICOGRAPHICS._nonjudgemental_clean",
     "content": "Essentially strips delimiting quotes from a text, but doesn't get all judgy if the text is somehow poorly delimited.\n\nAlso removes commentary markers from in-line semantics (except PROSE which is cleaned up later)\n\n On cleaning the TEXTs...\n\n- Firstly we deal with COMMENT type texts\n- If they are in-line semantics (except PROSE) we return them without the comment marker\n- otherwise in-line comments are returned unadulterated, so the prose block handler has them available later.\n- Then we remove any text delimiters around the semantic content.\n- Being careful only to consider delimiters, not any old quote-mark that might be within the semantic text\n- somehow we got a string that isn't delimited, weird but okay\n- somehow the triple quoted string hasn't been terminated, so don't clip the right side\n- somehow the single quoted string hasn't been terminated, so don't clip the right side\n- Because the work is a little complex, we have a catch-all return of the unadulterated text - just in case someone decides to add a bug in the code laters...",
-    "reference": "(74, 4)"
+    "reference": "(76, 4)"
   },
   "lexicographics.LEXICOGRAPHICS._is_expo": {
     "category": "SKILL",
     "canonical": "lexicographics.LEXICOGRAPHICS._is_expo",
     "content": "Determines if a text IS semantic",
-    "reference": "(116, 4)"
+    "reference": "(118, 4)"
   },
   "lexicographics.LEXICOGRAPHICS.is_prose_transition": {
     "category": "DISPOSITION",
     "canonical": "lexicographics.LEXICOGRAPHICS.is_prose_transition",
     "content": "Detects transitions into or out of prose blocks",
-    "reference": "(125, 4)"
+    "reference": "(127, 4)"
   },
   "lexicographics.LEXICOGRAPHICS.extend_content": {
     "category": "SKILL",
     "canonical": "lexicographics.LEXICOGRAPHICS.extend_content",
     "content": "Extends the latest semantic with additional (prose) commentary.\n\n  BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic\n\n  This is so we at least get to see the (mis-placed) element somewhere in the outputs, so we can fix it.\n\n  Note, in this case it truly IS mis-placed, because (by defintion) prose annotates a previous semantic.\n\n  Mis-placed prose in module B could even turn up annotating the last semantic of module A!\n\n  The only defence I offer is that you at least get to see the prose SOMEWHERE...\n\n  \n\n  ...unless you don't. A mis-placed prose block will not be added at all IF it would overwrite an existing semantic.\n\n  This ought to be an impossible scenario, thus the silent use of 'pass' in this code.\n\n  FWIW: I'm sorry, sooooo sorry, if that ever trips you up ;^D",
-    "reference": "(142, 4)"
+    "reference": "(144, 4)"
   },
   "lexicographics.LexicalOccurence": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.LexicalOccurence",
     "content": "holds an attestation contextualised lexical entity",
-    "reference": "(170, 0)"
+    "reference": "(172, 0)"
   },
   "lexicographics.Lexeme": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.Lexeme",
     "content": "holds a lexeme - the canonical occurence, category and semantic content of a lexical",
-    "reference": "(208, 0)"
+    "reference": "(210, 0)"
   },
   "lexicographics.Lexeme.from_parts": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme.from_parts",
     "content": "Creates a lexeme by extracting category from a semantic text",
-    "reference": "(216, 4)"
+    "reference": "(218, 4)"
   },
   "lexicographics.Lexeme.summary": {
     "category": "SKILL",
     "canonical": "lexicographics.Lexeme.summary",
     "content": "Summarises a lexeme to category and canonical reference",
-    "reference": "(228, 4)"
+    "reference": "(230, 4)"
   },
   "lexicographics.Lexeme._dedent": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme._dedent",
     "content": "The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.\n\nHere we remove the common margin (minimum indent) found within the semantic content.",
-    "reference": "(236, 4)"
+    "reference": "(238, 4)"
+  },
+  "narrate": {
+    "category": "WORLD",
+    "canonical": "narrate",
+    "content": "The purpose here is just to exercise the concept of marrying narrative (story) to source code.\n\n\n\nThe underlying concept is that narrative is a foundational aspect of human cognition - it is through story that we get to experience the abstract; for understanding arises not just from knowing, but from experiencing (feeling) that which is known.\n\n\n\nWe believe coding is a creative process, but to be so the code must ignite cognition.\n\n\n\nThis is the fundamental tenet of the Narratival-Exposition Paradigm, which we explore with this code base.\n\n\n\nSo, this code base reads this code base to produce this code base's documentation...\n\n\n\n## Pre-requisites\n\nThese scripts require a code base that has been written in the (evolving) Narratival-Exposition's grammar - e.g. this code base!\n\n\n\n## World View\n\nGenerating the narrative happens in 3 phases (well, 3 phases after actually writing the code):\n\n- Extracting points of story; textual commentary attached to Pythonic objects. \n\n- Editorialisation of their order (i.e. so that the narrative is orthogonal to the code architecture)\n\n- Narration: pouring the story points into the editorialsation to generate the narrative arc\n\n\n\nHerein, we see the narration of the phase 1 code base: the extraction process. This produces the files needed for the (manual) editorialisation phase, which then allows the narration script to produce the doccumentation.\n\n\n\nDuring extraction the core concepts we will meet are:\n\n- CODICES: books or lore that offer symbolic overlays to the source code\n\n- GRANULATION: the powderisation, purification, mixing and refinement of the codified symbolism\n\n- REGISTRAR: of births, deaths and marriages; providing the lineage (Pythonic scope) of granular entities\n\n- LEXICOGRAPHICS: the mechanisms that sift and convert the lineage-tracked symbolic grains to generate lexemes: the discovered lexical tokens in the source code along with their canonical reference and semantic meaning.\n\n\n\n---\n\nNote, this script hasn't really been authored... more lashed together so I can run my Proof-of-Concept. A production version would ofer a mucch improved interface, and more especially address my main irk: currently I have to be careful not to overwrite editorialisation added to the .txt output file; which is slightly complex but really we need workflow support in the tooling... a whole other dimension which will utterly obviate this entry script. So it is what it is (and that is, is pretty damn ugly).",
+    "reference": "(1, 0)"
+  },
+  "narrate.sys": {
+    "category": "CONTINUUM",
+    "canonical": "narrate.sys",
+    "content": "filepath support",
+    "reference": "(34, 0)"
   },
   "registrar": {
     "category": "THROUGHLINE",
@@ -542,7 +554,7 @@
   "registrar.REGISTRAR._seek_heir_apparent": {
     "category": "DISPOSITION",
     "canonical": "registrar.REGISTRAR._seek_heir_apparent",
-    "content": "Switches our disposition from seeking an identity to seeking a progenitor\n\nwhilst setting the ccurrent found heir apparent",
+    "content": "Switches our disposition from seeking an identity to seeking a progenitor\n\nwhilst setting the current found heir apparent",
     "reference": "(108, 4)"
   },
   "registrar.REGISTRAR._entitle": {
