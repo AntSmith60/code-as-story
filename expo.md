@@ -676,9 +676,9 @@ Sifts through a given set of 'entries' to generate:
 
 ## KNOWLEDGE and CONTEXTS
 
-_(221, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
+_(170, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
 
-_(259, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
+_(208, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
 
 _(11, 0)knowledge_:lexicographics.ExpoTags: The types of semantic meaning we can use to adorn our code-base.
 
@@ -703,7 +703,7 @@ _(1, 0)continuum_:lexicographer.json: allows us to format and export our linguis
 
 ## KEY BEHAVIOURS
 
-_(140, 4)behaviour_:lexicographer.LEXICOGRAPHER.extract: Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
+_(149, 4)behaviour_:lexicographer.LEXICOGRAPHER.extract: Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
 
  On the extraction of meaning...
 
@@ -712,7 +712,7 @@ _(140, 4)behaviour_:lexicographer.LEXICOGRAPHER.extract: Sifts through the entri
 - At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value
 - clean-up the extracted semantics...
 
-_(172, 4)behaviour_:lexicographer.LEXICOGRAPHER._package_prose: Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
+_(180, 4)behaviour_:lexicographer.LEXICOGRAPHER._package_prose: Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
 
 This is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.
 
@@ -732,9 +732,9 @@ lexicographics.LEXICOGRAPHER._update_semantic_package:MECHANISM
 
 lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
 
-_(176, 4)disposition_:lexicographics.LEXICOGRAPHICS.is_prose_transition: Detects transitions into or out of prose blocks
+_(125, 4)disposition_:lexicographics.LEXICOGRAPHICS.is_prose_transition: Detects transitions into or out of prose blocks
 
-_(193, 4)skill_:lexicographics.LEXICOGRAPHICS.extend_content: Extends the latest semantic with additional (prose) commentary.
+_(142, 4)skill_:lexicographics.LEXICOGRAPHICS.extend_content: Extends the latest semantic with additional (prose) commentary.
 
   BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic
 
@@ -762,11 +762,11 @@ lexicographics.LEXICOGRAPHER._nonjudgemental_clean:BEHAVIOUR
 
 ## Supporting skills and mechanisms
 
-_(267, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
+_(216, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
 
-_(279, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
+_(228, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
 
-_(287, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
+_(236, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
 
 Here we remove the common margin (minimum indent) found within the semantic content.
 
@@ -778,15 +778,15 @@ lexicographics.LEXICOGRAPHER._is_expo:SKILL
 
 **And once all done, how we get the detail preserved in files*:*
 
-_(36, 4)behaviour_:lexicographer.LEXICOGRAPHER.save_to_file: Creates a json file containing the full linguistic set and a text file listing the canonicals
+_(45, 4)behaviour_:lexicographer.LEXICOGRAPHER.save_to_file: Creates a json file containing the full linguistic set and a text file listing the canonicals
 
-_(58, 4)behaviour_:lexicographer.LEXICOGRAPHER.list_expositions: returns a list of lexeme summaries from a linguistical set
+_(67, 4)behaviour_:lexicographer.LEXICOGRAPHER.list_expositions: returns a list of lexeme summaries from a linguistical set
 
-_(75, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expositions: prints a linguistical set
+_(84, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expositions: prints a linguistical set
 
-_(86, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expo: formats and prints a single lexeme, indenting as per the depth of its attestation.
+_(95, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expo: formats and prints a single lexeme, indenting as per the depth of its attestation.
 
-_(127, 4)mechanism_:lexicographer.LEXICOGRAPHER._indent: performs an identation of a semantic unit as decoration for direct printed output
+_(136, 4)mechanism_:lexicographer.LEXICOGRAPHER._indent: performs an identation of a semantic unit as decoration for direct printed output
 
 ---
 

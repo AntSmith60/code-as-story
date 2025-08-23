@@ -357,43 +357,55 @@
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.save_to_file",
     "content": "Creates a json file containing the full linguistic set and a text file listing the canonicals",
-    "reference": "(36, 4)"
+    "reference": "(45, 4)"
   },
   "lexicographer.LEXICOGRAPHER.list_expositions": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.list_expositions",
     "content": "returns a list of lexeme summaries from a linguistical set",
-    "reference": "(58, 4)"
+    "reference": "(67, 4)"
   },
   "lexicographer.LEXICOGRAPHER.print_expositions": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.print_expositions",
     "content": "prints a linguistical set",
-    "reference": "(75, 4)"
+    "reference": "(84, 4)"
   },
   "lexicographer.LEXICOGRAPHER.print_expo": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.print_expo",
     "content": "formats and prints a single lexeme, indenting as per the depth of its attestation.",
-    "reference": "(86, 4)"
+    "reference": "(95, 4)"
   },
   "lexicographer.LEXICOGRAPHER._indent": {
     "category": "MECHANISM",
     "canonical": "lexicographer.LEXICOGRAPHER._indent",
     "content": "performs an identation of a semantic unit as decoration for direct printed output",
-    "reference": "(127, 4)"
+    "reference": "(136, 4)"
   },
   "lexicographer.LEXICOGRAPHER.extract": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.extract",
     "content": "Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes\n\n On the extraction of meaning...\n\n- Every entry has some kind of meaning, for meaning is a layered construct\n- when the meaning relates to one of our lexemes, we're gonna need to find the following lexical (probably)\n- At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value\n- clean-up the extracted semantics...",
-    "reference": "(140, 4)"
+    "reference": "(149, 4)"
   },
   "lexicographer.LEXICOGRAPHER._package_prose": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER._package_prose",
     "content": "Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.\n\nThis is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.\n\n Some prose on packaging prose...\n\n- At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?\n- Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose\n- At least we now know that any TEXT that doesn't start with HASH, IS a true semantic exposition, so we can focus on the HASH lines here\n- We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors\n- and an empty package into which we build-up the texts to be merged.\n- Now looking at each text, we initially have no impetus to merge them together...\n- We will start merging if this is an in-line comment that introduces PROSE\n- While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.\n- AND... a final flush if prose block reaches EOF",
-    "reference": "(172, 4)"
+    "reference": "(180, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER._update_survivors": {
+    "category": "MECHANISM",
+    "canonical": "lexicographer.LEXICOGRAPHER._update_survivors",
+    "content": "Adds any package of semantics we have been collating to the latest survivor before adding this survivor also\n\nunless this survivor is just  some itinerant programmer's comment (outside of a prose block)",
+    "reference": "(225, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER._update_semantic_package": {
+    "category": "MECHANISM",
+    "canonical": "lexicographer.LEXICOGRAPHER._update_semantic_package",
+    "content": "Adds the relevant parts of the current semantic to the packaged semantic.\n\nI.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts",
+    "reference": "(246, 4)"
   },
   "lexicographics.dataclasses": {
     "category": "CONTINUUM",
@@ -437,59 +449,47 @@
     "content": "Determines if a text IS semantic",
     "reference": "(116, 4)"
   },
-  "lexicographics.LEXICOGRAPHICS.update_survivors": {
-    "category": "MECHANISM",
-    "canonical": "lexicographics.LEXICOGRAPHICS.update_survivors",
-    "content": "Adds any package of semantics we have been collating to the latest survivor before adding this survivor also\n\nunless this survivor is just  some itinerant programmer's comment (outside of a prose block)",
-    "reference": "(125, 4)"
-  },
-  "lexicographics.LEXICOGRAPHICS.update_semantic_package": {
-    "category": "MECHANISM",
-    "canonical": "lexicographics.LEXICOGRAPHICS.update_semantic_package",
-    "content": "Adds the relevant parts of the current semantic to the packaged semantic.\n\nI.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts",
-    "reference": "(151, 4)"
-  },
   "lexicographics.LEXICOGRAPHICS.is_prose_transition": {
     "category": "DISPOSITION",
     "canonical": "lexicographics.LEXICOGRAPHICS.is_prose_transition",
     "content": "Detects transitions into or out of prose blocks",
-    "reference": "(176, 4)"
+    "reference": "(125, 4)"
   },
   "lexicographics.LEXICOGRAPHICS.extend_content": {
     "category": "SKILL",
     "canonical": "lexicographics.LEXICOGRAPHICS.extend_content",
     "content": "Extends the latest semantic with additional (prose) commentary.\n\n  BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic\n\n  This is so we at least get to see the (mis-placed) element somewhere in the outputs, so we can fix it.\n\n  Note, in this case it truly IS mis-placed, because (by defintion) prose annotates a previous semantic.\n\n  Mis-placed prose in module B could even turn up annotating the last semantic of module A!\n\n  The only defence I offer is that you at least get to see the prose SOMEWHERE...\n\n  \n\n  ...unless you don't. A mis-placed prose block will not be added at all IF it would overwrite an existing semantic.\n\n  This ought to be an impossible scenario, thus the silent use of 'pass' in this code.\n\n  FWIW: I'm sorry, sooooo sorry, if that ever trips you up ;^D",
-    "reference": "(193, 4)"
+    "reference": "(142, 4)"
   },
   "lexicographics.LexicalOccurence": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.LexicalOccurence",
     "content": "holds an attestation contextualised lexical entity",
-    "reference": "(221, 0)"
+    "reference": "(170, 0)"
   },
   "lexicographics.Lexeme": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.Lexeme",
     "content": "holds a lexeme - the canonical occurence, category and semantic content of a lexical",
-    "reference": "(259, 0)"
+    "reference": "(208, 0)"
   },
   "lexicographics.Lexeme.from_parts": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme.from_parts",
     "content": "Creates a lexeme by extracting category from a semantic text",
-    "reference": "(267, 4)"
+    "reference": "(216, 4)"
   },
   "lexicographics.Lexeme.summary": {
     "category": "SKILL",
     "canonical": "lexicographics.Lexeme.summary",
     "content": "Summarises a lexeme to category and canonical reference",
-    "reference": "(279, 4)"
+    "reference": "(228, 4)"
   },
   "lexicographics.Lexeme._dedent": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme._dedent",
     "content": "The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.\n\nHere we remove the common margin (minimum indent) found within the semantic content.",
-    "reference": "(287, 4)"
+    "reference": "(236, 4)"
   },
   "registrar": {
     "category": "THROUGHLINE",

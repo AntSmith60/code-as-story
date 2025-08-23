@@ -6,11 +6,13 @@ from pprint import pprint
 # from _dynamic_narrative import TypeOracle
 
 from granulator import GRANULATOR
-from lexicographics import LEXICOGRAPHER, ExpoTags
+from lexicographer import LEXICOGRAPHER
 
 all_expositions = {}
 
 def scan_files(root, dictout, indexout):
+    lexicographer = LEXICOGRAPHER()
+
     # with TypeOracle() as oracle:
     footer = '=' * 80
     for dirpath, dirnames, filenames in os.walk(root):
@@ -33,15 +35,15 @@ def scan_files(root, dictout, indexout):
 
                 print(header)
 
-                expositions = LEXICOGRAPHER.extract(granulated)
+                expositions = lexicographer.extract(granulated)
                 all_expositions.update(expositions)
 
                 # print(f"=== FOUND REFFERENCES:")
-                # LEXICOGRAPHER.print_attestations(granulated)
+                # lexicographer.print_attestations(granulated)
                 # print(footer)
 
                 # print(f"=== FOUND IDENTITIES:")
-                # LEXICOGRAPHER.print_identities(granulated)
+                # lexicographer.print_identities(granulated)
                 # print(footer)
 
         print(f"=== ALL FOUND EXPOSITIONS:")

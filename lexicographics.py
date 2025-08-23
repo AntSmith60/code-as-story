@@ -123,57 +123,6 @@ class LEXICOGRAPHICS:
         return any(text.upper().startswith(marker.name+':') for marker in ExpoTags)
 
     '''
-    MECHANISM:
-    Adds any package of semantics we have been collating to the latest survivor before adding this survivor also
-    unless this survivor is just  some itinerant programmer's comment (outside of a prose block)
-    '''
-    @staticmethod
-    def update_survivors(
-        survivors, 
-        latest_survivor,
-        lexical,
-        semantic, 
-        reference,
-        package_lexical, 
-        package_semantic,
-        package_reference):
-
-        if package_semantic:
-            latest_survivor = LEXICOGRAPHICS.extend_content(survivors, latest_survivor, package_lexical, package_semantic, package_reference)
-            package_semantic = []
-
-        if not semantic.startswith('#'):
-            latest_survivor = lexical
-            survivors[lexical] = Lexeme.from_parts(lexical, semantic, reference)
-
-        return survivors, latest_survivor, package_semantic
-
-    '''
-    MECHANISM:
-    Adds the relevant parts of the current semantic to the packaged semantic.
-    I.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts
-    '''
-    @staticmethod
-    def update_semantic_package(
-        lexical,
-        semantic, 
-        reference,
-        package_lexical, 
-        package_semantic,
-        package_reference):
-
-        content = semantic.lstrip('#').lstrip()
-        if package_semantic:
-            content_tail = content
-        else:
-            _, _, content_tail = content.partition(':')
-            package_lexical = lexical
-            package_reference = reference
-        package_semantic.append(content_tail)
-
-        return package_lexical, package_semantic, package_reference
-
-    '''
     DISPOSITION:
     Detects transitions into or out of prose blocks
     '''

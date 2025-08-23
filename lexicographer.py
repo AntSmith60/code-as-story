@@ -33,6 +33,15 @@ Sifts through a given set of 'entries' to generate:
     - the linguistical set of those things that have meaning
 '''
 class LEXICOGRAPHER(LEXICOGRAPHICS):
+    def __init__(self):
+        self.lexemes = {}
+        self._latest_lexeme = None
+
+        # a package into which we build-up texts to be merged.
+        self.package_semantic = []
+        self.package_lexical = None
+        self.package_reference = None
+
     '''
     BEHAVIOUR:
     Creates a json file containing the full linguistic set and a text file listing the canonicals
@@ -141,8 +150,7 @@ class LEXICOGRAPHER(LEXICOGRAPHICS):
     BEHAVIOUR:
     Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
     '''
-    @staticmethod
-    def extract(entries):
+    def extract(self, entries):
         texts = []
 
         if not entries:
@@ -165,7 +173,7 @@ class LEXICOGRAPHER(LEXICOGRAPHICS):
                     texts.append(unpacked_text_entry)
 
         # clean-up the extracted semantics...
-        lexemes = LEXICOGRAPHER._package_prose(texts)
+        lexemes = self._package_prose(texts)
 
         return lexemes
 
@@ -174,20 +182,19 @@ class LEXICOGRAPHER(LEXICOGRAPHICS):
     Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
     This is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.
     '''
-    @staticmethod
-    def _package_prose(texts):
+    def _package_prose(self, texts):
         # PROSE: Some prose on packaging prose...
         # At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?
         # Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose
         # At least we now know that any TEXT that doesn't start with HASH, IS a true semantic exposition, so we can focus on the HASH lines here
         # We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors
-        survivors = {}
-        latest_survivor = None
+        self.lexemes = {}
+        self._latest_lexeme = None
 
         # and an empty package into which we build-up the texts to be merged.
-        package_semantic = []
-        package_lexical = None
-        package_reference = None
+        self.package_semantic = []
+        self.package_lexical = None
+        self.package_reference = None
 
         # Now looking at each text, we initially have no impetus to merge them together...
         merging = False
@@ -197,29 +204,57 @@ class LEXICOGRAPHER(LEXICOGRAPHICS):
 
             # While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.
             if merging:
-                package_lexical, package_semantic, package_reference = LEXICOGRAPHICS.update_semantic_package(
-                    lexical,
-                    semantic, 
-                    reference,
-                    package_lexical, 
-                    package_semantic,
-                    package_reference
-                )
+                self._update_semantic_package(lexical, semantic, reference)
 
             else:
-                survivors, latest_survivor, package_semantic = LEXICOGRAPHICS.update_survivors(
-                    survivors, 
-                    latest_survivor,
-                    lexical,
-                    semantic, 
-                    reference,
-                    package_lexical, 
-                    package_semantic,
-                    package_reference
-                )
+                self._update_survivors(lexical, semantic, reference)
 
         # AND... a final flush if prose block reaches EOF
-        if package_semantic:
-            LEXICOGRAPHICS.extend_content(survivors, latest_survivor, package_lexical, package_semantic, package_reference)
+        if self.package_semantic:
+            LEXICOGRAPHICS.extend_content(
+                self.lexemes, 
+                self._latest_lexeme, 
+                self.package_lexical, 
+                self.package_semantic, 
+                self.package_reference
+            )
 
-        return survivors
+        return self.lexemes
+
+
+    '''
+    MECHANISM:
+    Adds any package of semantics we have been collating to the latest survivor before adding this survivor also
+    unless this survivor is just  some itinerant programmer's comment (outside of a prose block)
+    '''
+    def _update_survivors(self, lexical, semantic, reference):
+
+        if self.package_semantic:
+            self._latest_lexeme = LEXICOGRAPHICS.extend_content(
+                self.lexemes, 
+                self._latest_lexeme, 
+                self.package_lexical, 
+                self.package_semantic, 
+                self.package_reference
+            )
+            self.package_semantic = []
+
+        if not semantic.startswith('#'):
+            self._latest_lexeme = lexical
+            self.lexemes[lexical] = Lexeme.from_parts(lexical, semantic, reference)
+
+    '''
+    MECHANISM:
+    Adds the relevant parts of the current semantic to the packaged semantic.
+    I.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts
+    '''
+    def _update_semantic_package(self, lexical, semantic, reference):
+        content = semantic.lstrip('#').lstrip()
+        if self.package_semantic:
+            content_tail = content
+        else:
+            _, _, content_tail = content.partition(':')
+            self.package_lexical = lexical
+            self.package_reference = reference
+        self.package_semantic.append(content_tail)
+
