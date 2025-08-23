@@ -335,149 +335,161 @@
     "content": "Categorizes particles",
     "reference": "(477, 4)"
   },
+  "lexicographer.json": {
+    "category": "CONTINUUM",
+    "canonical": "lexicographer.json",
+    "content": "allows us to format and export our linguistic set as JSON",
+    "reference": "(1, 0)"
+  },
+  "lexicographer": {
+    "category": "THROUGHLINE",
+    "canonical": "lexicographer",
+    "content": "Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains\n\n\n\nThe IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used), but we only care about existence to help bind semantics to lexicals. The occurences are accumulated into an overall list of attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.\n\n\n\nThe TEXT grains are a muddled collection of discovered strings and comments, so the LEXICOGRAPHER sifts through these looking for those that have semantic meaning, i.e. begin with expositional tags (ExpoTags). When a meaning is disccovered it is (typically) associated with the next attestation of a lexical - i.e semantic meaning becomes attached to the canonical attestation of a lexical. These entities (lexemes) are then accumulated into the all_expositions list so that the semantics of a lexical are known at any point the lexical is found (and in fact, also, where exactly its canonical form can be found).\n\n\n\nMostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define[^1]. There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-\u00e0-vis:\n\n- THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module\n\n- CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound\n\n- PROSE, is bound to the most recent semantic entity; i.e. PROSE extends the current semantic with a list of detailed steps\n\n\n\n[^1]:Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing).\n\n\n\nMost of the expositions are wholly provisioned by the substance of their text grain - either because they were very simple (found in an in-line comment); or, they were encapsulated within a multiline string within the code.\n\n\n\nPROSE expositions are somewhat different. By design the PROSE is woven in and amongst the code using in-line commentary; so that, when we have significant code-blocks, we can annotate it with its story. A '# PROSE:' comment causes all in-line comments to be accumulated, until such time another exposition is encountered. This is convenient, but a little blunt since any normal code comments will also get swept up into the expositionary prose. It's easy to imagine many better methods, but this will do for now!",
+    "reference": "(9, 0)"
+  },
+  "lexicographer.LEXICOGRAPHER": {
+    "category": "FIGURATION",
+    "canonical": "lexicographer.LEXICOGRAPHER",
+    "content": "Sifts through a given set of 'entries' to generate:\n\n- a lexicon of known lexicals(!), erm, I mean a list of things that can be known about\n\n- the linguistical set of those things that have meaning",
+    "reference": "(29, 0)"
+  },
+  "lexicographer.LEXICOGRAPHER.save_to_file": {
+    "category": "BEHAVIOUR",
+    "canonical": "lexicographer.LEXICOGRAPHER.save_to_file",
+    "content": "Creates a json file containing the full linguistic set and a text file listing the canonicals",
+    "reference": "(36, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER.list_expositions": {
+    "category": "BEHAVIOUR",
+    "canonical": "lexicographer.LEXICOGRAPHER.list_expositions",
+    "content": "returns a list of lexeme summaries from a linguistical set",
+    "reference": "(58, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER.print_expositions": {
+    "category": "BEHAVIOUR",
+    "canonical": "lexicographer.LEXICOGRAPHER.print_expositions",
+    "content": "prints a linguistical set",
+    "reference": "(75, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER.print_expo": {
+    "category": "BEHAVIOUR",
+    "canonical": "lexicographer.LEXICOGRAPHER.print_expo",
+    "content": "formats and prints a single lexeme, indenting as per the depth of its attestation.",
+    "reference": "(86, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER._indent": {
+    "category": "MECHANISM",
+    "canonical": "lexicographer.LEXICOGRAPHER._indent",
+    "content": "performs an identation of a semantic unit as decoration for direct printed output",
+    "reference": "(127, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER.extract": {
+    "category": "BEHAVIOUR",
+    "canonical": "lexicographer.LEXICOGRAPHER.extract",
+    "content": "Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes\n\n On the extraction of meaning...\n\n- Every entry has some kind of meaning, for meaning is a layered construct\n- when the meaning relates to one of our lexemes, we're gonna need to find the following lexical (probably)\n- At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value\n- clean-up the extracted semantics...",
+    "reference": "(140, 4)"
+  },
+  "lexicographer.LEXICOGRAPHER._package_prose": {
+    "category": "BEHAVIOUR",
+    "canonical": "lexicographer.LEXICOGRAPHER._package_prose",
+    "content": "Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.\n\nThis is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.\n\n Some prose on packaging prose...\n\n- At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?\n- Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose\n- At least we now know that any TEXT that doesn't start with HASH, IS a true semantic exposition, so we can focus on the HASH lines here\n- We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors\n- and an empty package into which we build-up the texts to be merged.\n- Now looking at each text, we initially have no impetus to merge them together...\n- We will start merging if this is an in-line comment that introduces PROSE\n- While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.\n- AND... a final flush if prose block reaches EOF",
+    "reference": "(172, 4)"
+  },
   "lexicographics.dataclasses": {
     "category": "CONTINUUM",
     "canonical": "lexicographics.dataclasses",
     "content": "allows us to create named structures for attestations, and lexemes",
     "reference": "(1, 0)"
   },
-  "lexicographics.json": {
+  "lexicographics.enum": {
     "category": "CONTINUUM",
-    "canonical": "lexicographics.json",
-    "content": "allows us to format and export our linguistic set as JSON",
-    "reference": "(7, 0)"
+    "canonical": "lexicographics.enum",
+    "content": "allows us to create the ExpoTags (Enum) list",
+    "reference": "(6, 0)"
   },
   "lexicographics.ExpoTags": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.ExpoTags",
     "content": "The types of semantic meaning we can use to adorn our code-base.\n\n\n\n- CONTINUUM - alien facets that we use, typically within their own metaphor\n- THROUGHLINE - the metaphoric interface, explaining the relationship between the module-metaphore and the world at large\n- FIGURATIONs and AFFORDANCEs - high-order CHARACTERISATIONS providing a semantic package. I'm as yet somewhat undecided on their precise differentiation...\n- KNOWLEDGE - Typically important datum or data classes\n- BEHAVIOUR - a small package of sequenced actions\n- MECHANISM - an action, e.g. getters/setters\n- SKILL - an ability, e.g. inspect entity, filter list\n- DISPOSITION - an indication (or detetcion), of state (or transition)\n- PROSE - story woven around code sections\n- FLAW - An exception or sentinel",
-    "reference": "(14, 0)"
+    "reference": "(11, 0)"
   },
-  "lexicographics": {
-    "category": "THROUGHLINE",
-    "canonical": "lexicographics",
-    "content": "Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains\n\n\n\nThe IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used), but we only care about existence to help bind semantics to lexicals. The occurences are accumulated into an overall list of attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.\n\n\n\nThe TEXT grains are a muddled collection of discovered strings and comments, so the LEXICOGRAPHER sifts through these looking for those that have semantic meaning, i.e. begin with expositional tags (ExpoTags). When a meaning is disccovered it is (typically) associated with the next attestation of a lexical - i.e semantic meaning becomes attached to the canonical attestation of a lexical. These entities (lexemes) are then accumulated into the all_expositions list so that the semantics of a lexical are known at any point the lexical is found (and in fact, also, where exactly its canonical form can be found).\n\n\n\nMostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define[^1]. There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-\u00e0-vis:\n\n- THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module\n\n- CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound\n\n- PROSE, is bound to the most recent semantic entity; i.e. PROSE extends the current semantic with a list of detailed steps\n\n\n\n[^1]:Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing).\n\n\n\nMost of the expositions are wholly provisioned by the substance of their text grain - either because they were very simple (found in an in-line comment); or, they were encapsulated within a multiline string within the code.\n\n\n\nPROSE expositions are somewhat different. By design the PROSE is woven in and amongst the code using in-line commentary; so that, when we have significant code-blocks, we can annotate it with its story. A '# PROSE:' comment causes all in-line comments to be accumulated, until such time another exposition is encountered. This is convenient, but a little blunt since any normal code comments will also get swept up into the expositionary prose. It's easy to imagine many better methods, but this will do for now!",
-    "reference": "(46, 0)"
+  "lexicographics.LEXICOGRAPHICS": {
+    "category": "AFFORDANCE",
+    "canonical": "lexicographics.LEXICOGRAPHICS",
+    "content": "The core of a lexicographer's abilities",
+    "reference": "(43, 0)"
   },
-  "lexicographics.LEXICOGRAPHER": {
-    "category": "FIGURATION",
-    "canonical": "lexicographics.LEXICOGRAPHER",
-    "content": "Sifts through a given set of 'entries' to generate:\n\n- a lexicon of known lexicals(!), erm, I mean a list of things that can be known about\n\n- the linguistical set of those things that have meaning",
-    "reference": "(66, 0)"
-  },
-  "lexicographics.LEXICOGRAPHER.save_to_file": {
+  "lexicographics.LEXICOGRAPHICS.unpack_text_entry": {
     "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER.save_to_file",
-    "content": "Creates a json file containing the full linguistic set and a text file listing the canonicals",
-    "reference": "(73, 4)"
-  },
-  "lexicographics.LEXICOGRAPHER.list_expositions": {
-    "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER.list_expositions",
-    "content": "returns a list of lexeme summaries from a linguistical set",
-    "reference": "(95, 4)"
-  },
-  "lexicographics.LEXICOGRAPHER.print_expositions": {
-    "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER.print_expositions",
-    "content": "prints a linguistical set",
-    "reference": "(112, 4)"
-  },
-  "lexicographics.LEXICOGRAPHER.print_expo": {
-    "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER.print_expo",
-    "content": "formats and prints a single lexeme, indenting as per the depth of its attestation.",
-    "reference": "(123, 4)"
-  },
-  "lexicographics.LEXICOGRAPHER._indent": {
-    "category": "MECHANISM",
-    "canonical": "lexicographics.LEXICOGRAPHER._indent",
-    "content": "performs an identation of a semantic unit as decoration for direct printed output",
-    "reference": "(164, 4)"
-  },
-  "lexicographics.LEXICOGRAPHER.extract": {
-    "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER.extract",
-    "content": "Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes\n\n On the extraction of meaning...\n\n- Every entry has some kind of meaning, for meaning is a layered construct\n- when the meaning relates to one of our lexemes, we're gonna need to find the following lexical (probably)\n- At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value\n- clean-up the extracted semantics...",
-    "reference": "(177, 4)"
-  },
-  "lexicographics.LEXICOGRAPHER._unpack_text_entry": {
-    "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER._unpack_text_entry",
+    "canonical": "lexicographics.LEXICOGRAPHICS.unpack_text_entry",
     "content": "Finds the lexical to associate with a semenatic TEXT, dropping TEXTs that are deifnitely NOT semantic.\n\nKeeps all COMMENT type texts as they are handled later when we package up any PROSE",
-    "reference": "(210, 4)"
+    "reference": "(48, 4)"
   },
-  "lexicographics.LEXICOGRAPHER._nonjudgemental_clean": {
+  "lexicographics.LEXICOGRAPHICS._nonjudgemental_clean": {
     "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER._nonjudgemental_clean",
+    "canonical": "lexicographics.LEXICOGRAPHICS._nonjudgemental_clean",
     "content": "Essentially strips delimiting quotes from a text, but doesn't get all judgy if the text is somehow poorly delimited.\n\nAlso removes commentary markers from in-line semantics (except PROSE which is cleaned up later)\n\n On cleaning the TEXTs...\n\n- Firstly we deal with COMMENT type texts\n- If they are in-line semantics (except PROSE) we return them without the comment marker\n- otherwise in-line comments are returned unadulterated, so the prose block handler has them available later.\n- Then we remove any text delimiters around the semantic content.\n- Being careful only to consider delimiters, not any old quote-mark that might be within the semantic text\n- somehow we got a string that isn't delimited, weird but okay\n- somehow the triple quoted string hasn't been terminated, so don't clip the right side\n- somehow the single quoted string hasn't been terminated, so don't clip the right side\n- Because the work is a little complex, we have a catch-all return of the unadulterated text - just in case someone decides to add a bug in the code laters...",
-    "reference": "(236, 4)"
+    "reference": "(74, 4)"
   },
-  "lexicographics.LEXICOGRAPHER._is_expo": {
+  "lexicographics.LEXICOGRAPHICS._is_expo": {
     "category": "SKILL",
-    "canonical": "lexicographics.LEXICOGRAPHER._is_expo",
+    "canonical": "lexicographics.LEXICOGRAPHICS._is_expo",
     "content": "Determines if a text IS semantic",
-    "reference": "(278, 4)"
+    "reference": "(116, 4)"
   },
-  "lexicographics.LEXICOGRAPHER.package_prose": {
-    "category": "BEHAVIOUR",
-    "canonical": "lexicographics.LEXICOGRAPHER.package_prose",
-    "content": "Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.\n\nThis is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.\n\n Some prose on packaging prose...\n\n- At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?\n- Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose\n- At least we now know that any TEXT that doesn't start with HASH[^2], IS a true semantic exposition, so we can focus on the HASH lines here\n- We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors\n- [^2]: This handling of TEXTs that start with # works because ExpoTags themselves never start with # and at this point we know that ALL off our TEXTs start with either # (because they were a COMMENT) or start with an ExpoTag (because we already filtered STRINGs that are not ExpoTags)\n- and an empty package into which we build-up the texts to be merged.\n- Now looking at each text, we initially have no impetus to merge them together...\n- We will start merging if this is an in-line comment that introduces PROSE[^3]\n- [^3]: Note in the code that I test against (\"PROSE\" + \":\") and noot simply (\"PROSE:\"). This is because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this possibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...\n- While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.\n- AND... a final flush if prose block reaches EOF",
-    "reference": "(287, 4)"
-  },
-  "lexicographics.LEXICOGRAPHER._update_survivors": {
+  "lexicographics.LEXICOGRAPHICS.update_survivors": {
     "category": "MECHANISM",
-    "canonical": "lexicographics.LEXICOGRAPHER._update_survivors",
+    "canonical": "lexicographics.LEXICOGRAPHICS.update_survivors",
     "content": "Adds any package of semantics we have been collating to the latest survivor before adding this survivor also\n\nunless this survivor is just  some itinerant programmer's comment (outside of a prose block)",
-    "reference": "(344, 4)"
+    "reference": "(125, 4)"
   },
-  "lexicographics.LEXICOGRAPHER._update_semantic_package": {
+  "lexicographics.LEXICOGRAPHICS.update_semantic_package": {
     "category": "MECHANISM",
-    "canonical": "lexicographics.LEXICOGRAPHER._update_semantic_package",
+    "canonical": "lexicographics.LEXICOGRAPHICS.update_semantic_package",
     "content": "Adds the relevant parts of the current semantic to the packaged semantic.\n\nI.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts",
-    "reference": "(370, 4)"
+    "reference": "(151, 4)"
   },
-  "lexicographics.LEXICOGRAPHER._is_prose_transition": {
+  "lexicographics.LEXICOGRAPHICS.is_prose_transition": {
     "category": "DISPOSITION",
-    "canonical": "lexicographics.LEXICOGRAPHER._is_prose_transition",
+    "canonical": "lexicographics.LEXICOGRAPHICS.is_prose_transition",
     "content": "Detects transitions into or out of prose blocks",
-    "reference": "(395, 4)"
+    "reference": "(176, 4)"
   },
-  "lexicographics.LEXICOGRAPHER._extend_content": {
+  "lexicographics.LEXICOGRAPHICS.extend_content": {
     "category": "SKILL",
-    "canonical": "lexicographics.LEXICOGRAPHER._extend_content",
+    "canonical": "lexicographics.LEXICOGRAPHICS.extend_content",
     "content": "Extends the latest semantic with additional (prose) commentary.\n\n  BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic\n\n  This is so we at least get to see the (mis-placed) element somewhere in the outputs, so we can fix it.\n\n  Note, in this case it truly IS mis-placed, because (by defintion) prose annotates a previous semantic.\n\n  Mis-placed prose in module B could even turn up annotating the last semantic of module A!\n\n  The only defence I offer is that you at least get to see the prose SOMEWHERE...\n\n  \n\n  ...unless you don't. A mis-placed prose block will not be added at all IF it would overwrite an existing semantic.\n\n  This ought to be an impossible scenario, thus the silent use of 'pass' in this code.\n\n  FWIW: I'm sorry, sooooo sorry, if that ever trips you up ;^D",
-    "reference": "(411, 4)"
+    "reference": "(193, 4)"
   },
   "lexicographics.LexicalOccurence": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.LexicalOccurence",
     "content": "holds an attestation contextualised lexical entity",
-    "reference": "(439, 0)"
+    "reference": "(221, 0)"
   },
   "lexicographics.Lexeme": {
     "category": "KNOWLEDGE",
     "canonical": "lexicographics.Lexeme",
     "content": "holds a lexeme - the canonical occurence, category and semantic content of a lexical",
-    "reference": "(477, 0)"
+    "reference": "(259, 0)"
   },
   "lexicographics.Lexeme.from_parts": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme.from_parts",
     "content": "Creates a lexeme by extracting category from a semantic text",
-    "reference": "(485, 4)"
+    "reference": "(267, 4)"
   },
   "lexicographics.Lexeme.summary": {
     "category": "SKILL",
     "canonical": "lexicographics.Lexeme.summary",
     "content": "Summarises a lexeme to category and canonical reference",
-    "reference": "(497, 4)"
+    "reference": "(279, 4)"
   },
   "lexicographics.Lexeme._dedent": {
     "category": "MECHANISM",
     "canonical": "lexicographics.Lexeme._dedent",
     "content": "The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.\n\nHere we remove the common margin (minimum indent) found within the semantic content.",
-    "reference": "(505, 4)"
+    "reference": "(287, 4)"
   },
   "registrar": {
     "category": "THROUGHLINE",

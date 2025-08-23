@@ -156,22 +156,26 @@ registrar.REGISTRAR._register_empty:FLAW
 ---
 # *** CHAPTER LEXICOGRAPHICS ***
 ## THROUGHLINE
-lexicographics:THROUGHLINE
+lexicographer:THROUGHLINE
 ## DESCRIPTION
-lexicographics.LEXICOGRAPHER:FIGURATION
-## CONTEXTS and KNOWLEDGE
-lexicographics.dataclasses:CONTINUUM
+lexicographics.LEXICOGRAPHICS:AFFORDANCE
+lexicographer.LEXICOGRAPHER:FIGURATION
+## KNOWLEDGE and CONTEXTS
 lexicographics.LexicalOccurence:KNOWLEDGE
 lexicographics.Lexeme:KNOWLEDGE
 lexicographics.ExpoTags:KNOWLEDGE
+lexicographics.dataclasses:CONTINUUM
+lexicographics.enum:CONTINUUM
+lexicographer.json:CONTINUUM
 ## KEY BEHAVIOURS
-lexicographics.LEXICOGRAPHER.extract:BEHAVIOUR
-lexicographics.LEXICOGRAPHER.package_prose:BEHAVIOUR
-lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
+lexicographer.LEXICOGRAPHER.extract:BEHAVIOUR
+lexicographer.LEXICOGRAPHER._package_prose:BEHAVIOUR
 lexicographics.LEXICOGRAPHER._update_semantic_package:MECHANISM
-
+lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
+lexicographics.LEXICOGRAPHICS.is_prose_transition:DISPOSITION
+lexicographics.LEXICOGRAPHICS.extend_content:SKILL
 ## Supporting behaviours
-lexicographics.LEXICOGRAPHER._unpack_text_entry:BEHAVIOUR
+lexicographics.LEXICOGRAPHER.unpack_text_entry:BEHAVIOUR
 lexicographics.LEXICOGRAPHER._nonjudgemental_clean:BEHAVIOUR
 ## Supporting skills and mechanisms
 lexicographics.Lexeme.from_parts:MECHANISM
@@ -181,11 +185,11 @@ lexicographics.LEXICOGRAPHER._is_expo:SKILL
 ---
 ---
 **And once all done, how we get the detail preserved in files*:*
-lexicographics.LEXICOGRAPHER.save_to_file:BEHAVIOUR
-lexicographics.LEXICOGRAPHER.list_expositions:BEHAVIOUR
-lexicographics.LEXICOGRAPHER.print_expositions:BEHAVIOUR
-lexicographics.LEXICOGRAPHER.print_expo:BEHAVIOUR
-lexicographics.LEXICOGRAPHER._indent:MECHANISM
+lexicographer.LEXICOGRAPHER.save_to_file:BEHAVIOUR
+lexicographer.LEXICOGRAPHER.list_expositions:BEHAVIOUR
+lexicographer.LEXICOGRAPHER.print_expositions:BEHAVIOUR
+lexicographer.LEXICOGRAPHER.print_expo:BEHAVIOUR
+lexicographer.LEXICOGRAPHER._indent:MECHANISM
 ---
 ---
 doc ends.

@@ -626,7 +626,7 @@ _(158, 4)flaw_:registrar.REGISTRAR._register_empty: Allows us to check if the re
 
 ## THROUGHLINE
 
-_(46, 0)throughline_:lexicographics
+_(9, 0)throughline_:lexicographer
 
 Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains
 
@@ -662,7 +662,11 @@ PROSE expositions are somewhat different. By design the PROSE is woven in and am
 
 ## DESCRIPTION
 
-_(66, 0)figuration_:lexicographics.LEXICOGRAPHER
+_(43, 0)affordance_:lexicographics.LEXICOGRAPHICS
+
+The core of a lexicographer's abilities
+
+_(29, 0)figuration_:lexicographer.LEXICOGRAPHER
 
 Sifts through a given set of 'entries' to generate:
 
@@ -670,15 +674,13 @@ Sifts through a given set of 'entries' to generate:
 
 - the linguistical set of those things that have meaning
 
-## CONTEXTS and KNOWLEDGE
+## KNOWLEDGE and CONTEXTS
 
-_(1, 0)continuum_:lexicographics.dataclasses: allows us to create named structures for attestations, and lexemes
+_(221, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
 
-_(439, 0)knowledge_:lexicographics.LexicalOccurence: holds an attestation contextualised lexical entity
+_(259, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
 
-_(477, 0)knowledge_:lexicographics.Lexeme: holds a lexeme - the canonical occurence, category and semantic content of a lexical
-
-_(14, 0)knowledge_:lexicographics.ExpoTags: The types of semantic meaning we can use to adorn our code-base.
+_(11, 0)knowledge_:lexicographics.ExpoTags: The types of semantic meaning we can use to adorn our code-base.
 
 
 
@@ -693,9 +695,15 @@ _(14, 0)knowledge_:lexicographics.ExpoTags: The types of semantic meaning we can
 - PROSE - story woven around code sections
 - FLAW - An exception or sentinel
 
+_(1, 0)continuum_:lexicographics.dataclasses: allows us to create named structures for attestations, and lexemes
+
+_(6, 0)continuum_:lexicographics.enum: allows us to create the ExpoTags (Enum) list
+
+_(1, 0)continuum_:lexicographer.json: allows us to format and export our linguistic set as JSON
+
 ## KEY BEHAVIOURS
 
-_(177, 4)behaviour_:lexicographics.LEXICOGRAPHER.extract: Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
+_(140, 4)behaviour_:lexicographer.LEXICOGRAPHER.extract: Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
 
  On the extraction of meaning...
 
@@ -704,7 +712,7 @@ _(177, 4)behaviour_:lexicographics.LEXICOGRAPHER.extract: Sifts through the entr
 - At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value
 - clean-up the extracted semantics...
 
-_(287, 4)behaviour_:lexicographics.LEXICOGRAPHER.package_prose: Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
+_(172, 4)behaviour_:lexicographer.LEXICOGRAPHER._package_prose: Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
 
 This is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.
 
@@ -712,59 +720,57 @@ This is where we collate comment texts within a prose section to form a single s
 
 - At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?
 - Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose
-- At least we now know that any TEXT that doesn't start with HASH[^2], IS a true semantic exposition, so we can focus on the HASH lines here
+- At least we now know that any TEXT that doesn't start with HASH, IS a true semantic exposition, so we can focus on the HASH lines here
 - We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors
-- [^2]: This handling of TEXTs that start with # works because ExpoTags themselves never start with # and at this point we know that ALL off our TEXTs start with either # (because they were a COMMENT) or start with an ExpoTag (because we already filtered STRINGs that are not ExpoTags)
 - and an empty package into which we build-up the texts to be merged.
 - Now looking at each text, we initially have no impetus to merge them together...
-- We will start merging if this is an in-line comment that introduces PROSE[^3]
-- [^3]: Note in the code that I test against ("PROSE" + ":") and noot simply ("PROSE:"). This is because I do not want a string in the code that LOOKS like an ExpoTag. A little awkward huh? I coulda done more work upstream to avoid this possibility becoming an issue - but its just not worth it. We'd need more proficient tooling in a large codebase I would imagine...
+- We will start merging if this is an in-line comment that introduces PROSE
 - While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.
 - AND... a final flush if prose block reaches EOF
 
-_(344, 4)mechanism_:lexicographics.LEXICOGRAPHER._update_survivors: Adds any package of semantics we have been collating to the latest survivor before adding this survivor also
+lexicographics.LEXICOGRAPHER._update_semantic_package:MECHANISM
 
-unless this survivor is just  some itinerant programmer's comment (outside of a prose block)
+lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
 
-_(370, 4)mechanism_:lexicographics.LEXICOGRAPHER._update_semantic_package: Adds the relevant parts of the current semantic to the packaged semantic.
+_(176, 4)disposition_:lexicographics.LEXICOGRAPHICS.is_prose_transition: Detects transitions into or out of prose blocks
 
-I.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts
+_(193, 4)skill_:lexicographics.LEXICOGRAPHICS.extend_content: Extends the latest semantic with additional (prose) commentary.
 
+  BUT if we somehow found a prose block before ANY other semantic, we will ttry to add the prose as its own semantic
 
+  This is so we at least get to see the (mis-placed) element somewhere in the outputs, so we can fix it.
+
+  Note, in this case it truly IS mis-placed, because (by defintion) prose annotates a previous semantic.
+
+  Mis-placed prose in module B could even turn up annotating the last semantic of module A!
+
+  The only defence I offer is that you at least get to see the prose SOMEWHERE...
+
+  
+
+  ...unless you don't. A mis-placed prose block will not be added at all IF it would overwrite an existing semantic.
+
+  This ought to be an impossible scenario, thus the silent use of 'pass' in this code.
+
+  FWIW: I'm sorry, sooooo sorry, if that ever trips you up ;^D
 
 ## Supporting behaviours
 
-_(210, 4)behaviour_:lexicographics.LEXICOGRAPHER._unpack_text_entry: Finds the lexical to associate with a semenatic TEXT, dropping TEXTs that are deifnitely NOT semantic.
+lexicographics.LEXICOGRAPHER.unpack_text_entry:BEHAVIOUR
 
-Keeps all COMMENT type texts as they are handled later when we package up any PROSE
-
-_(236, 4)behaviour_:lexicographics.LEXICOGRAPHER._nonjudgemental_clean: Essentially strips delimiting quotes from a text, but doesn't get all judgy if the text is somehow poorly delimited.
-
-Also removes commentary markers from in-line semantics (except PROSE which is cleaned up later)
-
- On cleaning the TEXTs...
-
-- Firstly we deal with COMMENT type texts
-- If they are in-line semantics (except PROSE) we return them without the comment marker
-- otherwise in-line comments are returned unadulterated, so the prose block handler has them available later.
-- Then we remove any text delimiters around the semantic content.
-- Being careful only to consider delimiters, not any old quote-mark that might be within the semantic text
-- somehow we got a string that isn't delimited, weird but okay
-- somehow the triple quoted string hasn't been terminated, so don't clip the right side
-- somehow the single quoted string hasn't been terminated, so don't clip the right side
-- Because the work is a little complex, we have a catch-all return of the unadulterated text - just in case someone decides to add a bug in the code laters...
+lexicographics.LEXICOGRAPHER._nonjudgemental_clean:BEHAVIOUR
 
 ## Supporting skills and mechanisms
 
-_(485, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
+_(267, 4)mechanism_:lexicographics.Lexeme.from_parts: Creates a lexeme by extracting category from a semantic text
 
-_(497, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
+_(279, 4)skill_:lexicographics.Lexeme.summary: Summarises a lexeme to category and canonical reference
 
-_(505, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
+_(287, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are indented, partly due to the requirements of the originating code, and partly for semantic clarity.
 
 Here we remove the common margin (minimum indent) found within the semantic content.
 
-_(278, 4)skill_:lexicographics.LEXICOGRAPHER._is_expo: Determines if a text IS semantic
+lexicographics.LEXICOGRAPHER._is_expo:SKILL
 
 ---
 
@@ -772,15 +778,15 @@ _(278, 4)skill_:lexicographics.LEXICOGRAPHER._is_expo: Determines if a text IS s
 
 **And once all done, how we get the detail preserved in files*:*
 
-_(73, 4)behaviour_:lexicographics.LEXICOGRAPHER.save_to_file: Creates a json file containing the full linguistic set and a text file listing the canonicals
+_(36, 4)behaviour_:lexicographer.LEXICOGRAPHER.save_to_file: Creates a json file containing the full linguistic set and a text file listing the canonicals
 
-_(95, 4)behaviour_:lexicographics.LEXICOGRAPHER.list_expositions: returns a list of lexeme summaries from a linguistical set
+_(58, 4)behaviour_:lexicographer.LEXICOGRAPHER.list_expositions: returns a list of lexeme summaries from a linguistical set
 
-_(112, 4)behaviour_:lexicographics.LEXICOGRAPHER.print_expositions: prints a linguistical set
+_(75, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expositions: prints a linguistical set
 
-_(123, 4)behaviour_:lexicographics.LEXICOGRAPHER.print_expo: formats and prints a single lexeme, indenting as per the depth of its attestation.
+_(86, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expo: formats and prints a single lexeme, indenting as per the depth of its attestation.
 
-_(164, 4)mechanism_:lexicographics.LEXICOGRAPHER._indent: performs an identation of a semantic unit as decoration for direct printed output
+_(127, 4)mechanism_:lexicographer.LEXICOGRAPHER._indent: performs an identation of a semantic unit as decoration for direct printed output
 
 ---
 
