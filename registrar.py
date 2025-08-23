@@ -36,8 +36,7 @@ class REGISTRAR:
 
         # KNOWLEDGE: A new register is created for each registrant (grand forebear)
         self._register = []
-        self._new_record()
-        self._fill_in_record(registrant)
+        self._register.append({'id': registrant, 'wedded_resilience': self._resilience})
 
         # DISPOSITION: are we currently looking for the true identity of an heir apparent, or else just recording subject titles
         self._heir_apparent = False
@@ -47,45 +46,35 @@ class REGISTRAR:
     '''
     BEHAVIOUR:
     Provides the current lineage relevant to a subject, IF this is a notable subject.
+
+    But NOTE - what a topsy-turvey world we live in!
+    Because we have to look forwards we find new progenitors before we find their identity!
+    So instead of simply saying: 
+    > Prepare for heir, seek heir, record heir...
+    we have to say:
+    > record (the current) heir, seek (another) heir, prepare for (next) heir
+    
+    Kind of backwards really, I guess it stems from 'invasion culture' wherein conquered peoples are dehumanised by being reduced to 'station' afore 'identity', m'lord!
     '''
     def record_history(self, subject):
         new_family_line = False
 
         # PROSE: on how the code-tree grows and withers
-
         # First, keep an eye on the resilience of the current family line
-        if LINEAGE.growth(subject):
-            self._resilience += 1
+        if self._lineage_fluxed(subject):
             return False, None
 
-        # Now is the time to add any found heir to the lineage
+        # Add any found heir to the lineage
         # So that GOING FORWARD the title is recognised
-        if self._heir:
-            self._fill_in_record(self._heir)
-            self._heir = ''
+        self._record_heir()
 
         # Once we find a new heir, keep it safe for now
         # So the title is awarded on the next cycle
         # Otherwise we lose sight of this heir's own lineage
-        if self._heir_apparent:
-            if LINEAGE.is_true_identity(subject):
-                self._heir = LINEAGE.subject_name(subject)
-                self._heir_apparent = False
-                new_family_line = True
+        new_family_line = self._seek_heir_apparent(subject)
 
         # Have a look-see if we have met a new heir-apparent
-        if LINEAGE.is_progenitor(subject):
-            self._new_record()
-            self._heir_apparent = True
-
-        # Ultimately branches of a tree die out, and we have to
-        # prune back to continue the ancestral lines
-        if LINEAGE.decline(subject):
-            self._resilience -= 1
-            if not self._register_empty():
-                if self._resilience <= self._register[-1]['wedded_resilience']:
-                    self._sign_off_record()
-            return False, None
+        self._prepare_for_heir(subject)
 
         # Finally all are remembered in the trace of lineage they leave behind 
         # BUT it is only the true that get entitled
@@ -99,6 +88,38 @@ class REGISTRAR:
 
     '''
     SKILL:
+    Detects flux in the current family line, signing-off the register if the line has died out
+    '''
+    def _lineage_fluxed(self, subject):
+        if not (LINEAGE.growth(subject) or LINEAGE.decline(subject)):
+            return False
+
+        if LINEAGE.growth(subject):
+            self._resilience += 1
+
+        if LINEAGE.decline(subject):
+            self._resilience -= 1
+            if not self._register_empty():
+                if self._resilience <= self._register[-1]['wedded_resilience']:
+                    self._sign_off_record()
+
+        return True
+
+    '''
+    DISPOSITION:
+    Switches our disposition from seeking an identity to seeking a progenitor
+    whilst setting the ccurrent found heir apparent
+    '''
+    def _seek_heir_apparent(self, subject):
+        if self._heir_apparent:
+            if LINEAGE.is_true_identity(subject):
+                self._heir = LINEAGE.subject_name(subject)
+                self._heir_apparent = False
+                return True
+        return False
+
+    '''
+    SKILL:
     Joins up all the identities in our current lineage to form a single, recordable, title
     '''
     def _entitle(self):
@@ -106,21 +127,26 @@ class REGISTRAR:
         return lineage.strip('.')
 
     '''
-    SKILL:
+    DISPOSITION:
     Prepares a progenitor's new lineage, in case there is then a marriage
+    Switches our disposition from seeking a progenitor to seeking an identity
     '''
-    def _new_record(self):
-        self._register.append({'id': '', 'wedded_resilience': self._resilience})
+    def _prepare_for_heir(self, subject):
+        if LINEAGE.is_progenitor(subject):
+            self._register.append({'id': '', 'wedded_resilience': self._resilience})
+            self._heir_apparent = True
 
     '''
     SKILL:
     Fills in the new lineage, and sets the baseline of this family line's resilience,
     which builds upon that of previous generations
     '''
-    def _fill_in_record(self, registree):
-        if not self._register:
-            self._register.append({'id': '', 'wedded_resilience': self._resilience})
-        self._register[-1]['id'] = registree
+    def _record_heir(self):
+        if self._heir:
+            if not self._register:
+                self._register.append({'id': '', 'wedded_resilience': self._resilience})
+            self._register[-1]['id'] = self._heir
+        self._heir = ''
 
     '''
     SKILL:
