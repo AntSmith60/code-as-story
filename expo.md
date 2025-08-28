@@ -52,11 +52,49 @@ During extraction the core concepts we will meet are:
 
 - LEXICOGRAPHICS: the mechanisms that sift and convert the lineage-tracked symbolic grains to generate lexemes: the discovered lexical tokens in the source code along with their canonical reference and semantic meaning.
 
+## On telling the story...
 
+_(38, 0)throughline_:narrate.granulator
+
+A lash-up script in-lieu of real workflow support.
+
+No metaphor here! We're just porviding scafolding for the workhorse narrate scripts.
+
+_(103, 0)behaviour_:narrate.tell_the_tale: Nothing fancy here, scopes out the scene and tells the tale of any found scripts
+
+
+
+- Are we sitting comfortably? Do we know who's story we are telling, and where we are recording it?
+- Did we tell this tale before and are we happy to overwrite or update it?
+- Then we will begin...
+
+_(49, 0)behaviour_:narrate.scan_files: Seeks out files of interest that are then granulated so that expositions can be extracted into the full linguistic set.
+
+
+
+- During extraction the lexicographer is stateful, so we create an instance for it - BUT once we have the expositions for a given script we no longer need that state (since expositions are collated here) so we re-use the instance for each script.
+- We walk sub-directories, excluding those that start with underscore which are porbs holding areas for regressions etc...
+- We scan for Python scripts that do not start with underscore, since they're probably opaque suport files or some kind of transient
+- We create a GRANULATOR instance for each file, but once we have the granulate we don't need it anymore - so these are just transient objects.
+- Once we have the granulate we employ the lexicographer to extract a dictionary of lexemes for this file...
+- ...which we collate into our master dictionary
+- Once all files have been processed we get the LEXICOGRAPHER to list and save the full set of extracted lexemes
+
+## Supporting props
+
+_(46, 0)knowledge_:narrate.all_expositions: An initially empty dictionary that comes to hold the full linguistic set as PPython scrippt files are processed
+
+_(95, 0)mechanism_:narrate.confirm_overwrite: Just like one of those annoying 'are you sure?' prompts that we all end up regretting just saying 'YES' to one day...
+
+_(33, 0)continuum_:narrate.os: for directory walking, and joining strings as paths
+
+_(35, 0)continuum_:narrate.pathlib: to make o/s independant path from string
+
+_(31, 0)continuum_:narrate.sys: to get CLI args and issue exit status
 
 ---
 
-Note, this script hasn't really been authored... more lashed together so I can run my Proof-of-Concept. A production version would ofer a mucch improved interface, and more especially address my main irk: currently I have to be careful not to overwrite editorialisation added to the .txt output file; which is slightly complex but really we need workflow support in the tooling... a whole other dimension which will utterly obviate this entry script. So it is what it is (and that is, is pretty damn ugly).
+---
 
 # *** CHAPTER - CODICES ***
 
@@ -418,9 +456,9 @@ Mixing allows the DENTs to bubble up so they evapourate as we inspect and classi
 - Evapourate the DENTs so the remainder can be classified
 - No longer just a powder, the intermediate is ready to be refined into grains
 
-granulator.GRANULATOR._mix
+_(190, 4)mechanism_:granulator.GRANULATOR._mix: Mixes the purified powder, breaking up suspensions that effect how particles adhere into grains during refinement
 
-granulator.GRANULATOR._evapourate
+_(205, 4)mechanism_:granulator.GRANULATOR._evapourate: Applies track&trace while condensing the intermediate to just the components that will make up the refined IDENTITY and TEXT grains.
 
 ---
 
@@ -604,7 +642,7 @@ _(46, 4)behaviour_:registrar.REGISTRAR.record_history: Provides the current line
 
 _(121, 4)skill_:registrar.REGISTRAR._entitle: Joins up all the identities in our current lineage to form a single, recordable, title
 
-registrar.REGISTRAR._lineage_fluxed
+_(89, 4)skill_:registrar.REGISTRAR._lineage_fluxed: Detects flux in the current family line, signing-off the register if the line has died out
 
 _(108, 4)disposition_:registrar.REGISTRAR._seek_heir_apparent: Switches our disposition from seeking an identity to seeking a progenitor
 
@@ -630,7 +668,7 @@ _(158, 4)flaw_:registrar.REGISTRAR._register_empty: Allows us to check if the re
 
 ## THROUGHLINE
 
-_(9, 0)throughline_:lexicographer
+_(12, 0)throughline_:lexicographer
 
 Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains
 
@@ -670,7 +708,7 @@ _(45, 0)affordance_:lexicographics.LEXICOGRAPHICS
 
 The core of a lexicographer's abilities
 
-_(29, 0)figuration_:lexicographer.LEXICOGRAPHER
+_(32, 0)figuration_:lexicographer.LEXICOGRAPHER
 
 Sifts through a given set of 'entries' to generate:
 
@@ -706,9 +744,11 @@ _(6, 0)continuum_:lexicographics.enum: allows us to create the ExpoTags (Enum) l
 
 _(1, 0)continuum_:lexicographer.json: allows us to format and export our linguistic set as JSON
 
+_(5, 0)continuum_:lexicographer.os: allows us to detect if we are creating or updating the index TXT file
+
 ## KEY BEHAVIOURS
 
-_(149, 4)behaviour_:lexicographer.LEXICOGRAPHER.extract: Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
+_(163, 4)behaviour_:lexicographer.LEXICOGRAPHER.extract: Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes
 
  On the extraction of meaning...
 
@@ -717,7 +757,7 @@ _(149, 4)behaviour_:lexicographer.LEXICOGRAPHER.extract: Sifts through the entri
 - At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value
 - clean-up the extracted semantics...
 
-_(180, 4)behaviour_:lexicographer.LEXICOGRAPHER._package_prose: Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
+_(194, 4)behaviour_:lexicographer.LEXICOGRAPHER._package_prose: Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.
 
 This is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.
 
@@ -733,9 +773,13 @@ This is where we collate comment texts within a prose section to form a single s
 - While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.
 - AND... a final flush if prose block reaches EOF
 
-lexicographics.LEXICOGRAPHER._update_semantic_package:MECHANISM
+_(260, 4)mechanism_:lexicographer.LEXICOGRAPHER._update_semantic_package: Adds the relevant parts of the current semantic to the packaged semantic.
 
-lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
+I.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts
+
+_(239, 4)mechanism_:lexicographer.LEXICOGRAPHER._update_survivors: Adds any package of semantics we have been collating to the latest survivor before adding this survivor also
+
+unless this survivor is just  some itinerant programmer's comment (outside of a prose block)
 
 _(127, 4)disposition_:lexicographics.LEXICOGRAPHICS.is_prose_transition: Detects transitions into or out of prose blocks
 
@@ -761,9 +805,25 @@ _(144, 4)skill_:lexicographics.LEXICOGRAPHICS.extend_content: Extends the latest
 
 ## Supporting behaviours
 
-lexicographics.LEXICOGRAPHER.unpack_text_entry:BEHAVIOUR
+_(50, 4)behaviour_:lexicographics.LEXICOGRAPHICS.unpack_text_entry: Finds the lexical to associate with a semenatic TEXT, dropping TEXTs that are deifnitely NOT semantic.
 
-lexicographics.LEXICOGRAPHER._nonjudgemental_clean:BEHAVIOUR
+Keeps all COMMENT type texts as they are handled later when we package up any PROSE
+
+_(76, 4)behaviour_:lexicographics.LEXICOGRAPHICS._nonjudgemental_clean: Essentially strips delimiting quotes from a text, but doesn't get all judgy if the text is somehow poorly delimited.
+
+Also removes commentary markers from in-line semantics (except PROSE which is cleaned up later)
+
+ On cleaning the TEXTs...
+
+- Firstly we deal with COMMENT type texts
+- If they are in-line semantics (except PROSE) we return them without the comment marker
+- otherwise in-line comments are returned unadulterated, so the prose block handler has them available later.
+- Then we remove any text delimiters around the semantic content.
+- Being careful only to consider delimiters, not any old quote-mark that might be within the semantic text
+- somehow we got a string that isn't delimited, weird but okay
+- somehow the triple quoted string hasn't been terminated, so don't clip the right side
+- somehow the single quoted string hasn't been terminated, so don't clip the right side
+- Because the work is a little complex, we have a catch-all return of the unadulterated text - just in case someone decides to add a bug in the code laters...
 
 ## Supporting skills and mechanisms
 
@@ -775,7 +835,7 @@ _(238, 4)mechanism_:lexicographics.Lexeme._dedent: The discovered semantics are 
 
 Here we remove the common margin (minimum indent) found within the semantic content.
 
-lexicographics.LEXICOGRAPHER._is_expo:SKILL
+_(118, 4)skill_:lexicographics.LEXICOGRAPHICS._is_expo: Determines if a text IS semantic
 
 ---
 
@@ -783,15 +843,15 @@ lexicographics.LEXICOGRAPHER._is_expo:SKILL
 
 **And once all done, how we get the detail preserved in files*:*
 
-_(45, 4)behaviour_:lexicographer.LEXICOGRAPHER.save_to_file: Creates a json file containing the full linguistic set and a text file listing the canonicals
+_(48, 4)behaviour_:lexicographer.LEXICOGRAPHER.save_to_file: Creates a json file containing the full linguistic set and a text file listing the canonicals
 
-_(67, 4)behaviour_:lexicographer.LEXICOGRAPHER.list_expositions: returns a list of lexeme summaries from a linguistical set
+_(81, 4)behaviour_:lexicographer.LEXICOGRAPHER.list_expositions: returns a list of lexeme summaries from a linguistical set
 
-_(84, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expositions: prints a linguistical set
+_(98, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expositions: prints a linguistical set
 
-_(95, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expo: formats and prints a single lexeme, indenting as per the depth of its attestation.
+_(109, 4)behaviour_:lexicographer.LEXICOGRAPHER.print_expo: formats and prints a single lexeme, indenting as per the depth of its attestation.
 
-_(136, 4)mechanism_:lexicographer.LEXICOGRAPHER._indent: performs an identation of a semantic unit as decoration for direct printed output
+_(150, 4)mechanism_:lexicographer.LEXICOGRAPHER._indent: performs an identation of a semantic unit as decoration for direct printed output
 
 ---
 

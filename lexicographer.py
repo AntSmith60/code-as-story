@@ -2,6 +2,9 @@
 import json
 import re
 
+# CONTINUUM: allows us to detect if we are creating or updating the index TXT file
+import os
+
 from granulator import GrainType as LexicalCategory
 
 from lexicographics import LEXICOGRAPHICS, LexicalOccurence, Lexeme, ExpoTags
@@ -59,10 +62,21 @@ class LEXICOGRAPHER(LEXICOGRAPHICS):
         with open(dictout, 'w', encoding='utf-8') as f:
             json.dump(serializable, f, indent=2)
 
-        if indexout:
-            with open(indexout, 'w', encoding='utf-8') as f:
-                for key, value in lexemes.items():
-                    f.write(f"{str(key)}:{value.category.name}\n")
+        entries = {f"{str(key)}:{value.category.name}" for key, value in lexemes.items()}
+
+        update_mode = 'w'
+        if os.path.exists(indexout):
+            update_mode = 'a'
+            with open(indexout, 'r', encoding='utf-8') as f:
+                for line in f:
+                    if line and line.strip() in entries:
+                        entries.discard(line.strip())
+
+        if entries:
+            with open(indexout, update_mode, encoding='utf-8') as f:
+                f.write(f"\n#--- {len(entries)} New Entries ---\n")
+                for entry in sorted(entries):
+                    f.write(entry + '\n')
 
     '''
     BEHAVIOUR:

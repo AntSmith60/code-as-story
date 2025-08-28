@@ -341,71 +341,77 @@
     "content": "allows us to format and export our linguistic set as JSON",
     "reference": "(1, 0)"
   },
+  "lexicographer.os": {
+    "category": "CONTINUUM",
+    "canonical": "lexicographer.os",
+    "content": "allows us to detect if we are creating or updating the index TXT file",
+    "reference": "(5, 0)"
+  },
   "lexicographer": {
     "category": "THROUGHLINE",
     "canonical": "lexicographer",
     "content": "Earlier processing has delivered parcels consisting of a blend of IDENTITY and TEXT grains\n\n\n\nThe IDENTITY grains are atomic entities providing the name, Pythonic scope and source references of discovered Python objects in the source code. Obvs these discovered objects can occur in multiple places (since objects are declared so that they can be used), but we only care about existence to help bind semantics to lexicals. The occurences are accumulated into an overall list of attestations (an attestation being a recorded evidence of a lexical entity). This results in a list of everything that has been (or can be) refferred to.\n\n\n\nThe TEXT grains are a muddled collection of discovered strings and comments, so the LEXICOGRAPHER sifts through these looking for those that have semantic meaning, i.e. begin with expositional tags (ExpoTags). When a meaning is disccovered it is (typically) associated with the next attestation of a lexical - i.e semantic meaning becomes attached to the canonical attestation of a lexical. These entities (lexemes) are then accumulated into the all_expositions list so that the semantics of a lexical are known at any point the lexical is found (and in fact, also, where exactly its canonical form can be found).\n\n\n\nMostly, semantics are attached to classes and methods, or to other Pythonic objects (vars) - immediately preceeding that which they define[^1]. There are some exceptions to this semantic binding, and in fact more work needed to make the semantic binding complete, vis-\u00e0-vis:\n\n- THROUGHLINES, are bound to the module; but currently only by convention of their placement in a module\n\n- CONTINUUM, ought to bind to the last identity in a '[from x] import y [as z]' expression; currently it doesnt and is poorly bound\n\n- PROSE, is bound to the most recent semantic entity; i.e. PROSE extends the current semantic with a list of detailed steps\n\n\n\n[^1]:Special attention has been made to decorators which also must preceded that which they decorate. Semantic expositions are aware of that Python restriction, and have allowed for the intrusion of such (in the earlier processing).\n\n\n\nMost of the expositions are wholly provisioned by the substance of their text grain - either because they were very simple (found in an in-line comment); or, they were encapsulated within a multiline string within the code.\n\n\n\nPROSE expositions are somewhat different. By design the PROSE is woven in and amongst the code using in-line commentary; so that, when we have significant code-blocks, we can annotate it with its story. A '# PROSE:' comment causes all in-line comments to be accumulated, until such time another exposition is encountered. This is convenient, but a little blunt since any normal code comments will also get swept up into the expositionary prose. It's easy to imagine many better methods, but this will do for now!",
-    "reference": "(9, 0)"
+    "reference": "(12, 0)"
   },
   "lexicographer.LEXICOGRAPHER": {
     "category": "FIGURATION",
     "canonical": "lexicographer.LEXICOGRAPHER",
     "content": "Sifts through a given set of 'entries' to generate:\n\n- a lexicon of known lexicals(!), erm, I mean a list of things that can be known about\n\n- the linguistical set of those things that have meaning",
-    "reference": "(29, 0)"
+    "reference": "(32, 0)"
   },
   "lexicographer.LEXICOGRAPHER.save_to_file": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.save_to_file",
     "content": "Creates a json file containing the full linguistic set and a text file listing the canonicals",
-    "reference": "(45, 4)"
+    "reference": "(48, 4)"
   },
   "lexicographer.LEXICOGRAPHER.list_expositions": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.list_expositions",
     "content": "returns a list of lexeme summaries from a linguistical set",
-    "reference": "(67, 4)"
+    "reference": "(81, 4)"
   },
   "lexicographer.LEXICOGRAPHER.print_expositions": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.print_expositions",
     "content": "prints a linguistical set",
-    "reference": "(84, 4)"
+    "reference": "(98, 4)"
   },
   "lexicographer.LEXICOGRAPHER.print_expo": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.print_expo",
     "content": "formats and prints a single lexeme, indenting as per the depth of its attestation.",
-    "reference": "(95, 4)"
+    "reference": "(109, 4)"
   },
   "lexicographer.LEXICOGRAPHER._indent": {
     "category": "MECHANISM",
     "canonical": "lexicographer.LEXICOGRAPHER._indent",
     "content": "performs an identation of a semantic unit as decoration for direct printed output",
-    "reference": "(136, 4)"
+    "reference": "(150, 4)"
   },
   "lexicographer.LEXICOGRAPHER.extract": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER.extract",
     "content": "Sifts through the entries for TEXTs to generate the semantics which are combined to lexicals to ppprovide our lexemes\n\n On the extraction of meaning...\n\n- Every entry has some kind of meaning, for meaning is a layered construct\n- when the meaning relates to one of our lexemes, we're gonna need to find the following lexical (probably)\n- At this point we only care about this TEXT's semantic content and the next IDENTITY's lexical value\n- clean-up the extracted semantics...",
-    "reference": "(149, 4)"
+    "reference": "(163, 4)"
   },
   "lexicographer.LEXICOGRAPHER._package_prose": {
     "category": "BEHAVIOUR",
     "canonical": "lexicographer.LEXICOGRAPHER._package_prose",
     "content": "Up to now we have preserved semantic PROSE and non-semantic comment-type texts so we can unpick the commentary from the code in order to build prose blocks.\n\nThis is where we collate comment texts within a prose section to form a single semantic prose block - throwing away comment type texts that are NOT inside a prose section.\n\n Some prose on packaging prose...\n\n- At this point the TEXTs are still a little muddled, you know how strings like to tie themselves into knots right?\n- Although we removed TEXTs that are not tagged as exposition, we elected to keep all in-line comments so we can block-up interwoven prose\n- At least we now know that any TEXT that doesn't start with HASH, IS a true semantic exposition, so we can focus on the HASH lines here\n- We will either keep, drop or merge the HASH lines - so we will end up with fewer TEXTs; lets start with an empty list that will hold the survivors\n- and an empty package into which we build-up the texts to be merged.\n- Now looking at each text, we initially have no impetus to merge them together...\n- We will start merging if this is an in-line comment that introduces PROSE\n- While we are merging we pour the lines into our package, without the comment marker which is now obviated, redundant, utterly useless to us.\n- AND... a final flush if prose block reaches EOF",
-    "reference": "(180, 4)"
+    "reference": "(194, 4)"
   },
   "lexicographer.LEXICOGRAPHER._update_survivors": {
     "category": "MECHANISM",
     "canonical": "lexicographer.LEXICOGRAPHER._update_survivors",
     "content": "Adds any package of semantics we have been collating to the latest survivor before adding this survivor also\n\nunless this survivor is just  some itinerant programmer's comment (outside of a prose block)",
-    "reference": "(225, 4)"
+    "reference": "(239, 4)"
   },
   "lexicographer.LEXICOGRAPHER._update_semantic_package": {
     "category": "MECHANISM",
     "canonical": "lexicographer.LEXICOGRAPHER._update_semantic_package",
     "content": "Adds the relevant parts of the current semantic to the packaged semantic.\n\nI.e. store the reference and lexical for the first packaged text, and the semantic for all packaged texts",
-    "reference": "(246, 4)"
+    "reference": "(260, 4)"
   },
   "lexicographics.dataclasses": {
     "category": "CONTINUUM",
@@ -494,14 +500,56 @@
   "narrate": {
     "category": "WORLD",
     "canonical": "narrate",
-    "content": "The purpose here is just to exercise the concept of marrying narrative (story) to source code.\n\n\n\nThe underlying concept is that narrative is a foundational aspect of human cognition - it is through story that we get to experience the abstract; for understanding arises not just from knowing, but from experiencing (feeling) that which is known.\n\n\n\nWe believe coding is a creative process, but to be so the code must ignite cognition.\n\n\n\nThis is the fundamental tenet of the Narratival-Exposition Paradigm, which we explore with this code base.\n\n\n\nSo, this code base reads this code base to produce this code base's documentation...\n\n\n\n## Pre-requisites\n\nThese scripts require a code base that has been written in the (evolving) Narratival-Exposition's grammar - e.g. this code base!\n\n\n\n## World View\n\nGenerating the narrative happens in 3 phases (well, 3 phases after actually writing the code):\n\n- Extracting points of story; textual commentary attached to Pythonic objects. \n\n- Editorialisation of their order (i.e. so that the narrative is orthogonal to the code architecture)\n\n- Narration: pouring the story points into the editorialsation to generate the narrative arc\n\n\n\nHerein, we see the narration of the phase 1 code base: the extraction process. This produces the files needed for the (manual) editorialisation phase, which then allows the narration script to produce the doccumentation.\n\n\n\nDuring extraction the core concepts we will meet are:\n\n- CODICES: books or lore that offer symbolic overlays to the source code\n\n- GRANULATION: the powderisation, purification, mixing and refinement of the codified symbolism\n\n- REGISTRAR: of births, deaths and marriages; providing the lineage (Pythonic scope) of granular entities\n\n- LEXICOGRAPHICS: the mechanisms that sift and convert the lineage-tracked symbolic grains to generate lexemes: the discovered lexical tokens in the source code along with their canonical reference and semantic meaning.\n\n\n\n---\n\nNote, this script hasn't really been authored... more lashed together so I can run my Proof-of-Concept. A production version would ofer a mucch improved interface, and more especially address my main irk: currently I have to be careful not to overwrite editorialisation added to the .txt output file; which is slightly complex but really we need workflow support in the tooling... a whole other dimension which will utterly obviate this entry script. So it is what it is (and that is, is pretty damn ugly).",
+    "content": "The purpose here is just to exercise the concept of marrying narrative (story) to source code.\n\n\n\nThe underlying concept is that narrative is a foundational aspect of human cognition - it is through story that we get to experience the abstract; for understanding arises not just from knowing, but from experiencing (feeling) that which is known.\n\n\n\nWe believe coding is a creative process, but to be so the code must ignite cognition.\n\n\n\nThis is the fundamental tenet of the Narratival-Exposition Paradigm, which we explore with this code base.\n\n\n\nSo, this code base reads this code base to produce this code base's documentation...\n\n\n\n## Pre-requisites\n\nThese scripts require a code base that has been written in the (evolving) Narratival-Exposition's grammar - e.g. this code base!\n\n\n\n## World View\n\nGenerating the narrative happens in 3 phases (well, 3 phases after actually writing the code):\n\n- Extracting points of story; textual commentary attached to Pythonic objects. \n\n- Editorialisation of their order (i.e. so that the narrative is orthogonal to the code architecture)\n\n- Narration: pouring the story points into the editorialsation to generate the narrative arc\n\n\n\nHerein, we see the narration of the phase 1 code base: the extraction process. This produces the files needed for the (manual) editorialisation phase, which then allows the narration script to produce the doccumentation.\n\n\n\nDuring extraction the core concepts we will meet are:\n\n- CODICES: books or lore that offer symbolic overlays to the source code\n\n- GRANULATION: the powderisation, purification, mixing and refinement of the codified symbolism\n\n- REGISTRAR: of births, deaths and marriages; providing the lineage (Pythonic scope) of granular entities\n\n- LEXICOGRAPHICS: the mechanisms that sift and convert the lineage-tracked symbolic grains to generate lexemes: the discovered lexical tokens in the source code along with their canonical reference and semantic meaning.",
     "reference": "(1, 0)"
   },
   "narrate.sys": {
     "category": "CONTINUUM",
     "canonical": "narrate.sys",
-    "content": "filepath support",
-    "reference": "(34, 0)"
+    "content": "to get CLI args and issue exit status",
+    "reference": "(31, 0)"
+  },
+  "narrate.os": {
+    "category": "CONTINUUM",
+    "canonical": "narrate.os",
+    "content": "for directory walking, and joining strings as paths",
+    "reference": "(33, 0)"
+  },
+  "narrate.pathlib": {
+    "category": "CONTINUUM",
+    "canonical": "narrate.pathlib",
+    "content": "to make o/s independant path from string",
+    "reference": "(35, 0)"
+  },
+  "narrate.granulator": {
+    "category": "THROUGHLINE",
+    "canonical": "narrate.granulator",
+    "content": "A lash-up script in-lieu of real workflow support.\n\nNo metaphor here! We're just porviding scafolding for the workhorse narrate scripts.",
+    "reference": "(38, 0)"
+  },
+  "narrate.all_expositions": {
+    "category": "KNOWLEDGE",
+    "canonical": "narrate.all_expositions",
+    "content": "An initially empty dictionary that comes to hold the full linguistic set as PPython scrippt files are processed",
+    "reference": "(46, 0)"
+  },
+  "narrate.scan_files": {
+    "category": "BEHAVIOUR",
+    "canonical": "narrate.scan_files",
+    "content": "Seeks out files of interest that are then granulated so that expositions can be extracted into the full linguistic set.\n\n\n\n- During extraction the lexicographer is stateful, so we create an instance for it - BUT once we have the expositions for a given script we no longer need that state (since expositions are collated here) so we re-use the instance for each script.\n- We walk sub-directories, excluding those that start with underscore which are porbs holding areas for regressions etc...\n- We scan for Python scripts that do not start with underscore, since they're probably opaque suport files or some kind of transient\n- We create a GRANULATOR instance for each file, but once we have the granulate we don't need it anymore - so these are just transient objects.\n- Once we have the granulate we employ the lexicographer to extract a dictionary of lexemes for this file...\n- ...which we collate into our master dictionary\n- Once all files have been processed we get the LEXICOGRAPHER to list and save the full set of extracted lexemes",
+    "reference": "(49, 0)"
+  },
+  "narrate.confirm_overwrite": {
+    "category": "MECHANISM",
+    "canonical": "narrate.confirm_overwrite",
+    "content": "Just like one of those annoying 'are you sure?' prompts that we all end up regretting just saying 'YES' to one day...",
+    "reference": "(95, 0)"
+  },
+  "narrate.tell_the_tale": {
+    "category": "BEHAVIOUR",
+    "canonical": "narrate.tell_the_tale",
+    "content": "Nothing fancy here, scopes out the scene and tells the tale of any found scripts\n\n\n\n- Are we sitting comfortably? Do we know who's story we are telling, and where we are recording it?\n- Did we tell this tale before and are we happy to overwrite or update it?\n- Then we will begin...",
+    "reference": "(103, 0)"
   },
   "registrar": {
     "category": "THROUGHLINE",

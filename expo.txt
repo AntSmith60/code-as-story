@@ -1,5 +1,17 @@
 # *** INTRODUCTION ***
 narrate:WORLD
+## On telling the story...
+narrate.granulator:THROUGHLINE
+narrate.tell_the_tale:BEHAVIOUR
+narrate.scan_files:BEHAVIOUR
+## Supporting props
+narrate.all_expositions:KNOWLEDGE
+narrate.confirm_overwrite:MECHANISM
+narrate.os:CONTINUUM
+narrate.pathlib:CONTINUUM
+narrate.sys:CONTINUUM
+---
+---
 # *** CHAPTER - CODICES ***
 First we talk about codices... how they provide a symbolic view of Python source code through a variety of lenses
 ## THROUGHLINE
@@ -69,8 +81,8 @@ granulator.SAMPLE._is_suspension:MECHANISM
 ### Key behaviours
 granulator.GRANULATOR.purify:BEHAVIOUR
 granulator.GRANULATOR.fine_mix:BEHAVIOUR
-granulator.GRANULATOR._mix
-granulator.GRANULATOR._evapourate
+granulator.GRANULATOR._mix:MECHANISM
+granulator.GRANULATOR._evapourate:MECHANISM
 ---
 ---
 ## *** GRANULATION: REFINE ***
@@ -120,7 +132,7 @@ registrar.LINEAGE.decline:SKILL
 registrar.REGISTRAR.record_history:BEHAVIOUR
 ##  supporting mechanisms
 registrar.REGISTRAR._entitle:SKILL
-registrar.REGISTRAR._lineage_fluxed
+registrar.REGISTRAR._lineage_fluxed:SKILL
 registrar.REGISTRAR._seek_heir_apparent:DISPOSITION
 registrar.REGISTRAR._prepare_for_heir:DISPOSITION
 registrar.REGISTRAR._record_heir:SKILL
@@ -141,21 +153,22 @@ lexicographics.ExpoTags:KNOWLEDGE
 lexicographics.dataclasses:CONTINUUM
 lexicographics.enum:CONTINUUM
 lexicographer.json:CONTINUUM
+lexicographer.os:CONTINUUM
 ## KEY BEHAVIOURS
 lexicographer.LEXICOGRAPHER.extract:BEHAVIOUR
 lexicographer.LEXICOGRAPHER._package_prose:BEHAVIOUR
-lexicographics.LEXICOGRAPHER._update_semantic_package:MECHANISM
-lexicographics.LEXICOGRAPHER._update_survivors:MECHANISM
+lexicographer.LEXICOGRAPHER._update_semantic_package:MECHANISM
+lexicographer.LEXICOGRAPHER._update_survivors:MECHANISM
 lexicographics.LEXICOGRAPHICS.is_prose_transition:DISPOSITION
 lexicographics.LEXICOGRAPHICS.extend_content:SKILL
 ## Supporting behaviours
-lexicographics.LEXICOGRAPHER.unpack_text_entry:BEHAVIOUR
-lexicographics.LEXICOGRAPHER._nonjudgemental_clean:BEHAVIOUR
+lexicographics.LEXICOGRAPHICS.unpack_text_entry:BEHAVIOUR
+lexicographics.LEXICOGRAPHICS._nonjudgemental_clean:BEHAVIOUR
 ## Supporting skills and mechanisms
 lexicographics.Lexeme.from_parts:MECHANISM
 lexicographics.Lexeme.summary:SKILL
 lexicographics.Lexeme._dedent:MECHANISM
-lexicographics.LEXICOGRAPHER._is_expo:SKILL
+lexicographics.LEXICOGRAPHICS._is_expo:SKILL
 ---
 ---
 **And once all done, how we get the detail preserved in files*:*
